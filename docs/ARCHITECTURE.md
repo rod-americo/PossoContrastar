@@ -35,7 +35,6 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 ├── AGENTS.md
 ├── PROJECT_GATE.md
 ├── CHANGELOG.md
-├── START_CHECKLIST.md
 ├── config/
 │   └── doctor.json
 ├── docs/

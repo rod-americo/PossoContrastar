@@ -1,0 +1,13 @@
+:root,
+[data-theme="lilas"] {
+  --bg: #fbf7fc;
+  --surface: #ffffff;
+  --surface-soft: #f1e4f2;
+  --line: #e1e1e1;
+  --text: #393939;
+  --muted: #696969;
+  --title: #6d2077;
+  --primary: #6d2077;
+  --primary-dark: #411247;
+  --success: #84bd00;
+}

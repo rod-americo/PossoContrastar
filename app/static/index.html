@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="whitelabel">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f9fc">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Posso Contrastar</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">PC</span>
+          <div>
+            <strong>Posso Contrastar</strong>
+            <span>Apoio à decisão baseado em documentação local</span>
+          </div>
+        </div>
+        <nav class="nav-tabs" aria-label="Módulos">
+          <button class="nav-tab active" data-view="decision" type="button">Decidir</button>
+          <button class="nav-tab" data-view="emergency" type="button">Emergência</button>
+          <button class="nav-tab" data-view="calculators" type="button">Calculadoras</button>
+          <button class="nav-tab" data-view="library" type="button">Biblioteca</button>
+          <button class="nav-tab" data-view="qa" type="button">Q&A local</button>
+          <button class="nav-tab" data-view="guidelines" type="button">Guidelines</button>
+        </nav>
+        <label class="theme-picker">
+          <span>Adaptador</span>
+          <select id="theme-select">
+            <option value="whitelabel">Whitelabel</option>
+            <option value="nocturno">Nocturno</option>
+            <option value="botanico">Botanico</option>
+            <option value="lilas">Lilas</option>
+          </select>
+        </label>
+      </header>
+
+      <main class="workspace">
+        <aside class="rail">
+          <section class="panel compact">
+            <h2>Status</h2>
+            <p id="health">Carregando...</p>
+          </section>
+          <section class="panel compact">
+            <h2>Guardrail</h2>
+            <p>V1 de apoio à decisão. Exige revisão clínica para virar protocolo aprovado.</p>
+          </section>
+          <section class="panel compact">
+            <h2>Corpus</h2>
+            <p>Respostas e regras usam apenas `docs/meios_de_contraste`.</p>
+          </section>
+        </aside>
+
+        <section id="decision" class="view active">
+          <div class="page-head">
+            <div>
+              <h1>Posso contrastar?</h1>
+              <p>Fluxo misto para radiologista, enfermagem e operação. As saídas são explicáveis e citadas.</p>
+            </div>
+            <button id="sample-decision" class="button secondary" type="button">Preencher exemplo</button>
+          </div>
+
+          <form id="decision-form" class="form-grid panel">
+            <label>
+              <span>Classe</span>
+              <select name="contrast_class">
+                <option value="iodinated">Iodado</option>
+                <option value="gbca">Gadolínio (MCBG)</option>
+                <option value="barium">Bário</option>
+                <option value="microbubble">Microbolhas</option>
+                <option value="lipiodol">Lipiodol</option>
+              </select>
+            </label>
+            <label>
+              <span>Via</span>
+              <select name="route">
+                <option value="iv">IV</option>
+                <option value="ia_first_pass">IA primeira passagem</option>
+                <option value="ia_second_pass">IA segunda passagem</option>
+                <option value="oral">Oral</option>
+                <option value="rectal">Retal</option>
+              </select>
+            </label>
+            <label>
+              <span>Contexto</span>
+              <select name="setting">
+                <option value="elective">Eletivo</option>
+                <option value="urgent">Urgência</option>
+                <option value="emergency">Emergência/risco de vida</option>
+              </select>
+            </label>
+            <label>
+              <span>Idade</span>
+              <input name="age_years" type="number" min="0" step="1" placeholder="anos">
+            </label>
+            <label>
+              <span>Peso</span>
+              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="kg">
+            </label>
+            <label>
+              <span>Sexo</span>
+              <select name="sex">
+                <option value="">Selecionar</option>
+                <option value="female">Feminino</option>
+                <option value="male">Masculino</option>
+              </select>
+            </label>
+            <label>
+              <span>Creatinina</span>
+              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="mg/dL">
+            </label>
+            <label>
+              <span>TFGe</span>
+              <input id="decision-egfr" type="text" placeholder="calculada" readonly>
+            </label>
+            <label>
+              <span>Gadolínio</span>
+              <select name="gbca_group">
+                <option value="">Não sei / não aplicável</option>
+                <option value="group_i">Grupo I - maior risco FSN</option>
+                <option value="group_ii">Grupo II - preferido / baixo risco FSN</option>
+              </select>
+            </label>
+            <label class="check"><input name="aki" type="checkbox"> IRA conhecida/suspeita</label>
+            <label class="check"><input name="dialysis" type="checkbox"> Diálise</label>
+            <label class="check"><input name="residual_diuresis" type="checkbox"> Diurese residual</label>
+            <label class="check"><input name="pregnant" type="checkbox"> Gestante</label>
+            <label class="check"><input name="lactating" type="checkbox"> Lactante</label>
+            <label class="check"><input name="metformin" type="checkbox"> Metformina</label>
+            <label class="check"><input name="unstable_asthma" type="checkbox"> Asma instável</label>
+            <label class="check"><input name="beta_blocker" type="checkbox"> Betabloqueador</label>
+            <label class="check"><input name="prior_reaction" type="checkbox"> Reação prévia</label>
+            <label>
+              <span>Severidade da reação prévia</span>
+              <select name="reaction_severity">
+                <option value="mild">Leve/desconhecida</option>
+                <option value="moderate">Moderada</option>
+                <option value="severe">Grave</option>
+              </select>
+            </label>
+            <button class="button" type="submit">Gerar apoio à decisão</button>
+            <button class="button ghost" type="reset">Limpar</button>
+          </form>
+          <section id="decision-result" class="result-stack"></section>
+        </section>
+
+        <section id="emergency" class="view">
+          <div class="page-head danger">
+            <div>
+              <h1>Modo emergência</h1>
+              <p>Tratamento de reação aguda. Use julgamento clínico e acione suporte local.</p>
+            </div>
+          </div>
+          <section class="panel">
+            <label>
+              <span>Quadro predominante</span>
+              <select id="emergency-kind">
+                <option value="anaphylaxis">Anafilaxia/reação anafilactoide</option>
+                <option value="bronchospasm">Broncoespasmo</option>
+                <option value="laryngeal_edema">Edema laríngeo</option>
+                <option value="urticaria">Urticária</option>
+                <option value="vasovagal">Vasovagal</option>
+              </select>
+            </label>
+            <div id="emergency-actions" class="checklist"></div>
+          </section>
+        </section>
+
+        <section id="calculators" class="view">
+          <div class="page-head">
+            <div>
+              <h1>Calculadoras</h1>
+              <p>Regras determinísticas com limiares do corpus local.</p>
+            </div>
+          </div>
+          <div class="calc-grid">
+            <form id="renal-form" class="panel mini-form">
+              <h2>Renal / hidratação</h2>
+              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos">
+              <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
+              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
+              <label class="check"><input name="metformin" type="checkbox"> Metformina</label>
+              <label class="check"><input name="aki" type="checkbox"> IRA</label>
+              <button class="button" type="submit">Calcular</button>
+              <output></output>
+            </form>
+            <form id="interval-form" class="panel mini-form">
+              <h2>Intervalômetro</h2>
+              <select name="previous_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
+              <select name="next_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
+              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos">
+              <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
+              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
+              <select name="sample_type"><option value="blood">Sangue</option><option value="urine">Urina</option></select>
+              <button class="button" type="submit">Calcular</button>
+              <output></output>
+            </form>
+            <form id="pediatric-form" class="panel mini-form">
+              <h2>Pediatria</h2>
+              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
+              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL opcional">
+              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos opcional">
+              <input name="height_cm" type="number" min="0" step="0.1" placeholder="Altura cm opcional">
+              <select name="catheter"><option>24G</option><option selected>22G</option><option>20G</option><option>16-18G</option></select>
+              <button class="button" type="submit">Calcular</button>
+              <output></output>
+            </form>
+            <form id="extravasation-form" class="panel mini-form">
+              <h2>Extravasamento</h2>
+              <input name="volume_ml" type="number" placeholder="Volume mL">
+              <label class="check"><input name="severe_signs" type="checkbox"> Sinais neurovasculares/motores ou síndrome compartimental</label>
+              <button class="button" type="submit">Gerar conduta</button>
+              <output></output>
+            </form>
+          </div>
+        </section>
+
+        <section id="library" class="view">
+          <div class="page-head">
+            <div>
+              <h1>Biblioteca e busca</h1>
+              <p>Capítulos canônicos, busca textual e snippets citáveis.</p>
+            </div>
+          </div>
+          <section class="panel search-row">
+            <input id="search-input" type="search" placeholder="Buscar no corpus local">
+            <button id="search-button" class="button" type="button">Buscar</button>
+          </section>
+          <div id="search-results" class="result-stack"></div>
+          <div id="chapter-list" class="chapter-grid"></div>
+        </section>
+
+        <section id="qa" class="view">
+          <div class="page-head">
+            <div>
+              <h1>Q&A local com Ollama</h1>
+              <p>A resposta é ancorada em trechos recuperados dos Markdown locais. Sem corpus externo.</p>
+            </div>
+          </div>
+          <section class="panel qa-box">
+            <textarea id="qa-question" rows="4" placeholder="Ex.: Preciso suspender metformina em paciente com creatinina 2,1, 76 anos, 70 kg, que fará TC com iodado?"></textarea>
+            <button id="qa-button" class="button" type="button">Perguntar</button>
+          </section>
+          <section id="qa-result" class="result-stack"></section>
+        </section>
+
+        <section id="guidelines" class="view">
+          <div class="page-head">
+            <div>
+              <h1>Construtor de guidelines</h1>
+              <p>Gera rascunhos em Markdown com fontes locais e trilha para aprovação institucional.</p>
+            </div>
+          </div>
+          <form id="guidelines-form" class="panel">
+            <div class="form-grid">
+              <label><span>Instituição</span><input name="institution" value="Instituição"></label>
+              <label><span>Postura</span><select name="posture"><option>balanceada</option><option>conservadora</option><option>permissiva dentro do texto</option></select></label>
+            </div>
+            <div id="guideline-options" class="option-grid"></div>
+            <button class="button" type="submit">Gerar Markdown</button>
+          </form>
+          <section class="panel markdown-output">
+            <div class="section-head">
+              <h2>Rascunho</h2>
+              <button id="copy-guideline" class="button secondary" type="button">Copiar</button>
+            </div>
+            <textarea id="guideline-output" rows="24" readonly></textarea>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

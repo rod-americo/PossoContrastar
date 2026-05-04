@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "ignored_warnings": [],
+  "token_alias_groups": [
+    ["acervo", "documental", "diretrizes"],
+    ["clinico", "assistencial", "radiologia"],
+    ["produto", "aplicacao", "dashboard"]
+  ]
+}

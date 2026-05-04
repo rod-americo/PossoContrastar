@@ -1,0 +1,16 @@
+:root,
+[data-theme="nocturno"] {
+  --bg: #0b1221;
+  --surface: #111c31;
+  --surface-soft: #16243d;
+  --line: rgba(152, 229, 255, 0.18);
+  --text: #e8f2ff;
+  --muted: #8fa6bf;
+  --title: #98e5ff;
+  --primary: #5ab9ff;
+  --primary-dark: #143454;
+  --success: #39d98a;
+  --warning: #ffd166;
+  --danger: #ff6b6b;
+  --shadow: none;
+}

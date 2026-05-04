@@ -1,0 +1,162 @@
+{
+  "version": "0.1.0",
+  "status": "decision-support-draft",
+  "scope": "Apoio à decisão baseado exclusivamente no corpus local em docs/meios_de_contraste. Não é protocolo institucional aprovado.",
+  "source_corpus": "docs/meios_de_contraste",
+  "chapters": {
+    "types": "01_tipos_de_meios_de_contraste.md",
+    "reactions": "02_reacoes_adversas_aos_meios_de_contraste.md",
+    "renal": "03_injuria_renal_aguda_associada_ao_contraste.md",
+    "dialysis": "04_precaucoes_com_pacientes_em_dialise_de_manutencao.md",
+    "gadolinium": "05_fibrose_sistemica_nefrogenica_e_retencao_tecidual_do_gadolinio.md",
+    "renal_screening": "06_rastreio_da_funcao_renal_antes_do_exame_contrastado.md",
+    "extravasation": "07_extravasamento_de_meios_de_contraste.md",
+    "intervals": "08_intervalo_entre_injecoes_de_contraste_e_coleta_de_exames_laboratoriais.md",
+    "fasting": "09_jejum_antes_de_estudos_contrastados.md",
+    "special": "10_condicoes_especiais.md",
+    "pediatrics": "11_meios_de_contraste_em_pediatria.md"
+  },
+  "renal": {
+    "hydration": {
+      "fluid": "Soro fisiológico 0,9%",
+      "rate_ml_kg_h_min": 1,
+      "rate_ml_kg_h_max": 3,
+      "start_before_h": 1,
+      "continue_after_h": 3,
+      "source": "03_injuria_renal_aguda_associada_ao_contraste.md"
+    },
+    "egfr_thresholds": {
+      "severe": 30,
+      "moderate_ia_first_pass": 45,
+      "screening_known_renal_disease": 60
+    },
+    "metformin": {
+      "default": "Não suspender metformina para a maioria dos pacientes.",
+      "suspend_if": ["IRA conhecida/suspeita", "TFGe < 30", "injeção intra-arterial de primeira passagem"],
+      "restart": "Retornar em até 48 horas pós-exame se função renal normal.",
+      "source": "03_injuria_renal_aguda_associada_ao_contraste.md"
+    }
+  },
+  "dialysis": {
+    "iodinated_anuric": "Dialítico anúrico sem transplante funcional pode receber iodado intravascular sem risco de dano renal adicional.",
+    "iodinated_non_anuric": "Dialítico não anúrico tem risco potencial de perda de função renal residual; seguir orientações de IRA-AC.",
+    "gbca_group_i": "MCBG Grupo I é contraindicado em pacientes de risco para FSN, incluindo diálise, injúria renal aguda ou DRC grave.",
+    "gbca_group_ii": "Não é necessário reprogramar diálise, mas recomenda-se agendar exame próximo da próxima sessão.",
+    "source": "04_precaucoes_com_pacientes_em_dialise_de_manutencao.md"
+  },
+  "gbca_groups": {
+    "group_i": ["gadodiamida", "omniscan", "gadopentetato de dimeglumina", "magnevistan"],
+    "group_ii": ["gadobenato de dimeglumina", "multihance", "gadobutrol", "gadovist", "ácido gadotérico", "dotarem", "clariscan", "gadoteridol", "prohance", "gadoxetato dissódico", "primovist", "gadopiclenol", "elucirem", "vueway"],
+    "source": "05_fibrose_sistemica_nefrogenica_e_retencao_tecidual_do_gadolinio.md"
+  },
+  "intervals": {
+    "between_injections": {
+      "same_class": {
+        "normal": {"minimum": "4 horas", "optimal": "12 horas"},
+        "moderate": {"minimum": "16 horas", "optimal": "48 horas"},
+        "severe": {"minimum": "2,5 dias", "optimal": "7 dias"}
+      },
+      "different_class": {
+        "normal": {"minimum": "2 horas", "optimal": "6 horas"},
+        "moderate": {"minimum": "16 horas", "optimal": "48 horas"},
+        "severe": {"minimum": "2,5 dias", "optimal": "7 dias"}
+      }
+    },
+    "lab_collection": {
+      "blood": {
+        "normal": {"minimum": "4 horas", "optimal": "12 horas"},
+        "moderate": {"minimum": "16 horas", "optimal": "48 horas"},
+        "severe": {"minimum": "2,5 dias", "optimal": "7 dias"}
+      },
+      "urine": {
+        "normal": {"minimum": "24 horas"},
+        "moderate": {"minimum": "48 horas"},
+        "severe": {"minimum": "7 dias"}
+      }
+    },
+    "egfr_buckets": {
+      "normal": "TFGe > 60",
+      "moderate": "TFGe entre 60 e 30",
+      "severe": "TFGe < 30"
+    },
+    "source": "08_intervalo_entre_injecoes_de_contraste_e_coleta_de_exames_laboratoriais.md"
+  },
+  "pediatrics": {
+    "iodinated_dose_ml_kg": {"min": 1.0, "max": 2.0},
+    "gbca_dose_mmol_kg": 0.01,
+    "injection_rate_by_catheter": {
+      "24G": "1 mL/s",
+      "22G": "2,5 mL/s",
+      "20G": "4 mL/s",
+      "16-18G": "5 mL/s"
+    },
+    "emergency_meds": {
+      "adrenaline_im": "0,01 mL/kg (0,01 mg/kg), repetir a cada 5-15 min se necessário; máximo 0,3 mg/dose ou 1 mg total.",
+      "saline_iv": "10-20 mL/kg; máximo 500-1000 mL.",
+      "atropine_iv": "0,02 mg/kg; máximo 0,6 mg por dose. ACR: máximo 1 mg em crianças e 2 mg em adolescentes.",
+      "salbutamol_inhaled": "50 mcg/kg/dose = 1 jato/2 kg; máximo 10 jatos."
+    },
+    "source": "11_meios_de_contraste_em_pediatria.md"
+  },
+  "extravasation": {
+    "document_if_volume_gt_ml": 10,
+    "surgical_eval_if_volume_gt_ml": 150,
+    "follow_up": ["24 horas", "48 horas"],
+    "actions": [
+      "Reconhecer extravasamento e interromper injeção imediatamente.",
+      "Retirar acesso venoso.",
+      "Avaliar aspecto local e sinais neurológicos, motores e vasculares.",
+      "Elevar membro acima do nível do coração e fazer compressa fria local.",
+      "Orientar paciente e programar contato em 24 e 48 horas."
+    ],
+    "source": "07_extravasamento_de_meios_de_contraste.md"
+  },
+  "fasting": {
+    "non_abdominal": "Não é necessário jejum.",
+    "abdominal": "Recomenda-se jejum conforme protocolo institucional; intervalo mais comum de 4 horas, podendo variar por sólidos/líquidos.",
+    "source": "09_jejum_antes_de_estudos_contrastados.md"
+  },
+  "special_conditions": {
+    "lactation_iodinated": "Não é necessária interrupção da amamentação.",
+    "lactation_gbca": "Não é necessária interrupção da amamentação; ESUR 2025 recomenda usar macrocíclico.",
+    "pregnancy_iodinated": "Se realmente essencial, podem ser usados iodados de baixa osmolalidade.",
+    "pregnancy_gbca": "Evitar; se crítico e necessário, preferir MCBG macrocíclicos/Grupo II na menor dose possível.",
+    "thyroid_manifest_hyperthyroidism": "Meios iodados são contraindicados em hipertireoidismo manifesto.",
+    "radioiodine_or_scintigraphy": "Recomenda-se intervalo de pelo menos 6 semanas com estudos com contraste iodado.",
+    "source": "10_condicoes_especiais.md"
+  },
+  "adverse_reactions": {
+    "high_risk": "Reação prévia à mesma classe de contraste, principalmente moderada ou grave, aumenta risco.",
+    "premedication": "Não é indicada de rotina; considerar caso a caso como segurança adicional.",
+    "adult_emergency": {
+      "anaphylaxis": [
+        "Manter acesso venoso, monitorar sinais vitais, oxímetro de pulso e oxigênio 6-10 L/min.",
+        "Acionar equipe de apoio e ressuscitação.",
+        "Se hipotenso, elevar membros e expandir volume com SF 0,9% ou RL IV.",
+        "Adrenalina 0,3-0,5 mL IM da ampola 1:1.000 sem diluir; repetir a cada 5-15 min se necessário.",
+        "Difenidramina 25-50 mg IV."
+      ],
+      "bronchospasm": [
+        "Manter acesso venoso, monitorar sinais vitais e oxigênio 6-10 L/min.",
+        "Salbutamol spray 2 jatos, repetir até 3 vezes se necessário.",
+        "Se deterioração: adrenalina 0,3-0,5 mL IM 1:1.000 e chamar emergência."
+      ],
+      "laryngeal_edema": [
+        "Manter acesso venoso, sinais vitais, oxímetro e oxigênio 6-10 L/min.",
+        "Adrenalina 0,3-0,5 mL IM 1:1.000 sem diluir; repetir a cada 5-15 min se necessário.",
+        "Chamar equipe de apoio e emergência."
+      ],
+      "urticaria": [
+        "Leve: suporte e observação frequente; considerar anti-histamínico VO.",
+        "Moderada: monitorização, acesso venoso e considerar difenidramina IV/IM.",
+        "Grave/progressiva: difenidramina IV/IM e considerar adrenalina IM."
+      ],
+      "vasovagal": [
+        "Manter acesso venoso, monitorar sinais vitais, oxigênio e elevar membros inferiores.",
+        "Expansão volêmica com SF 0,9% ou RL IV rápido.",
+        "Se grave: atropina 0,6-1,0 mg IV, repetir a cada 3-5 min; máximo 3 mg."
+      ]
+    },
+    "source": "02_reacoes_adversas_aos_meios_de_contraste.md"
+  }
+}

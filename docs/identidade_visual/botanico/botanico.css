@@ -1,0 +1,15 @@
+:root,
+[data-theme="botanico"] {
+  --bg: #f5fbea;
+  --surface: #ffffff;
+  --surface-soft: #f3f5f4;
+  --line: #e0e0e0;
+  --text: #3a3838;
+  --muted: #737373;
+  --title: #004522;
+  --primary: #146941;
+  --primary-dark: #004522;
+  --success: #009e4d;
+  --warning: #f19105;
+  --danger: #dd3737;
+}

@@ -1,6 +1,7 @@
 const state = {
   rules: null,
   chapters: [],
+  config: null,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -297,12 +298,32 @@ function setView(viewId) {
   $$(".view").forEach((view) => view.classList.toggle("active", view.id === viewId));
 }
 
+function applyAppConfig(config) {
+  const theme = config?.theme || {};
+  const available = new Set(theme.available_themes || ["whitelabel", "noturno", "botanico", "lilas"]);
+  const defaultTheme = available.has(theme.default_theme) ? theme.default_theme : "whitelabel";
+  const picker = $("#theme-picker");
+  const select = $("#theme-select");
+  document.documentElement.dataset.theme = defaultTheme;
+  if (select) {
+    [...select.options].forEach((option) => {
+      option.hidden = !available.has(option.value);
+    });
+    select.value = defaultTheme;
+    select.addEventListener("change", (event) => {
+      document.documentElement.dataset.theme = event.target.value;
+    });
+  }
+  if (picker) {
+    picker.hidden = theme.show_theme_picker === false;
+  }
+}
+
 async function init() {
   $$(".nav-tab").forEach((button) => button.addEventListener("click", () => setView(button.dataset.view)));
-  $("#theme-select").addEventListener("change", (event) => {
-    document.documentElement.dataset.theme = event.target.value;
-  });
 
+  state.config = await api("/api/app-config");
+  applyAppConfig(state.config);
   state.rules = await api("/api/rules");
   state.chapters = (await api("/api/chapters")).chapters;
 

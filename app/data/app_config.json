@@ -1,0 +1,12 @@
+{
+  "theme": {
+    "default_theme": "whitelabel",
+    "show_theme_picker": true,
+    "available_themes": [
+      "whitelabel",
+      "noturno",
+      "botanico",
+      "lilas"
+    ]
+  }
+}

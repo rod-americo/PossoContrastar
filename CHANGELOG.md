@@ -39,3 +39,5 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
   Perguntas e Respostas.
 - Exclui o README do corpus da lista de capítulos e da recuperação clínica.
 - Remove o botão de preenchimento de exemplo do fluxo de decisão.
+- Adiciona configuração versionada para tema padrão e exibição do seletor de
+  adaptador visual.

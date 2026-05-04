@@ -40,6 +40,7 @@ app/
 ├── README.md
 ├── server.py
 ├── data/
+│   ├── app_config.json
 │   └── rules.json
 └── static/
     ├── app.js
@@ -112,3 +113,20 @@ adaptadores:
 
 Os kits completos vivem em `docs/identidade_visual/<slug>/` e podem ser
 conectados depois por build/theme loader sem mexer no motor de regras.
+
+O adaptador padrão e a visibilidade do seletor no canto superior direito são
+definidos em `app/data/app_config.json`:
+
+```json
+{
+  "theme": {
+    "default_theme": "whitelabel",
+    "show_theme_picker": true
+  }
+}
+```
+
+Use `show_theme_picker: false` para ocultar o seletor na interface e
+`default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico` ou
+`lilas`. Em execução local, `APP_THEME` e `APP_SHOW_THEME_PICKER` podem
+sobrescrever esses valores sem editar o arquivo versionado.

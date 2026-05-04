@@ -17,6 +17,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Proposta dinâmica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | não | Planejamento, não implementação |
 | Configuração do doctor | `config/doctor.json` | JSON | sim | Política versionada de warnings e aliases |
 | Regras estruturadas | `app/data/rules.json` | JSON | sim para app | Regras determinísticas citadas por fonte local |
+| Configuração do app | `app/data/app_config.json` | JSON | sim para app | Tema padrão, seletor de adaptador e opções visuais sem alterar regras clínicas |
 
 ## 3. Saídas canônicas
 
@@ -72,6 +73,8 @@ e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 - `app/server.py` deve rodar com biblioteca padrão do Python.
 - `app/static/` não deve exigir build step.
 - `app/data/rules.json` é fonte de regras determinísticas da v1.
+- `app/data/app_config.json` controla tema manual e visibilidade do seletor de
+  adaptador.
 - O endpoint `/api/qa` deve recuperar trechos locais antes de chamar Ollama.
 - O app não deve persistir perguntas, payloads ou respostas.
 - Qualquer integração com dados reais exige novo contrato.

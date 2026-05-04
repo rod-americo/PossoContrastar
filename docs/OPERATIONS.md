@@ -48,7 +48,8 @@ OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 - arquivo local: `config/doctor.json`
 - variáveis de ambiente críticas: nenhuma obrigatória
 - variáveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
-  `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`
+  `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`, `APP_THEME`,
+  `APP_SHOW_THEME_PICKER`
 - path de runtime state: nenhum
 - path de logs: nenhum
 

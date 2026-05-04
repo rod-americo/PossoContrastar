@@ -22,6 +22,7 @@ STATIC_DIR = APP_DIR / "static"
 DATA_DIR = APP_DIR / "data"
 DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
+APP_CONFIG_PATH = DATA_DIR / "app_config.json"
 SOURCE_PATH = DOCS_DIR / "source.json"
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
@@ -29,10 +30,53 @@ OLLAMA_KEEP_ALIVE = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
 OLLAMA_NUM_PREDICT = int(os.environ.get("OLLAMA_NUM_PREDICT", "384"))
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
+SUPPORTED_THEMES = {"whitelabel", "noturno", "botanico", "lilas"}
 
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def parse_bool_env(value: str | None) -> bool | None:
+    if value is None:
+        return None
+    normalized = value.strip().lower()
+    if normalized in {"1", "true", "yes", "sim", "on"}:
+        return True
+    if normalized in {"0", "false", "no", "nao", "não", "off"}:
+        return False
+    return None
+
+
+def app_config() -> dict[str, Any]:
+    config = read_json(APP_CONFIG_PATH)
+    theme = dict(config.get("theme") or {})
+    default_theme = str(os.environ.get("APP_THEME") or theme.get("default_theme") or "whitelabel")
+    if default_theme not in SUPPORTED_THEMES:
+        default_theme = "whitelabel"
+    show_picker = parse_bool_env(os.environ.get("APP_SHOW_THEME_PICKER"))
+    if show_picker is None:
+        configured_picker = theme.get("show_theme_picker", True)
+        if isinstance(configured_picker, bool):
+            show_picker = configured_picker
+        else:
+            show_picker = parse_bool_env(str(configured_picker))
+        if show_picker is None:
+            show_picker = True
+    available = [
+        str(item)
+        for item in theme.get("available_themes", sorted(SUPPORTED_THEMES))
+        if str(item) in SUPPORTED_THEMES
+    ]
+    if default_theme not in available:
+        available.insert(0, default_theme)
+    return {
+        "theme": {
+            "default_theme": default_theme,
+            "show_theme_picker": show_picker,
+            "available_themes": available,
+        }
+    }
 
 
 def source_metadata() -> dict[str, Any]:
@@ -611,6 +655,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json({"chapters": load_chapters()})
         elif path == "/api/source":
             self.send_json(source_metadata())
+        elif path == "/api/app-config":
+            self.send_json(app_config())
         elif path == "/api/rules":
             self.send_json(read_json(RULES_PATH))
         elif path == "/api/search":

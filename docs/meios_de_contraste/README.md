@@ -38,8 +38,8 @@ Perguntas e Respostas usam apenas esta conversão Markdown versionada.
 ## Organização
 
 - Cada capítulo foi separado em um arquivo próprio.
-- Cabeçalhos, rodapés e numeração de página da publicacao original foram
-  removidos durante a conversao.
+- Cabeçalhos, rodapés e numeração de página da publicação original foram
+  removidos durante a conversão.
 - Tabelas e quadros foram reestruturados em Markdown quando viável.
 - A redação técnica foi preservada, com ajustes apenas de formatação para leitura em texto.
 

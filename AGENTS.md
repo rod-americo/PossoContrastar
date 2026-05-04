@@ -1,11 +1,11 @@
 # AGENTS.md
 
-Este arquivo define regras de colaboracao para agentes e autores neste
-repositorio. Ele vale para a raiz inteira.
+Este arquivo define regras de colaboração para agentes e autores neste
+repositório. Ele vale para a raiz inteira.
 
-## Ordem minima de leitura
+## Ordem mínima de leitura
 
-Antes de fazer mudancas significativas, leia nesta ordem:
+Antes de fazer mudanças significativas, leia nesta ordem:
 
 1. `README.md`
 2. `PROJECT_GATE.md`
@@ -16,77 +16,90 @@ Antes de fazer mudancas significativas, leia nesta ordem:
 7. `docs/meios_de_contraste/README.md`
 8. `docs/identidade_visual/README.md`
 
-## Politica de idioma
+## Política de idioma
 
-- Documentacao humana em `pt-BR`.
-- Identificadores tecnicos em `en-US`.
+- Documentação humana em `pt-BR`, com acentuação gráfica e cedilha.
+- Identificadores técnicos em `en-US`.
 - Mensagens de commit em `en-US`, preferencialmente
   `type(scope): summary`.
 
-Preserve nomes de marcas, farmacos, siglas clinicas, titulos de fonte e nomes
-de arquivos ja existentes quando eles forem parte do contrato documental.
+Preserve nomes de marcas, fármacos, siglas clínicas, títulos de fonte e nomes
+de arquivos já existentes quando eles forem parte do contrato documental.
+
+## Nomenclatura operacional
+
+Use a mesma nomenclatura em UI, docs e fluxos de apoio à decisão:
+
+- **Equipe de sala:** técnico de radiologia, técnico de enfermagem e
+  enfermeiro.
+- **Médico residente:** R1, R2, R3 ou R4.
+- **Radiologista responsável:** radiologista formado que valida exceções,
+  risco-benefício e condutas fora do fluxo.
+
+Evite rótulos genéricos como “operação”, “enfermagem” ou “técnico” quando o
+contexto exigir identificar o papel.
 
 ## Escopo
 
-Este repositorio guarda diretrizes e kits documentais. Nao transforme o acervo
-em aplicacao, API, motor de decisao clinica ou produto assistencial sem criar
-contratos, validacao e decisao arquitetural correspondentes.
+Este repositório guarda diretrizes e kits documentais. Não transforme o acervo
+em aplicação, API, motor de decisão clínica ou produto assistencial sem criar
+contratos, validação e decisão arquitetural correspondentes.
 
-Regras praticas:
+Regras práticas:
 
-- `docs/meios_de_contraste/` e o corpus Markdown canonico versionado.
-- O PDF de origem nao deve ser versionado neste repositorio.
-- `docs/identidade_visual/` contem kits cromaticos neutros para materiais,
-  prototipos e adaptadores, sem marcas, logos ou nomes institucionais.
-- `app/` contem uma aplicacao local whitelabel de apoio à decisão, com backend
-  Python, regras deterministicas e modulo de Perguntas e Respostas restrito ao
+- `docs/meios_de_contraste/` é o corpus Markdown canônico versionado.
+- O PDF de origem não deve ser versionado neste repositório.
+- `docs/identidade_visual/` contém kits cromáticos neutros para materiais,
+  protótipos e adaptadores, sem marcas, logos ou nomes institucionais.
+- `app/` contém uma aplicação local whitelabel de apoio à decisão, com backend
+  Python, regras determinísticas e módulo de Perguntas e Respostas restrito ao
   corpus local via Ollama.
-- Mudancas clinicas devem citar fonte, capitulo e motivo.
-- Nao inserir dados de pacientes, credenciais, logs assistenciais ou payloads
-  sensiveis.
+- Mudanças clínicas devem citar fonte, capítulo e motivo.
+- Não inserir dados de pacientes, credenciais, logs assistenciais ou payloads
+  sensíveis.
 
 ## Camadas documentais
 
-- Raiz: governanca, fronteira, gate, changelog e scripts de validacao.
-- `docs/ARCHITECTURE.md`: mapa do acervo e fluxo de manutencao.
-- `docs/CONTRACTS.md`: entradas, saidas, invariantes e limites clinicos.
-- `docs/OPERATIONS.md`: validacao, revisao, backup e troubleshooting.
-- `docs/DECISIONS.md`: decisoes estruturais que condicionam evolucao.
-- `docs/meios_de_contraste/`: capitulos canonicamente editaveis em Markdown.
+- Raiz: governança, fronteira, gate, changelog e scripts de validação.
+- `docs/ARCHITECTURE.md`: mapa do acervo e fluxo de manutenção.
+- `docs/CONTRACTS.md`: entradas, saídas, invariantes e limites clínicos.
+- `docs/OPERATIONS.md`: validação, revisão, backup e troubleshooting.
+- `docs/DECISIONS.md`: decisões estruturais que condicionam evolução.
+- `docs/meios_de_contraste/`: capítulos canonicamente editáveis em Markdown.
 - `docs/identidade_visual/`: kits de identidade visual e previews.
 - `app/`: runtime local, API, UI whitelabel e contratos estruturados de regras.
 
-## Validacao minima
+## Validação mínima
 
-- comando de validacao minima: `python3 scripts/project_doctor.py`
+- comando de validação mínima: `python3 scripts/project_doctor.py`
 - gate check local: `python3 scripts/check_project_gate.py`
 - doctor estrutural: `python3 scripts/project_doctor.py`
 - doctor estrito: `python3 scripts/project_doctor.py --strict`
 - doctor audit: `python3 scripts/project_doctor.py --audit-config`
-- checagem sintatica: `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
-- checagem sintatica do app: `python3 -m py_compile app/server.py`
+- checagem sintática: `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
+- checagem sintática do app: `python3 -m py_compile app/server.py`
 - policy do doctor: `config/doctor.json`
 
 ## Hotspots conhecidos
 
-- Conteudo clinico convertido para Markdown pode perder semantica de tabelas,
-  notas de rodape e hierarquia visual.
-- `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` e proposta de
+- Conteúdo clínico convertido para Markdown pode perder semântica de tabelas,
+  notas de rodapé e hierarquia visual.
+- `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` é proposta de
   produto; `app/` implementa uma v1 local de apoio à decisão, ainda sem
-  validacao assistencial formal.
-- Kits em `docs/identidade_visual/` sao cromaticos e anonimos; nao adicionar
-  nomes institucionais, logos, URLs de origem ou assets proprietarios.
-- O repositorio ainda nao tem teste de equivalencia entre corpus Markdown e a
-  publicacao original externa.
+  validação assistencial formal.
+- Kits em `docs/identidade_visual/` são cromáticos e anônimos; não adicionar
+  nomes institucionais, logos, URLs de origem ou assets proprietários.
+- O repositório ainda não tem teste de equivalência entre corpus Markdown e a
+  publicação original externa.
 
 ## Guardrails
 
-- Nao declarar prontidao assistencial sem revisao clinica formal.
-- Nao substituir texto fonte por resumo gerado sem manter rastreabilidade.
+- Não declarar prontidão assistencial sem revisão clínica formal.
+- Não substituir texto fonte por resumo gerado sem manter rastreabilidade.
 - Calculadoras, doses e fluxos de conduta devem permanecer em contrato
-  deterministico, citados por fonte e tratados como apoio à decisão ate revisao
+  determinístico, citados por fonte e tratados como apoio à decisão até revisão
   especializada.
-- Nao versionar `.DS_Store`, caches, dumps, exports temporarios ou runtime
-  mutavel.
+- Não versionar `.DS_Store`, caches, dumps, exports temporários ou runtime
+  mutável.
 - Atualize `README.md`, `docs/ARCHITECTURE.md`, `docs/CONTRACTS.md` e
-  `docs/OPERATIONS.md` quando a fronteira ou a rotina de manutencao mudar.
+  `docs/OPERATIONS.md` quando a fronteira ou a rotina de manutenção mudar.

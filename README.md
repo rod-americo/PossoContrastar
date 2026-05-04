@@ -1,11 +1,11 @@
 # Posso Contrastar?
 
-Repositorio para organizar, governar e reutilizar diretrizes sobre meios de
-contraste, com foco em leitura tecnica, rastreabilidade de fonte e experiencias
-clinicas operacionais locais de apoio à decisão.
+Repositório para organizar, governar e reutilizar diretrizes sobre meios de
+contraste, com foco em leitura técnica, rastreabilidade de fonte e experiências
+clínicas operacionais locais de apoio à decisão.
 
 Este trabalho é baseado no livro **Meios de contraste: conceitos e diretrizes
-(versão pocket)**. O repositorio transforma o conteudo em corpus Markdown,
+(versão pocket)**. O repositório transforma o conteúdo em corpus Markdown,
 contratos, regras explicáveis e uma aplicação local de apoio à decisão; ele não
 substitui o livro, não versiona o PDF original e não representa protocolo
 institucional aprovado.
@@ -24,35 +24,46 @@ Obra-fonte:
 - Metadado estruturado: `docs/meios_de_contraste/source.json`
 
 Os direitos autorais da publicação original pertencem à Sociedade Paulista de
-Radiologia e Diagnóstico por Imagem (SPR). Este repositorio guarda apenas uma
+Radiologia e Diagnóstico por Imagem (SPR). Este repositório guarda apenas uma
 conversão Markdown local para leitura, busca, RAG restrito e prototipagem de
 apoio à decisão.
 
-## O que este repositorio e
+## Público-alvo e nomenclatura
 
-- Acervo documental em Markdown derivado da publicacao **Meios de contraste:
-  conceitos e diretrizes**, versao pocket, editada por Bruna Garbugio Dutra e
+A linguagem do app e dos documentos operacionais deve funcionar para técnico de
+radiologia, técnico de enfermagem, enfermeiro, R1, R2, R3, R4 e radiologista
+formado.
+
+Neste repositório, **equipe de sala** significa técnico de radiologia, técnico
+de enfermagem e enfermeiro. **Médico residente** significa R1, R2, R3 ou R4.
+**Radiologista responsável** significa radiologista formado que valida
+exceções, risco-benefício e condutas fora do fluxo.
+
+## O que este repositório é
+
+- Acervo documental em Markdown derivado da publicação **Meios de contraste:
+  conceitos e diretrizes**, versão pocket, editada por Bruna Garbugio Dutra e
   Tufik Bauab Jr.
-- Base de consulta para radiologia, enfermagem, operacao assistencial e
-  governanca institucional sobre uso seguro de meios de contraste.
-- Espaco para kits de identidade visual que apoiam paginas, documentos e
-  prototipos relacionados ao material.
-- Aplicacao local whitelabel de apoio à decisão, com regras deterministicas,
+- Base de consulta para equipe de sala, médico residente, radiologista formado
+  e governança institucional sobre uso seguro de meios de contraste.
+- Espaço para kits de identidade visual que apoiam páginas, documentos e
+  protótipos relacionados ao material.
+- Aplicação local whitelabel de apoio à decisão, com regras determinísticas,
   RAG restrita ao corpus local e adaptadores visuais.
 - Metadado estruturado da obra-fonte em
   `docs/meios_de_contraste/source.json`, consumido pelo app e pela API local.
 
-## O que este repositorio NAO e
+## O que este repositório NÃO é
 
-- Nao e protocolo institucional final, prescricao medica, dispositivo medico ou
-  substituto da publicacao original, de bulas oficiais e de validacao clinica
+- Não é protocolo institucional final, prescrição médica, dispositivo médico ou
+  substituto da publicação original, de bulas oficiais e de validação clínica
   local.
-- Nao e aplicacao em producao, protocolo institucional aprovado, prescricao,
-  dispositivo medico ou substituto de revisao clinica.
-- Nao deve carregar dados de pacientes, credenciais, sessoes, logs clinicos ou
-  artefatos derivados sem governanca explicita.
-- Nao deve promover regras clinicas a protocolo final sem contrato, citacao,
-  revisao por responsavel tecnico e aprovacao institucional.
+- Não é aplicação em produção, protocolo institucional aprovado, prescrição,
+  dispositivo médico ou substituto de revisão clínica.
+- Não deve carregar dados de pacientes, credenciais, sessões, logs clínicos ou
+  artefatos derivados sem governança explícita.
+- Não deve promover regras clínicas a protocolo final sem contrato, citação,
+  revisão por responsável técnico e aprovação institucional.
 
 ## Estado atual
 
@@ -63,11 +74,11 @@ apoio à decisão.
   - `python3 scripts/project_doctor.py`
   - `python3 scripts/project_doctor.py --audit-config`
   - `python3 app/server.py`
-- dependencia externa critica:
-  - Ollama opcional para Perguntas e Respostas e validacao humana especializada
-    para uso clinico. O PDF de origem nao e versionado neste repositorio.
+- dependência externa crítica:
+  - Ollama opcional para Perguntas e Respostas e validação humana especializada
+    para uso clínico. O PDF de origem não é versionado neste repositório.
 
-## Conteudo principal
+## Conteúdo principal
 
 ```text
 PossoContrastar/
@@ -108,8 +119,8 @@ cd PossoContrastar
 python3 --version
 ```
 
-Nao ha instalacao obrigatoria de dependencias de aplicacao. O backend local usa
-apenas biblioteca padrao do Python. Ollama e opcional para Perguntas e
+Não há instalação obrigatória de dependências de aplicação. O backend local usa
+apenas biblioteca padrão do Python. Ollama é opcional para Perguntas e
 Respostas.
 
 ### 3. Configurar
@@ -124,28 +135,28 @@ test -f config/doctor.json
 python3 app/server.py
 ```
 
-## Validacao
+## Validação
 
-Checklist minimo antes de commitar:
+Checklist mínimo antes de commitar:
 
 - `python3 scripts/check_project_gate.py`
 - `python3 scripts/project_doctor.py`
 - `python3 scripts/project_doctor.py --audit-config`
 - `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
 - `python3 -m py_compile app/server.py`
-- revisao de `git diff`
+- revisão de `git diff`
 
-## Fonte e seguranca clinica
+## Fonte e segurança clínica
 
-O material em `docs/meios_de_contraste/` e um corpus Markdown versionado,
-importado a partir de publicacao tecnica externa que nao mora neste repo. O app
-em `app/` e apoio à decisão e prototipo operacional local. Para decisoes
-clinicas, consulte sempre a publicacao original, protocolos institucionais
-vigentes, bulas oficiais e responsaveis tecnicos habilitados.
+O material em `docs/meios_de_contraste/` é um corpus Markdown versionado,
+importado a partir de publicação técnica externa que não mora neste repo. O app
+em `app/` é apoio à decisão e protótipo operacional local. Para decisões
+clínicas, consulte sempre a publicação original, protocolos institucionais
+vigentes, bulas oficiais e responsáveis técnicos habilitados.
 
-## Proximos passos
+## Próximos passos
 
-1. Revisar os capitulos contra a publicacao original mantida fora do repo.
-2. Definir ownership tecnico-clinico para mudancas de conteudo.
-3. Evoluir validacao clinica, testes de cenarios e processo de aprovacao antes
+1. Revisar os capítulos contra a publicação original mantida fora do repo.
+2. Definir ownership técnico-clínico para mudanças de conteúdo.
+3. Evoluir validação clínica, testes de cenários e processo de aprovação antes
    de qualquer uso assistencial institucional.

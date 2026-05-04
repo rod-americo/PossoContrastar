@@ -38,21 +38,21 @@ WEAK_SUBSTRINGS = (
 )
 FIELD_RULES = {
     "problema real": {"min_words": 5, "min_chars": 24},
-    "usuario ou operador alvo": {"min_words": 3, "min_chars": 12},
+    "usuário ou operador-alvo": {"min_words": 3, "min_chars": 12},
     "resultado esperado": {"min_words": 4, "min_chars": 20},
-    "repositorio candidato que poderia absorver isso": {"min_words": 1, "min_chars": 4},
+    "repositório candidato que poderia absorver isso": {"min_words": 1, "min_chars": 4},
     "por que esse acoplamento seria inadequado": {"min_words": 5, "min_chars": 24},
     "fronteira que justifica um repositório separado": {"min_words": 5, "min_chars": 24},
-    "configuracao": {"min_words": 2, "min_chars": 8},
+    "configuração": {"min_words": 2, "min_chars": 8},
     "logging": {"min_words": 2, "min_chars": 8},
     "runtime": {"min_words": 2, "min_chars": 8},
     "contratos": {"min_words": 2, "min_chars": 8},
-    "autenticacao ou transporte": {"min_words": 2, "min_chars": 8},
+    "autenticação ou transporte": {"min_words": 2, "min_chars": 8},
     "responsabilidades fora de escopo": {"min_words": 4, "min_chars": 20},
     "integrações que pertencem a outro sistema": {"min_words": 3, "min_chars": 15},
-    "dados que nao devem morar aqui": {"min_words": 2, "min_chars": 12},
+    "dados que não devem morar aqui": {"min_words": 2, "min_chars": 12},
     "host ou ambiente principal": {"min_words": 2, "min_chars": 6},
-    "dependencia externa mais fragil": {"min_words": 2, "min_chars": 6},
+    "dependência externa mais frágil": {"min_words": 2, "min_chars": 6},
     "necessidade de restart": {"min_words": 3, "min_chars": 12},
     "necessidade de backup": {"min_words": 3, "min_chars": 12},
     "risco operacional": {"min_words": 4, "min_chars": 20},
@@ -120,7 +120,7 @@ def classify_fields(fields: dict[str, str]) -> tuple[list[str], list[tuple[str, 
             short.append(
                 (
                     label,
-                    f"{words} palavra(s), {chars} caractere(s); minimo {min_words} palavra(s) e {min_chars} caractere(s)",
+                    f"{words} palavra(s), {chars} caractere(s); mínimo {min_words} palavra(s) e {min_chars} caractere(s)",
                 )
             )
 
@@ -137,11 +137,11 @@ def main() -> int:
     pending, weak, short = classify_fields(fields)
 
     if pending or weak or short:
-        print("PROJECT_GATE.md falhou na validacao semantica.", file=sys.stderr)
+        print("PROJECT_GATE.md falhou na validação semântica.", file=sys.stderr)
 
     if pending:
         print("", file=sys.stderr)
-        print("Pendencias estruturais:", file=sys.stderr)
+        print("Pendências estruturais:", file=sys.stderr)
         for field in pending:
             print(f"- {field}", file=sys.stderr)
 
@@ -160,7 +160,7 @@ def main() -> int:
     if pending or weak or short:
         print("", file=sys.stderr)
         print(
-            "Evite respostas como 'a definir', 'nao sei', 'talvez' ou frases curtas sem justificativa.",
+            "Evite respostas como 'a definir', 'não sei', 'talvez' ou frases curtas sem justificativa.",
             file=sys.stderr,
         )
         print("Preencha o gate antes do primeiro commit relevante.", file=sys.stderr)

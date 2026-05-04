@@ -1,38 +1,41 @@
 # Changelog
 
-Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
+Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 
 ## Unreleased
 
-- Adiciona bootstrap estrutural Skidbladnir para governanca documental.
-- Registra fronteira, contratos, operacao e decisoes do acervo.
+- Normaliza acentuação, cedilha e nomenclatura operacional para técnico de
+  radiologia, técnico de enfermagem, enfermeiro, R1, R2, R3, R4 e radiologista
+  formado.
+- Adiciona bootstrap estrutural Skidbladnir para governança documental.
+- Registra fronteira, contratos, operação e decisões do acervo.
 - Adiciona scripts locais de gate e project doctor.
-- Adiciona `app/` whitelabel com backend local, regras deterministicas,
-  calculadoras, modulo de Perguntas e Respostas restrito ao corpus local via
+- Adiciona `app/` whitelabel com backend local, regras determinísticas,
+  calculadoras, módulo de Perguntas e Respostas restrito ao corpus local via
   Ollama, biblioteca e busca.
 - Corrige fluxo renal do app para calcular TFGe/clearance a partir de
   creatinina, idade, sexo e peso, em vez de pedir TFGe como entrada principal.
-- Destaca a TFGe calculada na UI de decisao e calculadoras, substituindo JSON
-  bruto por cards clinicos.
-- Renomeia campos de gadolinio na UI para explicar Grupo I/II como risco de
+- Destaca a TFGe calculada na UI de decisão e calculadoras, substituindo JSON
+  bruto por cards clínicos.
+- Renomeia campos de gadolínio na UI para explicar Grupo I/II como risco de
   FSN.
 - Ajusta mensagem de bloqueio para MCBG Grupo I em pacientes de risco para FSN.
-- Reorganiza o formulario de decisao e adiciona campo TFGe calculado em tempo
+- Reorganiza o formulário de decisão e adiciona campo TFGe calculado em tempo
   de preenchimento.
-- Reduz destaque visual da funcao renal calculada e formata decimais com
-  virgula na UI.
+- Reduz destaque visual da função renal calculada e formata decimais com
+  vírgula na UI.
 - Migra o projeto para `PossoContrastar`, remove PDF versionado, anonimiza kits
-  cromaticos e adiciona cache em memoria para chunks de RAG.
+  cromáticos e adiciona cache em memória para chunks de RAG.
 - Estrutura metadados da obra-fonte para app e API local.
-- Remove paineis laterais de status, guardrail e corpus para reduzir ruido na
+- Remove painéis laterais de status, guardrail e corpus para reduzir ruído na
   tela principal.
 - Padroniza os adaptadores visuais como Noturno, Botânico e Lilás.
-- Atualiza o nome visivel do produto para `Posso Contrastar?`.
+- Atualiza o nome visível do produto para `Posso Contrastar?`.
 - Explicita no README que o trabalho é baseado no livro-fonte, com ISBN e DOI.
-- Remove a secao Guidelines da UI e do backend para manter a v1 focada em apoio
+- Remove a seção Guidelines da UI e do backend para manter a v1 focada em apoio
   à decisão.
-- Renomeia o modulo local de perguntas para Perguntas e Respostas.
+- Renomeia o módulo local de perguntas para Perguntas e Respostas.
 - Renderiza Markdown na Biblioteca, nos resultados de busca e nas fontes de
   Perguntas e Respostas.
-- Exclui o README do corpus da lista de capitulos e da recuperacao clinica.
-- Remove o botao de preenchimento de exemplo do fluxo de decisão.
+- Exclui o README do corpus da lista de capítulos e da recuperação clínica.
+- Remove o botão de preenchimento de exemplo do fluxo de decisão.

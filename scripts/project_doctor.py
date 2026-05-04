@@ -128,7 +128,7 @@ def extract_readme_entrypoints(text: str) -> list[str]:
 
 
 def extract_agents_validation(text: str) -> str | None:
-    match = re.search(r"comando de validacao minima:\s*`([^`]+)`", text)
+    match = re.search(r"comando de validação mínima:\s*`([^`]+)`", text)
     if not match:
         return None
     return match.group(1).strip()
@@ -151,7 +151,7 @@ def load_doctor_config(errors: list[str]) -> dict[str, object]:
     try:
         raw = json.loads(read_text(DOCTOR_CONFIG_PATH))
     except json.JSONDecodeError as exc:
-        add_error(errors, f"config/doctor.json invalido: {exc}")
+        add_error(errors, f"config/doctor.json inválido: {exc}")
         return default
 
     if not isinstance(raw, dict):
@@ -160,7 +160,7 @@ def load_doctor_config(errors: list[str]) -> dict[str, object]:
 
     version = raw.get("version", 1)
     if version != 1:
-        add_error(errors, "config/doctor.json usa versao nao suportada")
+        add_error(errors, "config/doctor.json usa versão não suportada")
 
     ignored_warnings_raw = raw.get("ignored_warnings", [])
     normalized_ignored: list[dict[str, str]] = []
@@ -181,13 +181,13 @@ def load_doctor_config(errors: list[str]) -> dict[str, object]:
             if code not in KNOWN_WARNING_CODES:
                 add_error(
                     errors,
-                    f"config/doctor.json: codigo de warning desconhecido em ignored_warnings[{index}]",
+                    f"config/doctor.json: código de warning desconhecido em ignored_warnings[{index}]",
                 )
                 continue
             if code in seen_ignored_codes:
                 add_error(
                     errors,
-                    f"config/doctor.json: codigo duplicado em ignored_warnings[{index}]",
+                    f"config/doctor.json: código duplicado em ignored_warnings[{index}]",
                 )
                 continue
             if len(reason) < 12:
@@ -215,7 +215,7 @@ def load_doctor_config(errors: list[str]) -> dict[str, object]:
             if len(tokens) < 2:
                 add_error(
                     errors,
-                    f"config/doctor.json: token_alias_groups[{index}] precisa ter ao menos 2 termos validos",
+                    f"config/doctor.json: token_alias_groups[{index}] precisa ter ao menos 2 termos válidos",
                 )
                 continue
             normalized_alias_groups.append(tokens)
@@ -270,16 +270,16 @@ def add_warning(warnings: list[dict[str, str]], code: str, message: str) -> None
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Valida coerencia estrutural minima do projeto")
+    parser = argparse.ArgumentParser(description="Valida coerência estrutural mínima do projeto")
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="trata warnings semanticos como erro",
+        help="trata warnings semânticos como erro",
     )
     parser.add_argument(
         "--audit-config",
         action="store_true",
-        help="audita config/doctor.json e overrides semanticos",
+        help="audita config/doctor.json e overrides semânticos",
     )
     return parser.parse_args()
 
@@ -350,7 +350,7 @@ def run_config_audit(
     ]
     if unused_alias_indexes:
         print("")
-        print("Alias groups sem uso observavel agora:")
+        print("Alias groups sem uso observável agora:")
         for index in unused_alias_indexes:
             tokens = ", ".join(sorted(alias_groups[index]))
             print(f"- group {index}: {tokens}")
@@ -410,7 +410,7 @@ def main() -> int:
 
     for path, text in docs.items():
         if "{{" in text:
-            add_error(errors, f"placeholders nao resolvidos em {path.relative_to(ROOT)}")
+            add_error(errors, f"placeholders não resolvidos em {path.relative_to(ROOT)}")
         if re.search(r"\bTODO:", text):
             add_error(errors, f"TODO remanescente em {path.relative_to(ROOT)}")
         if re.search(r"\bpreencher\b", text.lower()):
@@ -418,8 +418,8 @@ def main() -> int:
 
     required_sections = {
         ROOT / "README.md": [
-            "## O que este repositorio e",
-            "## O que este repositorio NAO e",
+            "## O que este repositório é",
+            "## O que este repositório NÃO é",
             "### 4. Rodar",
         ],
         ROOT / "docs" / "ARCHITECTURE.md": [
@@ -427,19 +427,19 @@ def main() -> int:
             "## 5. Fluxo principal",
         ],
         ROOT / "docs" / "CONTRACTS.md": [
-            "## 2. Entradas canonicas",
-            "## 3. Saidas canonicas",
+            "## 2. Entradas canônicas",
+            "## 3. Saídas canônicas",
         ],
         ROOT / "docs" / "OPERATIONS.md": [
             "### Boot principal",
-            "## 5. Validacao minima",
+            "## 5. Validação mínima",
         ],
     }
     for path, headings in required_sections.items():
         text = read_text(path)
         for heading in headings:
             if extract_section(text, heading) is None:
-                add_error(errors, f"secao ausente em {path.relative_to(ROOT)}: {heading}")
+                add_error(errors, f"seção ausente em {path.relative_to(ROOT)}: {heading}")
 
     readme_run = normalize_block(
         extract_first_code_block(extract_section(readme_text, "### 4. Rodar"))
@@ -453,21 +453,21 @@ def main() -> int:
     readme_entrypoints = [normalize_block(item) for item in extract_readme_entrypoints(readme_text)]
     readme_entrypoints = [item for item in readme_entrypoints if item]
     if readme_entrypoints and ops_run and ops_run not in readme_entrypoints:
-        add_error(errors, "README.md nao lista o boot principal operacional entre os entrypoints")
+        add_error(errors, "README.md não lista o boot principal operacional entre os entrypoints")
 
     agents_validation = extract_agents_validation(agents_text)
     ops_validation = normalize_block(
-        extract_first_code_block(extract_section(operations_text, "## 5. Validacao minima"))
+        extract_first_code_block(extract_section(operations_text, "## 5. Validação mínima"))
     )
     if agents_validation and ops_validation and normalize_block(agents_validation) != ops_validation:
-        add_error(errors, "AGENTS.md e docs/OPERATIONS.md divergem na validacao minima")
+        add_error(errors, "AGENTS.md e docs/OPERATIONS.md divergem na validação mínima")
 
     negative_scope_readme = " ".join(
-        extract_bullets(extract_section(readme_text, "## O que este repositorio NAO e"))
+        extract_bullets(extract_section(readme_text, "## O que este repositório NÃO é"))
     )
     negative_scope_gate = " ".join(
         extract_bullets(
-            extract_section(gate_text, "## 4. O que este projeto NAO pode carregar?")
+            extract_section(gate_text, "## 4. O que este projeto NÃO pode carregar?")
         )
     )
     comparison_reports: list[dict[str, object]] = []
@@ -487,11 +487,11 @@ def main() -> int:
             add_warning(
                 warnings,
                 "scope_negative_mismatch",
-                "README.md e PROJECT_GATE.md parecem desconectados na definicao de fora de escopo",
+                "README.md e PROJECT_GATE.md parecem desconectados na definição de fora de escopo",
             )
 
     positive_scope_readme = " ".join(
-        extract_bullets(extract_section(readme_text, "## O que este repositorio e"))
+        extract_bullets(extract_section(readme_text, "## O que este repositório é"))
     )
     positive_scope_gate = " ".join(
         extract_bullets(extract_section(gate_text, "## 1. Por que este projeto existe?"))
@@ -512,7 +512,7 @@ def main() -> int:
             add_warning(
                 warnings,
                 "objective_mismatch",
-                "README.md e PROJECT_GATE.md parecem desconectados na definicao do objetivo do repositorio",
+                "README.md e PROJECT_GATE.md parecem desconectados na definição do objetivo do repositório",
             )
 
     architecture_scope = " ".join(
@@ -534,15 +534,15 @@ def main() -> int:
             add_warning(
                 warnings,
                 "scope_architecture_mismatch",
-                "README.md e docs/ARCHITECTURE.md usam vocabularios muito diferentes para o escopo",
+                "README.md e docs/ARCHITECTURE.md usam vocabulários muito diferentes para o escopo",
             )
 
-    contracts_inputs = extract_section(contracts_text, "## 2. Entradas canonicas") or ""
-    contracts_outputs = extract_section(contracts_text, "## 3. Saidas canonicas") or ""
+    contracts_inputs = extract_section(contracts_text, "## 2. Entradas canônicas") or ""
+    contracts_outputs = extract_section(contracts_text, "## 3. Saídas canônicas") or ""
     if contracts_inputs.count("|") < 10:
-        add_error(errors, "docs/CONTRACTS.md parece nao ter entradas canonicas suficientes")
+        add_error(errors, "docs/CONTRACTS.md parece não ter entradas canônicas suficientes")
     if contracts_outputs.count("|") < 8:
-        add_error(errors, "docs/CONTRACTS.md parece nao ter saidas canonicas suficientes")
+        add_error(errors, "docs/CONTRACTS.md parece não ter saídas canônicas suficientes")
 
     active_warnings = [
         item for item in warnings if item.get("code") not in ignored_warning_codes

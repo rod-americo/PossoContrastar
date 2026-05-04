@@ -61,6 +61,14 @@ app/
 - Não inserir dados reais de pacientes em ambiente não governado.
 - Toda saída mantém fonte local quando possível.
 
+## Público operacional
+
+A interface deve ser legível para técnico de radiologia, técnico de enfermagem,
+enfermeiro, R1, R2, R3, R4 e radiologista formado. Quando o texto usar “equipe
+de sala”, o termo cobre técnico de radiologia, técnico de enfermagem e
+enfermeiro; decisões fora do fluxo devem apontar para o radiologista
+responsável.
+
 ## Função renal
 
 O app não pede mais TFGe como entrada primária. Em `Posso contrastar?`,

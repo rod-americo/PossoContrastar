@@ -3,7 +3,7 @@
   "ignored_warnings": [],
   "token_alias_groups": [
     ["acervo", "documental", "diretrizes"],
-    ["clinico", "assistencial", "radiologia"],
-    ["produto", "aplicacao", "dashboard"]
+    ["clínico", "clinico", "assistencial", "radiologia"],
+    ["produto", "aplicação", "aplicacao", "dashboard"]
   ]
 }

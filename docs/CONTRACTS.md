@@ -2,76 +2,76 @@
 
 ## 1. Objetivo
 
-Registrar entradas, saidas, invariantes e limites do acervo documental e do app
+Registrar entradas, saídas, invariantes e limites do acervo documental e do app
 local de apoio à decisão. Estes contratos protegem a rastreabilidade do
 material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 
-## 2. Entradas canonicas
+## 2. Entradas canônicas
 
-| Entrada | Origem | Formato | Obrigatoria | Observacao |
+| Entrada | Origem | Formato | Obrigatória | Observação |
 | --- | --- | --- | --- | --- |
-| Capitulos Markdown | `docs/meios_de_contraste/` | `.md` | sim | Fonte editavel e revisavel por diff |
-| Indice dos capitulos | `docs/meios_de_contraste/README.md` | Markdown | sim | Mapa de leitura do material principal |
-| Metadado da obra-fonte | `docs/meios_de_contraste/source.json` | JSON | sim | Titulo, subtitulo, versao, editores e nota de corpus |
-| Kits cromaticos | `docs/identidade_visual/` | Markdown, CSS, HTML, JSON | nao | Apoio visual neutro, sem marcas ou logos |
-| Proposta dinamica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | nao | Planejamento, nao implementacao |
-| Configuracao do doctor | `config/doctor.json` | JSON | sim | Politica versionada de warnings e aliases |
-| Regras estruturadas | `app/data/rules.json` | JSON | sim para app | Regras deterministicas citadas por fonte local |
+| Capítulos Markdown | `docs/meios_de_contraste/` | `.md` | sim | Fonte editável e revisável por diff |
+| Índice dos capítulos | `docs/meios_de_contraste/README.md` | Markdown | sim | Mapa de leitura do material principal |
+| Metadado da obra-fonte | `docs/meios_de_contraste/source.json` | JSON | sim | Título, subtítulo, versão, editores e nota de corpus |
+| Kits cromáticos | `docs/identidade_visual/` | Markdown, CSS, HTML, JSON | não | Apoio visual neutro, sem marcas ou logos |
+| Proposta dinâmica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | não | Planejamento, não implementação |
+| Configuração do doctor | `config/doctor.json` | JSON | sim | Política versionada de warnings e aliases |
+| Regras estruturadas | `app/data/rules.json` | JSON | sim para app | Regras determinísticas citadas por fonte local |
 
-## 3. Saidas canonicas
+## 3. Saídas canônicas
 
-| Saida | Destino | Formato | Garantia | Observacao |
+| Saída | Destino | Formato | Garantia | Observação |
 | --- | --- | --- | --- | --- |
-| Acervo revisavel | Git e leitores Markdown | Markdown | Texto versionado e diffs legiveis | Nao substitui publicacao original externa |
-| Diagnostico de gate | Terminal local | Texto | Falha quando gate esta fraco | Usa regras semanticas simples |
-| Diagnostico do doctor | Terminal local | Texto | Verifica arquivos e coerencia minima | Nao valida conteudo clinico |
-| Previews visuais | Navegador local | HTML/CSS | Referencia visual manual | Nao e deploy oficial |
-| Propostas futuras | Markdown | Texto estruturado | Planejamento rastreavel | Nao e runtime assistencial |
-| App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Nao e protocolo aprovado |
+| Acervo revisável | Git e leitores Markdown | Markdown | Texto versionado e diffs legíveis | Não substitui publicação original externa |
+| Diagnóstico de gate | Terminal local | Texto | Falha quando gate está fraco | Usa regras semânticas simples |
+| Diagnóstico do doctor | Terminal local | Texto | Verifica arquivos e coerência mínima | Não valida conteúdo clínico |
+| Previews visuais | Navegador local | HTML/CSS | Referência visual manual | Não é deploy oficial |
+| Propostas futuras | Markdown | Texto estruturado | Planejamento rastreável | Não é runtime assistencial |
+| App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Não é protocolo aprovado |
 | Perguntas e Respostas | Navegador local | Resposta textual citada | Restrito ao corpus local | Usa Ollama opcional; fallback com trechos |
 
 ## 4. Invariantes
 
-- Capitulos clinicos nao devem receber alteracao substantiva sem fonte e motivo.
-- Conteudo clinico, identidade visual e produto futuro devem permanecer
-  distinguiveis.
-- Scripts de governanca nao devem exigir dependencia externa alem do Python
-  padrao.
-- Dados de pacientes, credenciais e logs assistenciais nao pertencem ao repo.
-- Regras deterministicas devem citar arquivo fonte local e ser testaveis por
-  cenarios de fronteira.
-- LLM nao pode emitir resposta sem contexto recuperado do corpus local.
+- Capítulos clínicos não devem receber alteração substantiva sem fonte e motivo.
+- Conteúdo clínico, identidade visual e produto futuro devem permanecer
+  distinguíveis.
+- Scripts de governança não devem exigir dependência externa além do Python
+  padrão.
+- Dados de pacientes, credenciais e logs assistenciais não pertencem ao repo.
+- Regras determinísticas devem citar arquivo fonte local e ser testáveis por
+  cenários de fronteira.
+- LLM não pode emitir resposta sem contexto recuperado do corpus local.
 
 ## 5. Identificadores
 
 | Entidade | Identificador | Regra |
 | --- | --- | --- |
-| Capitulo | Prefixo numerico `01_` a `11_` | Preservar ordem do guia convertido |
-| Kit visual | Slug em `docs/identidade_visual/<slug>/` | Usar nomes estaveis em minusculas |
-| Warning do doctor | Codigo estavel | Registrar aliases ou ignores em `config/doctor.json` |
-| Regra estruturada | Chave em `app/data/rules.json` | Preservar fonte e limiar explicito |
-| Endpoint local | Caminho `/api/...` | Nao depender de dados sensiveis |
+| Capítulo | Prefixo numérico `01_` a `11_` | Preservar ordem do guia convertido |
+| Kit visual | Slug em `docs/identidade_visual/<slug>/` | Usar nomes estáveis em minúsculas |
+| Warning do doctor | Código estável | Registrar aliases ou ignores em `config/doctor.json` |
+| Regra estruturada | Chave em `app/data/rules.json` | Preservar fonte e limiar explícito |
+| Endpoint local | Caminho `/api/...` | Não depender de dados sensíveis |
 
 ## 6. Quebras de contrato
 
-Mudancas abaixo exigem atualizacao de README, arquitetura, contratos e operacao:
+Mudanças abaixo exigem atualização de README, arquitetura, contratos e operação:
 
-- Alterar a estrutura dos capitulos ou slugs de identidade visual.
-- Alterar runtime de aplicacao, API, calculadora, RAG ou dashboard.
-- Passar a consumir dados reais, sensiveis ou assistenciais.
-- Declarar validacao clinica ou protocolo institucional final.
+- Alterar a estrutura dos capítulos ou slugs de identidade visual.
+- Alterar runtime de aplicação, API, calculadora, RAG ou dashboard.
+- Passar a consumir dados reais, sensíveis ou assistenciais.
+- Declarar validação clínica ou protocolo institucional final.
 
-## 7. Validacao clinica
+## 7. Validação clínica
 
-O doctor valida estrutura documental, nao verdade clinica. Qualquer uso em
-decisao assistencial exige revisao humana especializada, protocolo institucional
-e checagem contra publicacao original, diretrizes vigentes e bulas oficiais.
+O doctor valida estrutura documental, não verdade clínica. Qualquer uso em
+decisão assistencial exige revisão humana especializada, protocolo institucional
+e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 
 ## 8. Contrato do app local
 
-- `app/server.py` deve rodar com biblioteca padrao do Python.
-- `app/static/` nao deve exigir build step.
-- `app/data/rules.json` e fonte de regras deterministicas da v1.
+- `app/server.py` deve rodar com biblioteca padrão do Python.
+- `app/static/` não deve exigir build step.
+- `app/data/rules.json` é fonte de regras determinísticas da v1.
 - O endpoint `/api/qa` deve recuperar trechos locais antes de chamar Ollama.
-- O app nao deve persistir perguntas, payloads ou respostas.
-- Qualquer integracao com dados reais exige novo contrato.
+- O app não deve persistir perguntas, payloads ou respostas.
+- Qualquer integração com dados reais exige novo contrato.

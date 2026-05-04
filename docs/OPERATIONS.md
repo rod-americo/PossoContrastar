@@ -2,18 +2,18 @@
 
 ## 1. Objetivo
 
-Este documento descreve como validar, diagnosticar e manter o repositorio
-documental e o app local de apoio à decisão. Nao ha deploy, autenticacao ou
-runtime assistencial em producao nesta fase.
+Este documento descreve como validar, diagnosticar e manter o repositório
+documental e o app local de apoio à decisão. Não há deploy, autenticação ou
+runtime assistencial em produção nesta fase.
 
 ## 2. Ambientes
 
-| Ambiente | Objetivo | Runtime | Observacoes |
+| Ambiente | Objetivo | Runtime | Observações |
 | --- | --- | --- | --- |
-| `local` | edicao e validacao | `python3` | Usa biblioteca padrao |
+| `local` | edição e validação | `python3` | Usa biblioteca padrão |
 | `app-local` | UI e API local | `python3 app/server.py` | Ollama opcional para Perguntas e Respostas |
-| `git` | historico e revisao | `git` | Preserva Markdown, regras e kits |
-| `consumer` | repositorios que reutilizam o acervo | variavel | Deve validar uso proprio |
+| `git` | histórico e revisão | `git` | Preserva Markdown, regras e kits |
+| `consumer` | repositórios que reutilizam o acervo | variável | Deve validar uso próprio |
 
 ## 3. Como executar
 
@@ -43,20 +43,20 @@ Para Ollama:
 OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 ```
 
-## 4. Configuracao operacional
+## 4. Configuração operacional
 
 - arquivo local: `config/doctor.json`
-- variaveis de ambiente criticas: nenhuma obrigatoria
-- variaveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
+- variáveis de ambiente críticas: nenhuma obrigatória
+- variáveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
   `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`
 - path de runtime state: nenhum
 - path de logs: nenhum
 
-O repositorio nao deve depender de caminhos locais implicitos. Kits cromaticos
-nao devem carregar nomes institucionais, logos, URLs de origem ou assets
-proprietarios.
+O repositório não deve depender de caminhos locais implícitos. Kits cromáticos
+não devem carregar nomes institucionais, logos, URLs de origem ou assets
+proprietários.
 
-## 5. Validacao minima
+## 5. Validação mínima
 
 Depois de alterar a baseline ou documentos estruturais:
 
@@ -64,7 +64,7 @@ Depois de alterar a baseline ou documentos estruturais:
 python3 scripts/project_doctor.py
 ```
 
-Validacao completa recomendada:
+Validação completa recomendada:
 
 ```bash
 python3 scripts/check_project_gate.py
@@ -76,26 +76,26 @@ python3 -m py_compile app/server.py
 
 Conferir:
 
-- gate preenchido e defensavel
+- gate preenchido e defensável
 - docs estruturais sem marcadores de scaffolding
 - comando principal coerente entre README e OPERATIONS
-- diff sem `.DS_Store`, cache ou export temporario
-- ausencia de dados de pacientes ou segredos
+- diff sem `.DS_Store`, cache ou export temporário
+- ausência de dados de pacientes ou segredos
 - app sobe localmente e endpoints principais respondem
 
-## 6. Logs E Diagnostico
+## 6. Logs e diagnóstico
 
-- logger principal: nao ha logger persistente de aplicacao
-- formato dos logs: saida textual dos scripts e requisicoes locais do servidor
+- logger principal: não há logger persistente de aplicação
+- formato dos logs: saída textual dos scripts e requisições locais do servidor
 - onde ler logs:
   - terminal local
 - sinais de falha comuns:
   - `PROJECT_GATE.md` com resposta curta, vaga ou pendente
-  - divergencia entre README, AGENTS e OPERATIONS
+  - divergência entre README, AGENTS e OPERATIONS
   - placeholders de scaffolding em documentos principais
-  - arquivo obrigatorio ausente
-  - Ollama indisponivel ou modelo local ausente no endpoint `/api/qa`
-  - JSON invalido em `app/data/`
+  - arquivo obrigatório ausente
+  - Ollama indisponível ou modelo local ausente no endpoint `/api/qa`
+  - JSON inválido em `app/data/`
 
 ## 7. Restart policy
 
@@ -103,41 +103,41 @@ Ao mudar:
 
 - `docs/meios_de_contraste/`: reiniciar app para Perguntas e Respostas e
   regras refletirem corpus;
-  exige revisao documental e, quando clinico, revisao especializada.
+  exige revisão documental e, quando clínico, revisão especializada.
 - `docs/identidade_visual/`: nenhum restart; exige revisar previews afetados.
-- `scripts/`: nenhum restart; exige `py_compile` e execucao do doctor.
+- `scripts/`: nenhum restart; exige `py_compile` e execução do doctor.
 - `config/`: nenhum restart; exige `project_doctor.py --audit-config`.
-- `docs/` estruturais apenas: nenhum restart; exige doctor e revisao de diff.
+- `docs/` estruturais apenas: nenhum restart; exige doctor e revisão de diff.
 - `app/server.py`, `app/data/`, `app/static/`: reiniciar servidor local.
 
-## 8. Persistencia, backup e limpeza
+## 8. Persistência, backup e limpeza
 
 - armazenamento principal: Git.
-- backup: remoto Git e copia local independente da publicacao original externa,
-  quando necessaria para auditoria clinica.
-- retencao: historico Git conforme politica do repositorio.
-- limpeza segura: `.DS_Store`, caches, arquivos temporarios e exports locais
-  nao versionados.
+- backup: remoto Git e cópia local independente da publicação original externa,
+  quando necessária para auditoria clínica.
+- retenção: histórico Git conforme política do repositório.
+- limpeza segura: `.DS_Store`, caches, arquivos temporários e exports locais
+  não versionados.
 
-Nunca remova sem decisao explicita:
+Nunca remova sem decisão explícita:
 
 - `docs/meios_de_contraste/`
-- historico de decisoes em `docs/DECISIONS.md`
+- histórico de decisões em `docs/DECISIONS.md`
 
 ## 9. Incidentes
 
-Checklist minimo:
+Checklist mínimo:
 
 1. confirmar que o corpus Markdown ainda existe
-2. confirmar que o capitulo alterado esta indexado
+2. confirmar que o capítulo alterado está indexado
 3. confirmar que o doctor passa
-4. revisar se a mudanca altera contrato clinico ou apenas formatacao
-5. confirmar se ha dado sensivel ou material temporario no diff
+4. revisar se a mudança altera contrato clínico ou apenas formatação
+5. confirmar se há dado sensível ou material temporário no diff
 
-## 10. Mudancas que exigem update deste documento
+## 10. Mudanças que exigem update deste documento
 
 - novo entrypoint
-- nova dependencia operacional
+- nova dependência operacional
 - novo path de runtime
-- nova regra de validacao
-- nova rotina de backup, publicacao ou limpeza
+- nova regra de validação
+- nova rotina de backup, publicação ou limpeza

@@ -10,7 +10,10 @@ Conversão em Markdown da publicação usada como obra-fonte deste corpus.
 | Subtítulo | **Conceitos e diretrizes** |
 | Versão | **Versão pocket** |
 | Editores | Bruna Garbugio Dutra; Tufik Bauab Jr. |
-| Publicação | Sociedade Paulista de Radiologia e Diagnóstico por Imagem (SPR), abril de 2026 |
+| Edição | 1. ed. |
+| Publicação | Farol Editora; Sociedade Paulista de Radiologia e Diagnóstico por Imagem (SPR), abril de 2026 |
+| ISBN | 978-65-989971-1-3 |
+| DOI | 10.29327/5827214 |
 | Corpus local | `docs/meios_de_contraste/` |
 
 O PDF original é mantido fora deste repositório. O app, as buscas, as regras e o

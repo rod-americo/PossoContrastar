@@ -28,3 +28,4 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
   tela principal.
 - Padroniza os adaptadores visuais como Noturno, Botânico e Lilás.
 - Atualiza o nome visivel do produto para `Posso Contrastar?`.
+- Explicita no README que o trabalho é baseado no livro-fonte, com ISBN e DOI.

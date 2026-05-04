@@ -4,6 +4,30 @@ Repositorio para organizar, governar e reutilizar diretrizes sobre meios de
 contraste, com foco em leitura tecnica, rastreabilidade de fonte e experiencias
 clinicas operacionais locais de apoio à decisão.
 
+Este trabalho é baseado no livro **Meios de contraste: conceitos e diretrizes
+(versão pocket)**. O repositorio transforma o conteudo em corpus Markdown,
+contratos, regras explicáveis e uma aplicação local de apoio à decisão; ele não
+substitui o livro, não versiona o PDF original e não representa protocolo
+institucional aprovado.
+
+## Base bibliográfica
+
+Obra-fonte:
+
+> Dutra BG, Bauab Jr T, editores. **Meios de contraste: conceitos e diretrizes
+> (versão pocket)**. 1. ed. São Paulo, SP: Farol Editora; São Caetano do Sul,
+> SP: Sociedade Paulista de Radiologia e Diagnóstico por Imagem (SPR); 2026.
+
+- Publicado no Brasil em abril de 2026.
+- ISBN: `978-65-989971-1-3`
+- DOI: `10.29327/5827214`
+- Metadado estruturado: `docs/meios_de_contraste/source.json`
+
+Os direitos autorais da publicação original pertencem à Sociedade Paulista de
+Radiologia e Diagnóstico por Imagem (SPR). Este repositorio guarda apenas uma
+conversão Markdown local para leitura, busca, RAG restrito e prototipagem de
+apoio à decisão.
+
 ## O que este repositorio e
 
 - Acervo documental em Markdown derivado da publicacao **Meios de contraste:

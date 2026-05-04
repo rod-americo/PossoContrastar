@@ -123,6 +123,13 @@ Respostas:
 
 ```json
 {
+  "branding": {
+    "title": "Posso Contrastar?",
+    "subtitle": "Apoio à decisão baseado em documentação local",
+    "show_mark": false,
+    "mark_text": "",
+    "logo_src": ""
+  },
   "theme": {
     "default_theme": "whitelabel",
     "show_theme_picker": true
@@ -134,6 +141,13 @@ Respostas:
   }
 }
 ```
+
+O bloco à esquerda do título é o lugar de logomarca institucional, tratado como
+slot retangular horizontal. Por padrão, `show_mark` fica `false` para não exibir
+placeholder. Use `logo_src` para uma imagem servida pelo app ou URL permitida,
+ou `mark_text` para uma sigla temporária centralizada. Em runtime,
+`APP_BRAND_TITLE`, `APP_BRAND_SUBTITLE`, `APP_BRAND_SHOW_MARK`,
+`APP_BRAND_MARK_TEXT` e `APP_BRAND_LOGO_SRC` podem sobrescrever esses valores.
 
 Use `show_theme_picker: false` para ocultar o seletor na interface e
 `default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico` ou

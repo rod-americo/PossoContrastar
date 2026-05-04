@@ -299,8 +299,32 @@ function setView(viewId) {
 }
 
 function applyAppConfig(config) {
+  const branding = config?.branding || {};
   const theme = config?.theme || {};
   const qa = config?.qa || {};
+  const brandTitle = $("#brand-title");
+  const brandSubtitle = $("#brand-subtitle");
+  const brandMark = $("#brand-mark");
+  if (brandTitle && branding.title) {
+    brandTitle.textContent = branding.title;
+  }
+  if (brandSubtitle) {
+    brandSubtitle.textContent = branding.subtitle || "";
+    brandSubtitle.hidden = !branding.subtitle;
+  }
+  if (brandMark) {
+    const shouldShowMark = branding.show_mark === true && Boolean(branding.logo_src || branding.mark_text);
+    brandMark.hidden = !shouldShowMark;
+    brandMark.innerHTML = "";
+    if (shouldShowMark && branding.logo_src) {
+      const image = document.createElement("img");
+      image.src = branding.logo_src;
+      image.alt = branding.title ? `Logomarca ${branding.title}` : "Logomarca institucional";
+      brandMark.appendChild(image);
+    } else if (shouldShowMark) {
+      brandMark.textContent = branding.mark_text;
+    }
+  }
   const available = new Set(theme.available_themes || ["whitelabel", "noturno", "botanico", "lilas"]);
   const defaultTheme = available.has(theme.default_theme) ? theme.default_theme : "whitelabel";
   const picker = $("#theme-picker");

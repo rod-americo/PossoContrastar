@@ -1,4 +1,11 @@
 {
+  "branding": {
+    "title": "Posso Contrastar?",
+    "subtitle": "Apoio à decisão baseado em documentação local",
+    "show_mark": false,
+    "mark_text": "",
+    "logo_src": ""
+  },
   "theme": {
     "default_theme": "whitelabel",
     "show_theme_picker": true,

@@ -43,3 +43,5 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
   adaptador visual.
 - Move Perguntas e Respostas para configuração versionada, com liga/desliga,
   conector e modelo.
+- Trata a área à esquerda do título como slot retangular de branding
+  institucional configurável, sem placeholder por padrão.

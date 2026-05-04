@@ -54,8 +54,27 @@ def parse_int(value: Any, default: int) -> int:
 
 def app_config() -> dict[str, Any]:
     config = read_json(APP_CONFIG_PATH)
+    branding = dict(config.get("branding") or {})
     theme = dict(config.get("theme") or {})
     qa = dict(config.get("qa") or {})
+
+    brand_show_mark = parse_bool_env(os.environ.get("APP_BRAND_SHOW_MARK"))
+    if brand_show_mark is None:
+        configured_brand_show_mark = branding.get("show_mark", False)
+        if isinstance(configured_brand_show_mark, bool):
+            brand_show_mark = configured_brand_show_mark
+        else:
+            brand_show_mark = parse_bool_env(str(configured_brand_show_mark))
+        if brand_show_mark is None:
+            brand_show_mark = False
+    brand_title = str(os.environ.get("APP_BRAND_TITLE") or branding.get("title") or "Posso Contrastar?").strip()
+    brand_subtitle = str(
+        os.environ.get("APP_BRAND_SUBTITLE")
+        or branding.get("subtitle")
+        or "Apoio à decisão baseado em documentação local"
+    ).strip()
+    brand_mark_text = str(os.environ.get("APP_BRAND_MARK_TEXT") or branding.get("mark_text") or "").strip()
+    brand_logo_src = str(os.environ.get("APP_BRAND_LOGO_SRC") or branding.get("logo_src") or "").strip()
 
     default_theme = str(os.environ.get("APP_THEME") or theme.get("default_theme") or "whitelabel")
     if default_theme not in SUPPORTED_THEMES:
@@ -115,6 +134,13 @@ def app_config() -> dict[str, Any]:
     )
 
     return {
+        "branding": {
+            "title": brand_title,
+            "subtitle": brand_subtitle,
+            "show_mark": brand_show_mark,
+            "mark_text": brand_mark_text,
+            "logo_src": brand_logo_src,
+        },
         "theme": {
             "default_theme": default_theme,
             "show_theme_picker": show_picker,

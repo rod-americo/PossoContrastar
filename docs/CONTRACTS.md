@@ -17,7 +17,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Proposta dinâmica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | não | Planejamento, não implementação |
 | Configuração do doctor | `config/doctor.json` | JSON | sim | Política versionada de warnings e aliases |
 | Regras estruturadas | `app/data/rules.json` | JSON | sim para app | Regras determinísticas citadas por fonte local |
-| Template de configuração do app | `app/data/app_config.example.json` | JSON | sim para app | Defaults versionados de branding, tema, seletor, Perguntas e Respostas, conector e modelo |
+| Template de configuração do app | `app/data/app_config.example.json` | JSON | sim para app | Defaults versionados de branding, tema, seletor, Perguntas e Respostas, conector, modelo e URL do Ollama |
 | Configuração local do app | `app/data/app_config.json` | JSON | não versionar | Arquivo local ignorado pelo Git para ajustes de ambiente sem alterar regras clínicas |
 
 ## 3. Saídas canônicas
@@ -76,7 +76,7 @@ e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 - `app/data/rules.json` é fonte de regras determinísticas da v1.
 - `app/data/app_config.example.json` fornece defaults versionados de branding
   whitelabel, tema manual, visibilidade do seletor de adaptador, ativação de
-  Perguntas e Respostas, conector e modelo.
+  Perguntas e Respostas, conector, modelo e URL base do Ollama.
 - `app/data/app_config.json`, quando existir, controla os mesmos campos no
   ambiente local e não deve ser versionado.
 - O endpoint `/api/qa` deve recuperar trechos locais antes de chamar Ollama.

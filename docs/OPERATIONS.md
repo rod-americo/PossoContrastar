@@ -43,6 +43,19 @@ Para Ollama:
 OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 ```
 
+Para Ollama em outra máquina:
+
+```bash
+APP_QA_OLLAMA_URL=http://192.168.1.50:11434 python3 app/server.py
+```
+
+O app também aceita `APP_QA_OLLAMA_URL=192.168.1.50:11434` e assume `http://`.
+No host remoto, o Ollama precisa escutar na rede, por exemplo:
+
+```bash
+OLLAMA_HOST=0.0.0.0:11434 ollama serve
+```
+
 ## 4. Configuração operacional
 
 - arquivo local: `config/doctor.json`
@@ -103,6 +116,7 @@ Conferir:
   - placeholders de scaffolding em documentos principais
   - arquivo obrigatório ausente
   - Ollama indisponível ou modelo local ausente no endpoint `/api/qa`
+  - `APP_QA_OLLAMA_URL` apontando para host/porta sem acesso de rede
   - JSON inválido em `app/data/`
 
 ## 7. Restart policy

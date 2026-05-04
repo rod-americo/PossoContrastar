@@ -50,3 +50,5 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
   rodadas de codificação.
 - Torna `app/data/app_config.json` local e não versionado, mantendo
   `app/data/app_config.example.json` como template versionado.
+- Explicita configuração de Ollama remoto via `APP_QA_OLLAMA_URL` ou
+  `qa.ollama_url`.

@@ -36,6 +36,17 @@ O modelo padrão da v1 é `gemma4:e4b`, definido em
 por compatibilidade. `APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT` controlam
 aquecimento e tamanho das respostas de Perguntas e Respostas.
 
+Para usar Ollama em outra máquina, aponte o app para a URL base desse servidor:
+
+```bash
+APP_QA_OLLAMA_URL=http://192.168.1.50:11434 python3 app/server.py
+```
+
+Também é aceito informar apenas `192.168.1.50:11434`; o app assume `http://`.
+Na máquina que hospeda o Ollama, o serviço precisa escutar fora do loopback, por
+exemplo com `OLLAMA_HOST=0.0.0.0:11434 ollama serve`, e a rede/firewall deve
+permitir acesso à porta `11434`.
+
 ## Estrutura
 
 ```text
@@ -142,7 +153,8 @@ Git:
   "qa": {
     "enabled": true,
     "connector": "ollama",
-    "model": "gemma4:e4b"
+    "model": "gemma4:e4b",
+    "ollama_url": "http://localhost:11434"
   }
 }
 ```
@@ -161,6 +173,7 @@ sobrescrever esses valores sem editar o template versionado.
 
 Use `qa.enabled: false` para remover Perguntas e Respostas da navegação e
 bloquear `/api/qa`. Use `qa.connector` para escolher o conector; a v1 suporta
-`ollama`. Use `qa.model` para fixar o modelo. Em runtime, `APP_QA_ENABLED`,
-`APP_QA_CONNECTOR`, `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`,
+`ollama`. Use `qa.model` para fixar o modelo e `qa.ollama_url` para apontar
+para Ollama local ou remoto. Em runtime, `APP_QA_ENABLED`, `APP_QA_CONNECTOR`,
+`APP_QA_MODEL`, `APP_QA_OLLAMA_URL`,
 `APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT` podem sobrescrever a config.

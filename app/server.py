@@ -9,6 +9,7 @@ import re
 import sys
 import unicodedata
 import urllib.error
+import urllib.parse
 import urllib.request
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -51,6 +52,16 @@ def parse_int(value: Any, default: int) -> int:
         return int(str(value))
     except (TypeError, ValueError):
         return default
+
+
+def normalize_base_url(value: str, default: str) -> str:
+    raw = (value or default).strip()
+    if "://" not in raw:
+        raw = f"http://{raw}"
+    parsed = urllib.parse.urlparse(raw)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError(f"URL do Ollama inválida: {value}")
+    return raw.rstrip("/")
 
 
 def app_config() -> dict[str, Any]:
@@ -116,12 +127,15 @@ def app_config() -> dict[str, Any]:
         or qa.get("model")
         or "gemma4:e4b"
     ).strip()
-    ollama_url = str(
-        os.environ.get("APP_QA_OLLAMA_URL")
-        or os.environ.get("OLLAMA_URL")
-        or qa.get("ollama_url")
-        or "http://localhost:11434"
-    ).strip()
+    ollama_url = normalize_base_url(
+        str(
+            os.environ.get("APP_QA_OLLAMA_URL")
+            or os.environ.get("OLLAMA_URL")
+            or qa.get("ollama_url")
+            or "http://localhost:11434"
+        ),
+        "http://localhost:11434",
+    )
     keep_alive = str(
         os.environ.get("APP_QA_KEEP_ALIVE")
         or os.environ.get("OLLAMA_KEEP_ALIVE")
@@ -729,6 +743,7 @@ class Handler(BaseHTTPRequestHandler):
                     "qa_enabled": qa["enabled"],
                     "qa_connector": qa["connector"],
                     "qa_model": qa["model"],
+                    "qa_ollama_url": qa["ollama_url"],
                     "qa_keep_alive": qa["keep_alive"],
                     "qa_num_predict": qa["num_predict"],
                     "corpus": str(DOCS_DIR.relative_to(ROOT)),
@@ -815,7 +830,10 @@ def main() -> int:
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     qa = app_config()["qa"]
     print(f"Serving app on http://{args.host}:{args.port}")
-    print(f"Q&A: enabled={qa['enabled']} connector={qa['connector']} model={qa['model']}")
+    print(
+        f"Q&A: enabled={qa['enabled']} connector={qa['connector']} "
+        f"model={qa['model']} ollama_url={qa['ollama_url']}"
+    )
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -263,7 +263,7 @@ Saídas:
 - Documento estruturado do evento.
 - Farmacovigilância: fabricante e/ou ANVISA.
 
-### 12. Q&A com LLM restrita ao texto
+### 12. Perguntas e Respostas com LLM restrita ao texto
 
 Função: responder perguntas diretas sem substituir os módulos determinísticos.
 
@@ -342,7 +342,7 @@ Três temas úteis:
 
 - **noturno** para operação clínica: dark mode, alta densidade, emergência e auditoria.
 - **botanico** para dashboards institucionais: verde operacional, KPIs e painéis.
-- **lilas** para material público/educacional: linguagem clara, cards e Q&A para paciente.
+- **lilas** para material público/educacional: linguagem clara, cards e perguntas para paciente.
 
 Recomendação: construir a ferramenta profissional em `noturno` e gerar páginas públicas/educacionais em `lilas`.
 

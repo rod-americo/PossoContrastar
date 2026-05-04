@@ -40,8 +40,8 @@
   com backend, escopo completo, LLM restrita à documentacao local via Ollama,
   whitelabel com adaptadores e trilha para protocolo aprovado.
 - decisao: Criar app local em Python sem dependencias externas obrigatorias,
-  frontend estatico, regras deterministicas em JSON, Q&A RAG restrita ao corpus
-  local, biblioteca, busca e calculadoras.
+  frontend estatico, regras deterministicas em JSON, Perguntas e Respostas com
+  RAG restrita ao corpus local, biblioteca, busca e calculadoras.
 - impacto: O repositorio deixa de ser apenas acervo documental e passa a ter
   runtime local de apoio à decisão.
 - tradeoff: A v1 evita banco, autenticacao e deploy para manter refatoracao

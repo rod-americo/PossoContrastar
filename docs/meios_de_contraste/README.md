@@ -16,8 +16,8 @@ Conversão em Markdown da publicação usada como obra-fonte deste corpus.
 | DOI | 10.29327/5827214 |
 | Corpus local | `docs/meios_de_contraste/` |
 
-O PDF original é mantido fora deste repositório. O app, as buscas, as regras e o
-Q&A local usam apenas esta conversão Markdown versionada.
+O PDF original é mantido fora deste repositório. O app, as buscas, as regras e
+Perguntas e Respostas usam apenas esta conversão Markdown versionada.
 
 ## Capítulos
 

@@ -14,7 +14,8 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 - Kits de identidade visual usados como referencia para materiais e prototipos.
 - Scripts locais de gate e doctor para consistencia estrutural.
 - Aplicacao local em `app/`, com backend Python, frontend estatico, regras
-  deterministicas, calculadoras e Q&A restrita ao corpus local.
+  deterministicas, calculadoras e modulo de Perguntas e Respostas restrito ao
+  corpus local.
 - Exclusao explicita de aplicacao assistencial em producao, dados de pacientes
   e protocolos institucionais finais.
 
@@ -64,7 +65,7 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 3. Mudancas passam por leitura dos documentos estruturais, revisao de diff e
    validacao com `python3 scripts/project_doctor.py`.
 4. O app local em `app/` consome o corpus e os contratos estruturados para
-   apresentar regras, calculadoras, biblioteca, busca e Q&A local.
+   apresentar regras, calculadoras, biblioteca, busca e Perguntas e Respostas.
 5. Qualquer uso assistencial exige validacao clinica e aprovacao institucional
    fora da v1.
 
@@ -75,7 +76,7 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 | raiz | Identidade, governanca e validacao | Nao deve receber runtime mutavel |
 | `docs/meios_de_contraste/` | Capitulos Markdown, indice e metadado da obra-fonte | Fonte canonica editavel do guia convertido |
 | `docs/identidade_visual/` | Kits cromaticos neutros e previews | Apoio, nao design system oficial |
-| `app/` | Backend local, UI whitelabel, regras e Q&A | Apoio à decisão, nao producao |
+| `app/` | Backend local, UI whitelabel, regras e Perguntas e Respostas | Apoio à decisão, nao producao |
 | `scripts/` | Validacao estrutural | Biblioteca padrao do Python |
 | `config/doctor.json` | Politica local do doctor | Versionado e auditavel |
 
@@ -85,7 +86,8 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 - Doses, limiares e condutas exigem revisao especializada antes de reuso
   operacional.
 - `app/data/rules.json` precisa permanecer alinhado aos capitulos citados.
-- Q&A via Ollama pode falhar por modelo ausente; fallback deve ser conservador.
+- Perguntas e Respostas via Ollama pode falhar por modelo ausente; fallback deve
+  ser conservador.
 - Fontes de identidade visual podem mudar fora deste repositorio.
 
 ## 8. Direcao de evolucao

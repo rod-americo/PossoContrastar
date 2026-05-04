@@ -64,8 +64,8 @@ apoio à decisão.
   - `python3 scripts/project_doctor.py --audit-config`
   - `python3 app/server.py`
 - dependencia externa critica:
-  - Ollama opcional para Q&A local e validacao humana especializada para uso
-    clinico. O PDF de origem nao e versionado neste repositorio.
+  - Ollama opcional para Perguntas e Respostas e validacao humana especializada
+    para uso clinico. O PDF de origem nao e versionado neste repositorio.
 
 ## Conteudo principal
 
@@ -109,7 +109,8 @@ python3 --version
 ```
 
 Nao ha instalacao obrigatoria de dependencias de aplicacao. O backend local usa
-apenas biblioteca padrao do Python. Ollama e opcional para o Q&A.
+apenas biblioteca padrao do Python. Ollama e opcional para Perguntas e
+Respostas.
 
 ### 3. Configurar
 

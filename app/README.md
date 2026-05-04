@@ -31,7 +31,7 @@ APP_HOST=127.0.0.1 APP_PORT=8765 OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 
 O modelo padrão da v1 é `gemma4:e4b`. Use `OLLAMA_MODEL=<modelo>` para trocar.
 `OLLAMA_KEEP_ALIVE` e `OLLAMA_NUM_PREDICT` controlam aquecimento e tamanho das
-respostas do Q&A local.
+respostas de Perguntas e Respostas.
 
 ## Estrutura
 
@@ -50,11 +50,11 @@ app/
 ## Contratos de segurança
 
 - Regras críticas são determinísticas e ficam em `app/data/rules.json`.
-- O Q&A recupera trechos apenas de `docs/meios_de_contraste`.
+- Perguntas e Respostas recupera trechos apenas de `docs/meios_de_contraste`.
 - Capítulos e chunks de RAG ficam em cache de memória até reiniciar o servidor.
 - A referência bibliográfica da obra-fonte vem de
   `docs/meios_de_contraste/source.json`.
-- Se o Ollama estiver indisponível, o Q&A retorna trechos recuperados sem
+- Se o Ollama estiver indisponível, Perguntas e Respostas retorna trechos recuperados sem
   inventar resposta.
 - Não inserir dados reais de pacientes em ambiente não governado.
 - Toda saída mantém fonte local quando possível.

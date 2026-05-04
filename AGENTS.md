@@ -39,7 +39,8 @@ Regras praticas:
 - `docs/identidade_visual/` contem kits cromaticos neutros para materiais,
   prototipos e adaptadores, sem marcas, logos ou nomes institucionais.
 - `app/` contem uma aplicacao local whitelabel de apoio à decisão, com backend
-  Python, regras deterministicas e Q&A restrita ao corpus local via Ollama.
+  Python, regras deterministicas e modulo de Perguntas e Respostas restrito ao
+  corpus local via Ollama.
 - Mudancas clinicas devem citar fonte, capitulo e motivo.
 - Nao inserir dados de pacientes, credenciais, logs assistenciais ou payloads
   sensiveis.

@@ -33,9 +33,9 @@ fronteiras impedem crescimento indefinido.
 - logging: O app nao persiste logs; validacoes imprimem diagnostico no terminal
   e o servidor local registra apenas requisicoes no stderr.
 - runtime: Python padrao para scripts de governanca e `app/server.py`, com
-  Ollama opcional para Q&A restrita ao corpus local.
+  Ollama opcional para modulo de Perguntas e Respostas restrito ao corpus local.
 - contratos: Contratos documentais sobre corpus Markdown, kits cromaticos,
-  regras deterministicas, limites clinicos e Q&A local.
+  regras deterministicas, limites clinicos e Perguntas e Respostas.
 - autenticacao ou transporte: O app v1 nao implementa autenticacao; roda local
   via HTTP em `127.0.0.1` por padrao.
 
@@ -53,7 +53,8 @@ fronteiras impedem crescimento indefinido.
 - host ou ambiente principal: Worktree local versionado em Git, com app local em
   Python e revisao por diff.
 - dependencia externa mais fragil: A publicacao fonte, diretrizes oficiais que
-  podem mudar, modelo Ollama local para Q&A e revisao clinica especializada.
+  podem mudar, modelo Ollama local para Perguntas e Respostas e revisao clinica
+  especializada.
 - necessidade de restart: Mudancas em `app/server.py`, `app/data/` ou
   `app/static/` exigem reiniciar o servidor local.
 - necessidade de backup: Git deve preservar historico; capitulos Markdown,

@@ -28,7 +28,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Previews visuais | Navegador local | HTML/CSS | Referencia visual manual | Nao e deploy oficial |
 | Propostas futuras | Markdown | Texto estruturado | Planejamento rastreavel | Nao e runtime assistencial |
 | App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Nao e protocolo aprovado |
-| Q&A local | Navegador local | Resposta textual citada | Restrito ao corpus local | Usa Ollama opcional; fallback com trechos |
+| Perguntas e Respostas | Navegador local | Resposta textual citada | Restrito ao corpus local | Usa Ollama opcional; fallback com trechos |
 
 ## 4. Invariantes
 

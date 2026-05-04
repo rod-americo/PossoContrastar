@@ -11,7 +11,7 @@ runtime assistencial em producao nesta fase.
 | Ambiente | Objetivo | Runtime | Observacoes |
 | --- | --- | --- | --- |
 | `local` | edicao e validacao | `python3` | Usa biblioteca padrao |
-| `app-local` | UI e API local | `python3 app/server.py` | Ollama opcional para Q&A |
+| `app-local` | UI e API local | `python3 app/server.py` | Ollama opcional para Perguntas e Respostas |
 | `git` | historico e revisao | `git` | Preserva Markdown, regras e kits |
 | `consumer` | repositorios que reutilizam o acervo | variavel | Deve validar uso proprio |
 
@@ -101,7 +101,8 @@ Conferir:
 
 Ao mudar:
 
-- `docs/meios_de_contraste/`: reiniciar app para Q&A/regras refletirem corpus;
+- `docs/meios_de_contraste/`: reiniciar app para Perguntas e Respostas e
+  regras refletirem corpus;
   exige revisao documental e, quando clinico, revisao especializada.
 - `docs/identidade_visual/`: nenhum restart; exige revisar previews afetados.
 - `scripts/`: nenhum restart; exige `py_compile` e execucao do doctor.

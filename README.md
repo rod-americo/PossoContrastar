@@ -28,6 +28,18 @@ Radiologia e Diagnóstico por Imagem (SPR). Este repositório guarda apenas uma
 conversão Markdown local para leitura, busca, RAG restrito e prototipagem de
 apoio à decisão.
 
+## Licença
+
+O código, scripts, configuração do app, kits visuais anônimos e documentação
+original deste repositório são distribuídos sob a licença MIT; veja
+[`LICENSE`](LICENSE).
+
+A licença MIT não altera os direitos autorais da obra-fonte nem concede licença
+de redistribuição independente da publicação **Meios de contraste: conceitos e
+diretrizes (versão pocket)**. O corpus convertido em
+`docs/meios_de_contraste/` deve ser usado respeitando a titularidade e as
+condições da publicação original.
+
 ## Público-alvo e nomenclatura
 
 A linguagem do app e dos documentos operacionais deve funcionar para técnico de

@@ -42,6 +42,7 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 │   ├── CONTRACTS.md
 │   ├── OPERATIONS.md
 │   ├── DECISIONS.md
+│   ├── APP_REVIEW.md
 │   ├── meios_de_contraste/
 │   └── identidade_visual/
 ├── scripts/

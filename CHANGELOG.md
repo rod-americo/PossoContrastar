@@ -46,3 +46,5 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 - Trata a área à esquerda do título como slot retangular de branding
   institucional configurável, sem placeholder por padrão.
 - Adiciona kit visual Cobalto e expõe o adaptador correspondente na v1.
+- Documenta avaliação do app, critérios de publicação opinativa e backlog de
+  rodadas de codificação.

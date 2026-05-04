@@ -65,6 +65,8 @@ radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
   RAG restrita ao corpus local e adaptadores visuais.
 - Metadado estruturado da obra-fonte em
   `docs/meios_de_contraste/source.json`, consumido pelo app e pela API local.
+- Avaliação e backlog do app em `docs/APP_REVIEW.md`, orientados para rodadas
+  futuras de codificação e validação.
 
 ## O que este repositório NÃO é
 

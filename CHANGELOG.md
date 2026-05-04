@@ -27,3 +27,4 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
 - Remove paineis laterais de status, guardrail e corpus para reduzir ruido na
   tela principal.
 - Padroniza os adaptadores visuais como Noturno, Botânico e Lilás.
+- Atualiza o nome visivel do produto para `Posso Contrastar?`.

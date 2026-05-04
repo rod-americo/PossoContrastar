@@ -183,6 +183,11 @@ textarea {
   display: none;
 }
 
+.nav-tab[hidden],
+.view[hidden] {
+  display: none;
+}
+
 .theme-picker span,
 label span {
   color: var(--muted);

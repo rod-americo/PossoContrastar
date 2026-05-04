@@ -300,6 +300,7 @@ function setView(viewId) {
 
 function applyAppConfig(config) {
   const theme = config?.theme || {};
+  const qa = config?.qa || {};
   const available = new Set(theme.available_themes || ["whitelabel", "noturno", "botanico", "lilas"]);
   const defaultTheme = available.has(theme.default_theme) ? theme.default_theme : "whitelabel";
   const picker = $("#theme-picker");
@@ -316,6 +317,14 @@ function applyAppConfig(config) {
   }
   if (picker) {
     picker.hidden = theme.show_theme_picker === false;
+  }
+  const qaEnabled = qa.enabled !== false;
+  const qaTab = document.querySelector('[data-view="qa"]');
+  const qaView = $("#qa");
+  if (qaTab) qaTab.hidden = !qaEnabled;
+  if (qaView) qaView.hidden = !qaEnabled;
+  if (!qaEnabled && qaView?.classList.contains("active")) {
+    setView("decision");
   }
 }
 
@@ -450,6 +459,7 @@ async function search() {
 }
 
 function bindQa() {
+  if (state.config?.qa?.enabled === false) return;
   $("#qa-button").addEventListener("click", async () => {
     const question = $("#qa-question").value.trim();
     if (!question) return;

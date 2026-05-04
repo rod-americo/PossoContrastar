@@ -41,3 +41,5 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 - Remove o botão de preenchimento de exemplo do fluxo de decisão.
 - Adiciona configuração versionada para tema padrão e exibição do seletor de
   adaptador visual.
+- Move Perguntas e Respostas para configuração versionada, com liga/desliga,
+  conector e modelo.

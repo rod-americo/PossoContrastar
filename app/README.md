@@ -23,15 +23,16 @@ Abrir:
 http://127.0.0.1:8765
 ```
 
-Configuração opcional do servidor e do Ollama:
+Configuração opcional do servidor e do conector de Perguntas e Respostas:
 
 ```bash
-APP_HOST=127.0.0.1 APP_PORT=8765 OLLAMA_MODEL=gemma4:e4b python3 app/server.py
+APP_HOST=127.0.0.1 APP_PORT=8765 APP_QA_MODEL=gemma4:e4b python3 app/server.py
 ```
 
-O modelo padrão da v1 é `gemma4:e4b`. Use `OLLAMA_MODEL=<modelo>` para trocar.
-`OLLAMA_KEEP_ALIVE` e `OLLAMA_NUM_PREDICT` controlam aquecimento e tamanho das
-respostas de Perguntas e Respostas.
+O modelo padrão da v1 é `gemma4:e4b`, definido em `app/data/app_config.json`.
+Use `APP_QA_MODEL=<modelo>` para trocar em runtime. `OLLAMA_MODEL` continua
+aceito por compatibilidade. `APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT`
+controlam aquecimento e tamanho das respostas de Perguntas e Respostas.
 
 ## Estrutura
 
@@ -51,6 +52,8 @@ app/
 ## Contratos de segurança
 
 - Regras críticas são determinísticas e ficam em `app/data/rules.json`.
+- Perguntas e Respostas só aparece e responde quando `qa.enabled` está ativo em
+  `app/data/app_config.json`.
 - Perguntas e Respostas recupera trechos apenas de `docs/meios_de_contraste`.
 - A Biblioteca renderiza Markdown local em HTML legível, incluindo tabelas com
   rolagem horizontal dentro do painel.
@@ -115,13 +118,19 @@ Os kits completos vivem em `docs/identidade_visual/<slug>/` e podem ser
 conectados depois por build/theme loader sem mexer no motor de regras.
 
 O adaptador padrão e a visibilidade do seletor no canto superior direito são
-definidos em `app/data/app_config.json`:
+definidos em `app/data/app_config.json`, junto com o módulo de Perguntas e
+Respostas:
 
 ```json
 {
   "theme": {
     "default_theme": "whitelabel",
     "show_theme_picker": true
+  },
+  "qa": {
+    "enabled": true,
+    "connector": "ollama",
+    "model": "gemma4:e4b"
   }
 }
 ```
@@ -130,3 +139,9 @@ Use `show_theme_picker: false` para ocultar o seletor na interface e
 `default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico` ou
 `lilas`. Em execução local, `APP_THEME` e `APP_SHOW_THEME_PICKER` podem
 sobrescrever esses valores sem editar o arquivo versionado.
+
+Use `qa.enabled: false` para remover Perguntas e Respostas da navegação e
+bloquear `/api/qa`. Use `qa.connector` para escolher o conector; a v1 suporta
+`ollama`. Use `qa.model` para fixar o modelo. Em runtime, `APP_QA_ENABLED`,
+`APP_QA_CONNECTOR`, `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`,
+`APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT` podem sobrescrever a config.

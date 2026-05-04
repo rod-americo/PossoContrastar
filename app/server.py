@@ -24,13 +24,10 @@ DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
 APP_CONFIG_PATH = DATA_DIR / "app_config.json"
 SOURCE_PATH = DOCS_DIR / "source.json"
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
-OLLAMA_KEEP_ALIVE = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
-OLLAMA_NUM_PREDICT = int(os.environ.get("OLLAMA_NUM_PREDICT", "384"))
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
 SUPPORTED_THEMES = {"whitelabel", "noturno", "botanico", "lilas"}
+SUPPORTED_QA_CONNECTORS = {"ollama"}
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -48,9 +45,18 @@ def parse_bool_env(value: str | None) -> bool | None:
     return None
 
 
+def parse_int(value: Any, default: int) -> int:
+    try:
+        return int(str(value))
+    except (TypeError, ValueError):
+        return default
+
+
 def app_config() -> dict[str, Any]:
     config = read_json(APP_CONFIG_PATH)
     theme = dict(config.get("theme") or {})
+    qa = dict(config.get("qa") or {})
+
     default_theme = str(os.environ.get("APP_THEME") or theme.get("default_theme") or "whitelabel")
     if default_theme not in SUPPORTED_THEMES:
         default_theme = "whitelabel"
@@ -70,12 +76,58 @@ def app_config() -> dict[str, Any]:
     ]
     if default_theme not in available:
         available.insert(0, default_theme)
+
+    qa_enabled = parse_bool_env(os.environ.get("APP_QA_ENABLED"))
+    if qa_enabled is None:
+        configured_qa_enabled = qa.get("enabled", True)
+        if isinstance(configured_qa_enabled, bool):
+            qa_enabled = configured_qa_enabled
+        else:
+            qa_enabled = parse_bool_env(str(configured_qa_enabled))
+        if qa_enabled is None:
+            qa_enabled = True
+    qa_connector = str(os.environ.get("APP_QA_CONNECTOR") or qa.get("connector") or "ollama").strip().lower()
+    if qa_connector not in SUPPORTED_QA_CONNECTORS:
+        qa_connector = "ollama"
+    qa_model = str(
+        os.environ.get("APP_QA_MODEL")
+        or os.environ.get("OLLAMA_MODEL")
+        or qa.get("model")
+        or "gemma4:e4b"
+    ).strip()
+    ollama_url = str(
+        os.environ.get("APP_QA_OLLAMA_URL")
+        or os.environ.get("OLLAMA_URL")
+        or qa.get("ollama_url")
+        or "http://localhost:11434"
+    ).strip()
+    keep_alive = str(
+        os.environ.get("APP_QA_KEEP_ALIVE")
+        or os.environ.get("OLLAMA_KEEP_ALIVE")
+        or qa.get("keep_alive")
+        or "10m"
+    ).strip()
+    num_predict = parse_int(
+        os.environ.get("APP_QA_NUM_PREDICT")
+        or os.environ.get("OLLAMA_NUM_PREDICT")
+        or qa.get("num_predict"),
+        384,
+    )
+
     return {
         "theme": {
             "default_theme": default_theme,
             "show_theme_picker": show_picker,
             "available_themes": available,
-        }
+        },
+        "qa": {
+            "enabled": qa_enabled,
+            "connector": qa_connector,
+            "model": qa_model,
+            "ollama_url": ollama_url,
+            "keep_alive": keep_alive,
+            "num_predict": num_predict,
+        },
     }
 
 
@@ -575,7 +627,7 @@ def extravasation_support(payload: dict[str, Any]) -> dict[str, Any]:
     return {"level": level, "actions": actions, "follow_up": rules["follow_up"], "source": rules["source"]}
 
 
-def ask_ollama(question: str, chunks: list[dict[str, Any]]) -> dict[str, Any]:
+def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
     context = "\n\n".join(
         f"[{index + 1}] {chunk['title']} ({chunk['file']})\n{chunk['text']}"
         for index, chunk in enumerate(chunks)
@@ -595,15 +647,15 @@ PERGUNTA:
 RESPOSTA:"""
     body = json.dumps(
         {
-            "model": OLLAMA_MODEL,
+            "model": qa["model"],
             "prompt": prompt,
             "stream": False,
-            "keep_alive": OLLAMA_KEEP_ALIVE,
-            "options": {"temperature": 0.1, "num_predict": OLLAMA_NUM_PREDICT},
+            "keep_alive": qa["keep_alive"],
+            "options": {"temperature": 0.1, "num_predict": qa["num_predict"]},
         }
     ).encode("utf-8")
     request = urllib.request.Request(
-        f"{OLLAMA_URL.rstrip('/')}/api/generate",
+        f"{qa['ollama_url'].rstrip('/')}/api/generate",
         data=body,
         headers={"Content-Type": "application/json"},
         method="POST",
@@ -611,11 +663,11 @@ RESPOSTA:"""
     try:
         with urllib.request.urlopen(request, timeout=45) as response:
             raw = json.loads(response.read().decode("utf-8"))
-            return {"answer": raw.get("response", "").strip(), "model": OLLAMA_MODEL, "available": True}
+            return {"answer": raw.get("response", "").strip(), "model": qa["model"], "connector": qa["connector"], "available": True}
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         fallback = "Ollama indisponível ou sem modelo configurado. Trechos locais mais relevantes:\n\n"
         fallback += "\n\n".join(f"- {chunk['title']} ({chunk['file']}): {chunk['snippet']}" for chunk in chunks[:3])
-        return {"answer": fallback, "model": OLLAMA_MODEL, "available": False, "error": str(exc)}
+        return {"answer": fallback, "model": qa["model"], "connector": qa["connector"], "available": False, "error": str(exc)}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -642,12 +694,15 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = self.path.split("?", 1)[0]
         if path == "/api/health":
+            qa = app_config()["qa"]
             self.send_json(
                 {
                     "ok": True,
-                    "ollama_model": OLLAMA_MODEL,
-                    "ollama_keep_alive": OLLAMA_KEEP_ALIVE,
-                    "ollama_num_predict": OLLAMA_NUM_PREDICT,
+                    "qa_enabled": qa["enabled"],
+                    "qa_connector": qa["connector"],
+                    "qa_model": qa["model"],
+                    "qa_keep_alive": qa["keep_alive"],
+                    "qa_num_predict": qa["num_predict"],
                     "corpus": str(DOCS_DIR.relative_to(ROOT)),
                 }
             )
@@ -687,9 +742,16 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path == "/api/extravasation":
                 self.send_json(extravasation_support(payload))
             elif self.path == "/api/qa":
+                qa = app_config()["qa"]
+                if not qa["enabled"]:
+                    self.send_json({"error": "Perguntas e Respostas desativado em app_config.json."}, status=403)
+                    return
+                if qa["connector"] != "ollama":
+                    self.send_json({"error": f"Conector de Perguntas e Respostas não suportado: {qa['connector']}"}, status=400)
+                    return
                 question = str(payload.get("question", "")).strip()
                 chunks = focus_retrieved_chunks(retrieve(question, limit=6))
-                self.send_json({"question": question, "citations": chunks, **ask_ollama(question, chunks)})
+                self.send_json({"question": question, "citations": chunks, **ask_ollama(question, chunks, qa)})
             else:
                 self.send_json({"error": "endpoint not found"}, status=404)
         except json.JSONDecodeError:
@@ -723,8 +785,9 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=int(os.environ.get("APP_PORT", "8765")))
     args = parser.parse_args()
     server = ThreadingHTTPServer((args.host, args.port), Handler)
+    qa = app_config()["qa"]
     print(f"Serving app on http://{args.host}:{args.port}")
-    print(f"Ollama endpoint: {OLLAMA_URL} model={OLLAMA_MODEL}")
+    print(f"Q&A: enabled={qa['enabled']} connector={qa['connector']} model={qa['model']}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -49,7 +49,9 @@ OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 - variáveis de ambiente críticas: nenhuma obrigatória
 - variáveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
   `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`, `APP_THEME`,
-  `APP_SHOW_THEME_PICKER`
+  `APP_SHOW_THEME_PICKER`, `APP_QA_ENABLED`, `APP_QA_CONNECTOR`,
+  `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`, `APP_QA_KEEP_ALIVE`,
+  `APP_QA_NUM_PREDICT`
 - path de runtime state: nenhum
 - path de logs: nenhum
 

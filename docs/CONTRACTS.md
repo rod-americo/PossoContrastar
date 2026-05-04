@@ -17,7 +17,6 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Proposta dinamica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | nao | Planejamento, nao implementacao |
 | Configuracao do doctor | `config/doctor.json` | JSON | sim | Politica versionada de warnings e aliases |
 | Regras estruturadas | `app/data/rules.json` | JSON | sim para app | Regras deterministicas citadas por fonte local |
-| Templates de guidelines | `app/data/guideline_templates.json` | JSON | sim para app | Estrutura de rascunhos institucionais |
 
 ## 3. Saidas canonicas
 
@@ -30,7 +29,6 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Propostas futuras | Markdown | Texto estruturado | Planejamento rastreavel | Nao e runtime assistencial |
 | App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Nao e protocolo aprovado |
 | Q&A local | Navegador local | Resposta textual citada | Restrito ao corpus local | Usa Ollama opcional; fallback com trechos |
-| Rascunho de guideline | App local | Markdown | Template editavel | Exige aprovacao institucional |
 
 ## 4. Invariantes
 

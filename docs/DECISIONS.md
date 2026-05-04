@@ -41,10 +41,21 @@
   whitelabel com adaptadores e trilha para protocolo aprovado.
 - decisao: Criar app local em Python sem dependencias externas obrigatorias,
   frontend estatico, regras deterministicas em JSON, Q&A RAG restrita ao corpus
-  local e gerador de rascunhos de guidelines em Markdown.
+  local, biblioteca, busca e calculadoras.
 - impacto: O repositorio deixa de ser apenas acervo documental e passa a ter
   runtime local de apoio à decisão.
 - tradeoff: A v1 evita banco, autenticacao e deploy para manter refatoracao
   posterior simples, mas ainda nao cobre auditoria clinica formal.
 - alternativas rejeitadas: App puramente estatico sem backend, LLM livre sem
   corpus local, acoplamento direto aos kits visuais e persistencia de dados.
+
+## 5. Retirar construtor de guidelines da v1
+
+- contexto: O construtor de guidelines ficava proximo demais de geracao de
+  protocolo institucional, enquanto a v1 deve ser ferramenta de apoio à decisao
+  e consulta explicavel.
+- decisao: Remover a secao Guidelines, seus templates e endpoints do app local.
+- impacto: A interface fica mais enxuta e reduz o risco de interpretar a v1
+  como geradora de protocolo aprovado.
+- tradeoff: Rascunhos institucionais ficam fora do runtime; quando necessarios,
+  devem nascer em fluxo proprio de governanca e aprovacao.

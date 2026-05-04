@@ -22,7 +22,6 @@ STATIC_DIR = APP_DIR / "static"
 DATA_DIR = APP_DIR / "data"
 DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
-GUIDELINE_TEMPLATES_PATH = DATA_DIR / "guideline_templates.json"
 SOURCE_PATH = DOCS_DIR / "source.json"
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
@@ -531,47 +530,6 @@ def extravasation_support(payload: dict[str, Any]) -> dict[str, Any]:
     return {"level": level, "actions": actions, "follow_up": rules["follow_up"], "source": rules["source"]}
 
 
-def guideline_generate(payload: dict[str, Any]) -> dict[str, Any]:
-    config = read_json(GUIDELINE_TEMPLATES_PATH)
-    source = source_metadata()
-    selected = set(payload.get("template_ids") or [])
-    posture = payload.get("posture", "balanceada")
-    institution = payload.get("institution", "Instituição")
-    templates = [item for item in config["templates"] if not selected or item["id"] in selected]
-    editors = "; ".join(source["editors"])
-    source_label = f"{source['work_title']}: {source['subtitle']} ({source['version']})"
-    publication = f"{source['publisher']}, {source['publication_date']}"
-    lines = [
-        f"# Guidelines institucionais: meios de contraste",
-        "",
-        f"**Instituição:** {institution}",
-        f"**Postura operacional:** {posture}",
-        "**Status:** rascunho de apoio à decisão; requer revisão e aprovação institucional.",
-        f"**Fonte bibliográfica:** {source_label}; editores: {editors}; {publication}.",
-        "",
-        "## Governança",
-        "",
-        "- Responsável técnico: a definir.",
-        "- Revisores: Radiologia, Enfermagem, Qualidade, Farmácia e áreas clínicas envolvidas.",
-        f"- Corpus operacional: `{source['corpus_path']}/`.",
-        f"- Nota de fonte: {source['repository_note']}",
-        "- Uso: apoio à decisão, não substitui julgamento clínico.",
-        "",
-    ]
-    for template in templates:
-        lines.extend([f"## {template['title']}", ""])
-        for section in template["sections"]:
-            if section == "Fontes locais":
-                lines.append("### Fontes locais")
-                for source in template["sources"]:
-                    lines.append(f"- `{source}`")
-                lines.append("")
-            else:
-                lines.extend([f"### {section}", "", "- Definir texto institucional a partir das regras e citações locais.", ""])
-    markdown = "\n".join(lines).strip() + "\n"
-    return {"markdown": markdown, "templates": templates, "version": config["version"]}
-
-
 def ask_ollama(question: str, chunks: list[dict[str, Any]]) -> dict[str, Any]:
     context = "\n\n".join(
         f"[{index + 1}] {chunk['title']} ({chunk['file']})\n{chunk['text']}"
@@ -616,7 +574,7 @@ RESPOSTA:"""
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "ContrastGuidelines/0.1"
+    server_version = "PossoContrastar/0.1"
 
     def log_message(self, format: str, *args: Any) -> None:
         sys.stderr.write("%s - - [%s] %s\n" % (self.client_address[0], self.log_date_time_string(), format % args))
@@ -654,8 +612,6 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(source_metadata())
         elif path == "/api/rules":
             self.send_json(read_json(RULES_PATH))
-        elif path == "/api/guideline-templates":
-            self.send_json(read_json(GUIDELINE_TEMPLATES_PATH))
         elif path == "/api/search":
             query = ""
             if "?" in self.path:
@@ -663,6 +619,8 @@ class Handler(BaseHTTPRequestHandler):
 
                 query = parse_qs(urlparse(self.path).query).get("q", [""])[0]
             self.send_json({"query": query, "results": retrieve(query, limit=10)})
+        elif path.startswith("/api/"):
+            self.send_json({"error": "endpoint not found"}, status=404)
         else:
             self.serve_static(path)
 
@@ -681,8 +639,6 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(pediatric_calculator(payload))
             elif self.path == "/api/extravasation":
                 self.send_json(extravasation_support(payload))
-            elif self.path == "/api/guidelines/generate":
-                self.send_json(guideline_generate(payload))
             elif self.path == "/api/qa":
                 question = str(payload.get("question", "")).strip()
                 chunks = focus_retrieved_chunks(retrieve(question, limit=6))
@@ -715,7 +671,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Contrast guidelines local app")
+    parser = argparse.ArgumentParser(description="Posso Contrastar local app")
     parser.add_argument("--host", default=os.environ.get("APP_HOST", "127.0.0.1"))
     parser.add_argument("--port", type=int, default=int(os.environ.get("APP_PORT", "8765")))
     args = parser.parse_args()

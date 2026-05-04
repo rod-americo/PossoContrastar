@@ -40,7 +40,6 @@ app/
 ├── README.md
 ├── server.py
 ├── data/
-│   ├── guideline_templates.json
 │   └── rules.json
 └── static/
     ├── app.js

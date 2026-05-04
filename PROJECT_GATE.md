@@ -12,8 +12,8 @@ fronteiras impedem crescimento indefinido.
   enfermagem, tecnicos de imagem e autores que mantem materiais clinicos e
   operacionais derivados.
 - resultado esperado: Um acervo governado e uma aplicacao local de apoio à
-  decisão, capazes de apoiar consulta, treinamento, prototipagem e rascunhos de
-  guidelines sem confundir a v1 com protocolo institucional aprovado.
+  decisão, capazes de apoiar consulta, treinamento e prototipagem sem confundir
+  a v1 com protocolo institucional aprovado.
 
 ## 2. Por que isto NAO deveria ser um modulo?
 

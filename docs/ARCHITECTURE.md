@@ -64,7 +64,7 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 3. Mudancas passam por leitura dos documentos estruturais, revisao de diff e
    validacao com `python3 scripts/project_doctor.py`.
 4. O app local em `app/` consome o corpus e os contratos estruturados para
-   apresentar regras, calculadoras, Q&A e rascunhos de guidelines.
+   apresentar regras, calculadoras, biblioteca, busca e Q&A local.
 5. Qualquer uso assistencial exige validacao clinica e aprovacao institucional
    fora da v1.
 

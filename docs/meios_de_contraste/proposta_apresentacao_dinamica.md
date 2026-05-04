@@ -286,9 +286,10 @@ Regras de implementação:
 - Temperatura baixa, saída curta, sem “criatividade”.
 - Logar pergunta, chunks recuperados, resposta e versão do corpus.
 
-### 13. Construtor de guidelines institucionais
+### 13. Protocolização institucional futura
 
-Um módulo para transformar o guia em políticas locais versionadas.
+Esta frente deve ficar fora da v1 do app. Transformar o guia em política local
+versionada exige governança própria, responsáveis técnicos e aprovação formal.
 
 Saídas possíveis:
 
@@ -302,7 +303,7 @@ Saídas possíveis:
 - **Protocolo de condições especiais**: gestação, lactação, tireoide, mieloma, miastenia, anemia falciforme, medicamentos.
 - **Política de IA/RAG para diretrizes**: escopo, limites, revisão humana, versionamento, auditoria e atualização.
 
-O construtor deve permitir:
+Um fluxo futuro, separado do runtime de apoio à decisão, poderia permitir:
 
 - Escolher postura institucional: conservadora, balanceada ou permissiva dentro do texto.
 - Definir responsáveis: radiologia, enfermagem, qualidade, farmácia, alergologia, nefrologia.
@@ -376,9 +377,9 @@ Recomendação: construir a ferramenta profissional em `noturno` e gerar página
 - Abstenção quando faltar dado.
 - Avaliação com perguntas sintéticas.
 
-### Fase 5: Guidelines institucionais
+### Fase 5: Protocolização institucional futura
 
-- Construtor de protocolos.
+- Fluxo separado para protocolos.
 - Aprovação/versionamento.
 - Exportação para PDF/cartão.
 - Indicadores de uso, divergência e atualização.

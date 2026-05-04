@@ -432,8 +432,7 @@ output .result-card + .result-card {
   gap: 10px;
 }
 
-.chapter-grid,
-.option-grid {
+.chapter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
@@ -456,22 +455,6 @@ output .result-card + .result-card {
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
-}
-
-.markdown-output {
-  display: grid;
-  gap: 10px;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.section-head h2 {
-  margin: 0;
 }
 
 @media (max-width: 1120px) {

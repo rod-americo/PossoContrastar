@@ -1,6 +1,5 @@
 const state = {
   rules: null,
-  templates: [],
   chapters: [],
 };
 
@@ -170,7 +169,6 @@ async function init() {
   });
 
   state.rules = await api("/api/rules");
-  state.templates = (await api("/api/guideline-templates")).templates;
   state.chapters = (await api("/api/chapters")).chapters;
 
   bindDecision();
@@ -178,7 +176,6 @@ async function init() {
   bindCalculators();
   bindLibrary();
   bindQa();
-  bindGuidelines();
 }
 
 function bindDecision() {
@@ -300,27 +297,6 @@ function bindQa() {
       </article>
       ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.snippet, source: item.file})).join("")}
     `;
-  });
-}
-
-function bindGuidelines() {
-  $("#guideline-options").innerHTML = state.templates.map((template) => `
-    <label class="check">
-      <input name="template_ids" type="checkbox" value="${escapeHtml(template.id)}" checked>
-      ${escapeHtml(template.title)}
-    </label>
-  `).join("");
-
-  $("#guidelines-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const payload = formPayload(event.currentTarget);
-    payload.template_ids = [...event.currentTarget.querySelectorAll('input[name="template_ids"]:checked')].map((input) => input.value);
-    const result = await api("/api/guidelines/generate", {method: "POST", body: JSON.stringify(payload)});
-    $("#guideline-output").value = result.markdown;
-  });
-
-  $("#copy-guideline").addEventListener("click", async () => {
-    await navigator.clipboard.writeText($("#guideline-output").value);
   });
 }
 

@@ -40,8 +40,7 @@ apoio à decisão.
 - Aplicacao local whitelabel de apoio à decisão, com regras deterministicas,
   RAG restrita ao corpus local e adaptadores visuais.
 - Metadado estruturado da obra-fonte em
-  `docs/meios_de_contraste/source.json`, consumido pelo app e por rascunhos de
-  guidelines.
+  `docs/meios_de_contraste/source.json`, consumido pelo app e pela API local.
 
 ## O que este repositorio NAO e
 

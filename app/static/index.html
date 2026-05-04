@@ -23,7 +23,6 @@
           <button class="nav-tab" data-view="calculators" type="button">Calculadoras</button>
           <button class="nav-tab" data-view="library" type="button">Biblioteca</button>
           <button class="nav-tab" data-view="qa" type="button">Q&A local</button>
-          <button class="nav-tab" data-view="guidelines" type="button">Guidelines</button>
         </nav>
         <label class="theme-picker">
           <span>Adaptador</span>
@@ -232,29 +231,6 @@
           <section id="qa-result" class="result-stack"></section>
         </section>
 
-        <section id="guidelines" class="view">
-          <div class="page-head">
-            <div>
-              <h1>Construtor de guidelines</h1>
-              <p>Gera rascunhos em Markdown com fontes locais e trilha para aprovação institucional.</p>
-            </div>
-          </div>
-          <form id="guidelines-form" class="panel">
-            <div class="form-grid">
-              <label><span>Instituição</span><input name="institution" value="Instituição"></label>
-              <label><span>Postura</span><select name="posture"><option>balanceada</option><option>conservadora</option><option>permissiva dentro do texto</option></select></label>
-            </div>
-            <div id="guideline-options" class="option-grid"></div>
-            <button class="button" type="submit">Gerar Markdown</button>
-          </form>
-          <section class="panel markdown-output">
-            <div class="section-head">
-              <h2>Rascunho</h2>
-              <button id="copy-guideline" class="button secondary" type="button">Copiar</button>
-            </div>
-            <textarea id="guideline-output" rows="24" readonly></textarea>
-          </section>
-        </section>
       </main>
     </div>
 

@@ -325,7 +325,7 @@ function applyAppConfig(config) {
       brandMark.textContent = branding.mark_text;
     }
   }
-  const available = new Set(theme.available_themes || ["whitelabel", "noturno", "botanico", "lilas"]);
+  const available = new Set(theme.available_themes || ["whitelabel", "noturno", "botanico", "cobalto", "lilas"]);
   const defaultTheme = available.has(theme.default_theme) ? theme.default_theme : "whitelabel";
   const picker = $("#theme-picker");
   const select = $("#theme-select");

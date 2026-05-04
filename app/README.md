@@ -112,6 +112,7 @@ adaptadores:
 - `whitelabel`
 - `noturno`
 - `botanico`
+- `cobalto`
 - `lilas`
 
 Os kits completos vivem em `docs/identidade_visual/<slug>/` e podem ser
@@ -150,8 +151,8 @@ ou `mark_text` para uma sigla temporária centralizada. Em runtime,
 `APP_BRAND_MARK_TEXT` e `APP_BRAND_LOGO_SRC` podem sobrescrever esses valores.
 
 Use `show_theme_picker: false` para ocultar o seletor na interface e
-`default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico` ou
-`lilas`. Em execução local, `APP_THEME` e `APP_SHOW_THEME_PICKER` podem
+`default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico`,
+`cobalto` ou `lilas`. Em execução local, `APP_THEME` e `APP_SHOW_THEME_PICKER` podem
 sobrescrever esses valores sem editar o arquivo versionado.
 
 Use `qa.enabled: false` para remover Perguntas e Respostas da navegação e

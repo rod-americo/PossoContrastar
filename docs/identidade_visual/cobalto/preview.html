@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="cobalto">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preview Cobalto</title>
+    <link rel="stylesheet" href="./cobalto.css">
+    <style>
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: "Gotham", "Roboto", Arial, Helvetica, sans-serif; }
+      main { max-width: 860px; margin: 48px auto; padding: 24px; }
+      .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 16px 40px #0028551a; overflow: hidden; }
+      .hero { border-left: 8px solid var(--primary); padding: 24px; }
+      h1 { color: var(--title); margin: 0 0 8px; }
+      p { margin: 0 0 18px; max-width: 60ch; }
+      .toolbar { display: flex; flex-wrap: wrap; gap: 10px; }
+      button { background: var(--primary); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; }
+      .secondary { background: var(--surface-soft); color: var(--primary-dark); }
+      .danger { background: var(--danger); }
+      .swatches { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .swatches span { min-height: 54px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <div class="hero">
+          <h1>Cobalto</h1>
+          <p>Kit claro com azul profundo, ciano de apoio e acentos quentes para navegação, serviço e alertas assistenciais.</p>
+          <div class="toolbar">
+            <button type="button">Ação principal</button>
+            <button class="secondary" type="button">Apoio</button>
+            <button class="danger" type="button">Alerta</button>
+          </div>
+        </div>
+        <div class="swatches" aria-label="Amostras de cor">
+          <span style="background:#002855"></span>
+          <span style="background:#003da5"></span>
+          <span style="background:#71c5e8"></span>
+          <span style="background:#ff8200"></span>
+          <span style="background:#c43b51"></span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

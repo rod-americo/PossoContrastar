@@ -10,7 +10,8 @@ tokens básicos e um preview simples.
 | --- | --- | --- |
 | `noturno` | Noturno | Interfaces densas, operacionais e de baixa luminosidade |
 | `botanico` | Botânico | Painel claro com verde institucional neutro |
-| `lilás` | Lilás | Experiencias educativas, publicas ou de leitura leve |
+| `lilas` | Lilás | Experiências educativas, públicas ou de leitura leve |
+| `cobalto` | Cobalto | Interfaces assistenciais claras, portais de serviço e dashboards operacionais |
 
 ## Contrato
 

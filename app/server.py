@@ -26,7 +26,7 @@ APP_CONFIG_PATH = DATA_DIR / "app_config.json"
 SOURCE_PATH = DOCS_DIR / "source.json"
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
-SUPPORTED_THEMES = {"whitelabel", "noturno", "botanico", "lilas"}
+SUPPORTED_THEMES = {"whitelabel", "noturno", "botanico", "cobalto", "lilas"}
 SUPPORTED_QA_CONNECTORS = {"ollama"}
 
 

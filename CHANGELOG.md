@@ -45,3 +45,4 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
   conector e modelo.
 - Trata a área à esquerda do título como slot retangular de branding
   institucional configurável, sem placeholder por padrão.
+- Adiciona kit visual Cobalto e expõe o adaptador correspondente na v1.

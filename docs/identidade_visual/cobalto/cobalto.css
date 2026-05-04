@@ -1,0 +1,18 @@
+:root,
+[data-theme="cobalto"] {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-soft: #d7f3ff;
+  --line: #d4d4d4;
+  --text: #4a4a4a;
+  --muted: #737680;
+  --title: #002855;
+  --primary: #003da5;
+  --primary-dark: #002855;
+  --primary-soft: #71c5e8;
+  --info: #448ecd;
+  --success: #8aa15c;
+  --warning: #ff8200;
+  --danger: #c43b51;
+  --accent: #cca074;
+}

@@ -32,3 +32,6 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
 - Remove a secao Guidelines da UI e do backend para manter a v1 focada em apoio
   à decisão.
 - Renomeia o modulo local de perguntas para Perguntas e Respostas.
+- Renderiza Markdown na Biblioteca, nos resultados de busca e nas fontes de
+  Perguntas e Respostas.
+- Exclui o README do corpus da lista de capitulos e da recuperacao clinica.

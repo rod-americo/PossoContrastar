@@ -51,6 +51,8 @@ app/
 
 - Regras críticas são determinísticas e ficam em `app/data/rules.json`.
 - Perguntas e Respostas recupera trechos apenas de `docs/meios_de_contraste`.
+- A Biblioteca renderiza Markdown local em HTML legível, incluindo tabelas com
+  rolagem horizontal dentro do painel.
 - Capítulos e chunks de RAG ficam em cache de memória até reiniciar o servidor.
 - A referência bibliográfica da obra-fonte vem de
   `docs/meios_de_contraste/source.json`.

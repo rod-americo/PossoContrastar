@@ -40,7 +40,8 @@ def source_metadata() -> dict[str, Any]:
 
 
 def markdown_files() -> list[Path]:
-    return sorted(path for path in DOCS_DIR.glob("*.md") if path.name != "proposta_apresentacao_dinamica.md")
+    excluded = {"README.md", "proposta_apresentacao_dinamica.md"}
+    return sorted(path for path in DOCS_DIR.glob("*.md") if path.name not in excluded)
 
 
 def chapter_title(text: str, fallback: str) -> str:

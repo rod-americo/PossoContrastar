@@ -26,10 +26,14 @@ async function api(path, options = {}) {
 }
 
 function card(item) {
+  const rawBody = item.message || item.snippet || item.text || "";
+  const body = item.markdown
+    ? `<div class="markdown-body">${markdownToHtml(rawBody)}</div>`
+    : `<p>${escapeHtml(rawBody)}</p>`;
   return `
     <article class="result-card ${item.level || "ok"}">
       <h3>${escapeHtml(item.title || item.file || "Resultado")}</h3>
-      <p>${escapeHtml(item.message || item.snippet || "")}</p>
+      ${body}
       ${item.source ? `<span class="source">${escapeHtml(item.source)}</span>` : ""}
     </article>
   `;
@@ -47,6 +51,137 @@ function pretty(value) {
   return JSON.stringify(value, null, 2)
     .replace(/[{}"]/g, "")
     .replace(/,\n/g, "\n");
+}
+
+function inlineMarkdown(value) {
+  const escapedAsterisk = "__ESCAPED_ASTERISK__";
+  const normalized = String(value ?? "")
+    .replace(/\\\*/g, escapedAsterisk)
+    .replace(/\\([`_])/g, "$1");
+  return escapeHtml(normalized)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replaceAll(escapedAsterisk, "*");
+}
+
+function tableCells(line) {
+  return line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function isTableSeparator(line) {
+  return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+}
+
+function renderTable(lines, start) {
+  const header = tableCells(lines[start]);
+  const rows = [];
+  let index = start + 2;
+  while (index < lines.length && lines[index].includes("|") && lines[index].trim()) {
+    rows.push(tableCells(lines[index]));
+    index += 1;
+  }
+  const head = header.map((cell) => `<th>${inlineMarkdown(cell)}</th>`).join("");
+  const body = rows
+    .map((row) => `<tr>${row.map((cell) => `<td>${inlineMarkdown(cell)}</td>`).join("")}</tr>`)
+    .join("");
+  return {
+    html: `<div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`,
+    next: index,
+  };
+}
+
+function markdownToHtml(markdown) {
+  const lines = String(markdown || "").replace(/\r\n/g, "\n").split("\n");
+  const html = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    const trimmed = line.trim();
+    if (!trimmed) {
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("```")) {
+      const code = [];
+      index += 1;
+      while (index < lines.length && !lines[index].trim().startsWith("```")) {
+        code.push(lines[index]);
+        index += 1;
+      }
+      html.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+      index += 1;
+      continue;
+    }
+
+    const heading = /^(#{1,4})\s+(.+)$/.exec(trimmed);
+    if (heading) {
+      const level = Math.min(heading[1].length + 1, 5);
+      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith(">")) {
+      const quote = [];
+      while (index < lines.length && lines[index].trim().startsWith(">")) {
+        quote.push(lines[index].trim().replace(/^>\s?/, ""));
+        index += 1;
+      }
+      html.push(`<blockquote><p>${inlineMarkdown(quote.join(" "))}</p></blockquote>`);
+      continue;
+    }
+
+    if (index + 1 < lines.length && trimmed.includes("|") && isTableSeparator(lines[index + 1])) {
+      const table = renderTable(lines, index);
+      html.push(table.html);
+      index = table.next;
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(trimmed)) {
+      const items = [];
+      while (index < lines.length && /^[-*]\s+/.test(lines[index].trim())) {
+        items.push(lines[index].trim().replace(/^[-*]\s+/, ""));
+        index += 1;
+      }
+      html.push(`<ul>${items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`);
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const items = [];
+      while (index < lines.length && /^\d+\.\s+/.test(lines[index].trim())) {
+        items.push(lines[index].trim().replace(/^\d+\.\s+/, ""));
+        index += 1;
+      }
+      html.push(`<ol>${items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ol>`);
+      continue;
+    }
+
+    const paragraph = [trimmed];
+    index += 1;
+    while (
+      index < lines.length &&
+      lines[index].trim() &&
+      !/^(#{1,4})\s+/.test(lines[index].trim()) &&
+      !/^[-*]\s+/.test(lines[index].trim()) &&
+      !/^\d+\.\s+/.test(lines[index].trim()) &&
+      !(index + 1 < lines.length && lines[index].includes("|") && isTableSeparator(lines[index + 1]))
+    ) {
+      paragraph.push(lines[index].trim());
+      index += 1;
+    }
+    html.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
+  }
+
+  return html.join("");
 }
 
 function formatDecimal(value, digits = 1) {
@@ -264,13 +399,31 @@ function bindCalculators() {
 
 function bindLibrary() {
   $("#chapter-list").innerHTML = state.chapters.map((chapter) => `
-    <article class="chapter-card">
+    <button class="chapter-card" type="button" data-file="${escapeHtml(chapter.file)}">
       <h3>${escapeHtml(chapter.title)}</h3>
       <ul>
         ${chapter.sections.slice(0, 6).map((section) => `<li>${escapeHtml(section.title)}</li>`).join("")}
       </ul>
-    </article>
+    </button>
   `).join("");
+  $("#chapter-reader").innerHTML = `
+    <div class="markdown-body empty-state">
+      <h2>Escolha um capítulo</h2>
+      <p>Abra um capítulo ou faça uma busca para ler o corpus com Markdown renderizado.</p>
+    </div>
+  `;
+  $$(".chapter-card").forEach((button) => {
+    button.addEventListener("click", () => {
+      const chapter = state.chapters.find((item) => item.file === button.dataset.file);
+      if (!chapter) return;
+      $$(".chapter-card").forEach((item) => item.classList.toggle("active", item === button));
+      $("#chapter-reader").innerHTML = `
+        <div class="reader-source">${escapeHtml(chapter.file)}</div>
+        <div class="markdown-body">${markdownToHtml(chapter.content)}</div>
+      `;
+      $("#chapter-reader").scrollIntoView({behavior: "smooth", block: "start"});
+    });
+  });
 
   $("#search-button").addEventListener("click", search);
   $("#search-input").addEventListener("keydown", (event) => {
@@ -281,7 +434,9 @@ function bindLibrary() {
 async function search() {
   const query = encodeURIComponent($("#search-input").value);
   const data = await api(`/api/search?q=${query}`);
-  $("#search-results").innerHTML = data.results.map(card).join("") || "<p>Nenhum resultado.</p>";
+  $("#search-results").innerHTML = data.results
+    .map((item) => card({title: item.title, message: item.text || item.snippet, source: item.file, markdown: true}))
+    .join("") || "<p>Nenhum resultado.</p>";
 }
 
 function bindQa() {
@@ -295,7 +450,7 @@ function bindQa() {
         <h3>Resposta ${data.available ? `(${escapeHtml(data.model)})` : "(fallback local)"}</h3>
         <p>${escapeHtml(data.answer)}</p>
       </article>
-      ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.snippet, source: item.file})).join("")}
+      ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.text || item.snippet, source: item.file, markdown: true})).join("")}
     `;
   });
 }

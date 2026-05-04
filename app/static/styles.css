@@ -16,7 +16,7 @@
   --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
-html[data-theme="nocturno"] {
+html[data-theme="noturno"] {
   --bg: #0b1221;
   --surface: #111c31;
   --surface-soft: #16243d;

@@ -97,7 +97,7 @@ A v1 é whitelabel. O frontend usa variáveis CSS e `html[data-theme]` para
 adaptadores:
 
 - `whitelabel`
-- `nocturno`
+- `noturno`
 - `botanico`
 - `lilas`
 

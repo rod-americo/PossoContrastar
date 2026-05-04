@@ -339,11 +339,11 @@ Princípios:
 
 Três temas úteis:
 
-- **nocturno** para operação clínica: dark mode, alta densidade, emergência e auditoria.
+- **noturno** para operação clínica: dark mode, alta densidade, emergência e auditoria.
 - **botanico** para dashboards institucionais: verde operacional, KPIs e painéis.
 - **lilas** para material público/educacional: linguagem clara, cards e Q&A para paciente.
 
-Recomendação: construir a ferramenta profissional em `nocturno` e gerar páginas públicas/educacionais em `lilas`.
+Recomendação: construir a ferramenta profissional em `noturno` e gerar páginas públicas/educacionais em `lilas`.
 
 ## MVP sugerido
 

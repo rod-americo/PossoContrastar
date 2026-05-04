@@ -26,3 +26,4 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
 - Estrutura metadados da obra-fonte para app, API e rascunhos de guidelines.
 - Remove paineis laterais de status, guardrail e corpus para reduzir ruido na
   tela principal.
+- Padroniza os adaptadores visuais como Noturno, Botânico e Lilás.

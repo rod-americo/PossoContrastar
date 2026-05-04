@@ -1,4 +1,4 @@
-# Kit cromatico: Botanico
+# Kit cromatico: Botânico
 
 **Slug:** `botanico`
 

@@ -1,4 +1,4 @@
-# Kit cromatico: Lilas
+# Kit cromatico: Lilás
 
 **Slug:** `lilas`
 

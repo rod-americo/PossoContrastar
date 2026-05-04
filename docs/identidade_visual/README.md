@@ -8,9 +8,9 @@ tokens basicos e um preview simples.
 
 | Slug | Nome | Uso sugerido |
 | --- | --- | --- |
-| `nocturno` | Nocturno | Interfaces densas, operacionais e de baixa luminosidade |
-| `botanico` | Botanico | Painel claro com verde institucional neutro |
-| `lilas` | Lilas | Experiencias educativas, publicas ou de leitura leve |
+| `noturno` | Noturno | Interfaces densas, operacionais e de baixa luminosidade |
+| `botanico` | Botânico | Painel claro com verde institucional neutro |
+| `lilas` | Lilás | Experiencias educativas, publicas ou de leitura leve |
 
 ## Contrato
 

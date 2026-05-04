@@ -4,9 +4,9 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 
 ## Unreleased
 
-- Normaliza acentuação, cedilha e nomenclatura operacional para técnico de
-  radiologia, técnico de enfermagem, enfermeiro, R1, R2, R3, R4 e radiologista
-  formado.
+- Normaliza acentuação, cedilha e nomenclatura operacional para técnicos de
+  radiologia, técnicos de enfermagem, tecnólogos, enfermeiros, biomédicos,
+  residentes de radiologia e radiologistas.
 - Adiciona bootstrap estrutural Skidbladnir para governança documental.
 - Registra fronteira, contratos, operação e decisões do acervo.
 - Adiciona scripts locais de gate e project doctor.

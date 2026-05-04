@@ -8,9 +8,10 @@ fronteiras impedem crescimento indefinido.
 - problema real: Centralizar diretrizes sobre meios de contraste em Markdown
   revisável, reduzindo dependência de material fechado para leitura, busca,
   citação e evolução documental.
-- usuário ou operador-alvo: Técnico de radiologia, técnico de enfermagem,
-  enfermeiro, R1, R2, R3, R4, radiologista formado, lideranças assistenciais e
-  autores que mantêm materiais clínicos e operacionais derivados.
+- usuário ou operador-alvo: Técnicos de radiologia, técnicos de enfermagem,
+  tecnólogos, enfermeiros, biomédicos, residentes de radiologia,
+  radiologistas, lideranças assistenciais e autores que mantêm materiais
+  clínicos e operacionais derivados.
 - resultado esperado: Um acervo governado e uma aplicação local de apoio à
   decisão, capazes de apoiar consulta, treinamento e prototipagem sem confundir
   a v1 com protocolo institucional aprovado.

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Transformar o guia em Markdown em uma experiência clínica operacional: rápida para a equipe de sala, confiável para médico residente e radiologista formado na decisão, clara para treinamento e auditável para governança institucional.
+Transformar o guia em Markdown em uma experiência clínica operacional: rápida para a equipe de sala, confiável para residentes de radiologia e radiologistas na decisão, clara para treinamento e auditável para governança institucional.
 
 O material local é especialmente adequado para isso porque contém:
 
@@ -36,9 +36,9 @@ Quatro entradas, sem hero institucional:
 
 ### Perfis de uso
 
-- **Equipe de sala:** técnico de radiologia, técnico de enfermagem e enfermeiro na triagem pré-exame, acesso, jejum, extravasamento e reação aguda.
-- **Médico residente:** R1, R2, R3 e R4 em consulta orientada, documentação, preparo de discussão e aplicação supervisionada dos fluxos.
-- **Radiologista formado:** decisão de risco-benefício, contraste alternativo, risco renal, MCBG, gestação e exceções fora do fluxo.
+- **Equipe de sala:** técnicos de radiologia, técnicos de enfermagem, tecnólogos, enfermeiros e biomédicos na triagem pré-exame, acesso, jejum, extravasamento e reação aguda.
+- **Residentes de radiologia:** R1, R2, R3 e R4 em consulta orientada, documentação, preparo de discussão e aplicação supervisionada dos fluxos.
+- **Radiologistas:** decisão de risco-benefício, contraste alternativo, risco renal, MCBG, gestação e exceções fora do fluxo.
 - **Coordenação:** protocolos institucionais, checklists, indicadores, auditoria.
 - **Paciente/atendimento:** explicações simples sobre jejum, amamentação e preparo, sem decisões complexas.
 

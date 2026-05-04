@@ -42,22 +42,23 @@ condições da publicação original.
 
 ## Público-alvo e nomenclatura
 
-A linguagem do app e dos documentos operacionais deve funcionar para técnico de
-radiologia, técnico de enfermagem, enfermeiro, R1, R2, R3, R4 e radiologista
-formado.
+A linguagem do app e dos documentos operacionais deve funcionar para técnicos
+de radiologia, técnicos de enfermagem, tecnólogos, enfermeiros, biomédicos,
+residentes de radiologia e radiologistas.
 
-Neste repositório, **equipe de sala** significa técnico de radiologia, técnico
-de enfermagem e enfermeiro. **Médico residente** significa R1, R2, R3 ou R4.
-**Radiologista responsável** significa radiologista formado que valida
-exceções, risco-benefício e condutas fora do fluxo.
+Neste repositório, **equipe de sala** significa técnicos de radiologia,
+técnicos de enfermagem, tecnólogos, enfermeiros e biomédicos. **Residentes de
+radiologia** inclui R1, R2, R3 e R4. **Radiologista responsável** significa
+radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
 
 ## O que este repositório é
 
 - Acervo documental em Markdown derivado da publicação **Meios de contraste:
   conceitos e diretrizes**, versão pocket, editada por Bruna Garbugio Dutra e
   Tufik Bauab Jr.
-- Base de consulta para equipe de sala, médico residente, radiologista formado
-  e governança institucional sobre uso seguro de meios de contraste.
+- Base de consulta para equipe de sala, residentes de radiologia,
+  radiologistas e governança institucional sobre uso seguro de meios de
+  contraste.
 - Espaço para kits de identidade visual que apoiam páginas, documentos e
   protótipos relacionados ao material.
 - Aplicação local whitelabel de apoio à decisão, com regras determinísticas,

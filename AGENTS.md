@@ -30,10 +30,10 @@ de arquivos já existentes quando eles forem parte do contrato documental.
 
 Use a mesma nomenclatura em UI, docs e fluxos de apoio à decisão:
 
-- **Equipe de sala:** técnico de radiologia, técnico de enfermagem e
-  enfermeiro.
-- **Médico residente:** R1, R2, R3 ou R4.
-- **Radiologista responsável:** radiologista formado que valida exceções,
+- **Equipe de sala:** técnicos de radiologia, técnicos de enfermagem,
+  tecnólogos, enfermeiros e biomédicos.
+- **Residentes de radiologia:** R1, R2, R3 ou R4.
+- **Radiologista responsável:** radiologista que valida exceções,
   risco-benefício e condutas fora do fluxo.
 
 Evite rótulos genéricos como “operação”, “enfermagem” ou “técnico” quando o

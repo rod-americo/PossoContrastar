@@ -23,6 +23,7 @@ DATA_DIR = APP_DIR / "data"
 DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
 APP_CONFIG_PATH = DATA_DIR / "app_config.json"
+APP_CONFIG_EXAMPLE_PATH = DATA_DIR / "app_config.example.json"
 SOURCE_PATH = DOCS_DIR / "source.json"
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
@@ -53,7 +54,8 @@ def parse_int(value: Any, default: int) -> int:
 
 
 def app_config() -> dict[str, Any]:
-    config = read_json(APP_CONFIG_PATH)
+    config_path = APP_CONFIG_PATH if APP_CONFIG_PATH.exists() else APP_CONFIG_EXAMPLE_PATH
+    config = read_json(config_path)
     branding = dict(config.get("branding") or {})
     theme = dict(config.get("theme") or {})
     qa = dict(config.get("qa") or {})

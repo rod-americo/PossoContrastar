@@ -39,12 +39,14 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
   Perguntas e Respostas.
 - Exclui o README do corpus da lista de capítulos e da recuperação clínica.
 - Remove o botão de preenchimento de exemplo do fluxo de decisão.
-- Adiciona configuração versionada para tema padrão e exibição do seletor de
+- Adiciona configuração do app para tema padrão e exibição do seletor de
   adaptador visual.
-- Move Perguntas e Respostas para configuração versionada, com liga/desliga,
+- Move Perguntas e Respostas para configuração do app, com liga/desliga,
   conector e modelo.
 - Trata a área à esquerda do título como slot retangular de branding
   institucional configurável, sem placeholder por padrão.
 - Adiciona kit visual Cobalto e expõe o adaptador correspondente na v1.
 - Documenta avaliação do app, critérios de publicação opinativa e backlog de
   rodadas de codificação.
+- Torna `app/data/app_config.json` local e não versionado, mantendo
+  `app/data/app_config.example.json` como template versionado.

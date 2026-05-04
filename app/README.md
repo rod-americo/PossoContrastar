@@ -29,10 +29,12 @@ Configuração opcional do servidor e do conector de Perguntas e Respostas:
 APP_HOST=127.0.0.1 APP_PORT=8765 APP_QA_MODEL=gemma4:e4b python3 app/server.py
 ```
 
-O modelo padrão da v1 é `gemma4:e4b`, definido em `app/data/app_config.json`.
-Use `APP_QA_MODEL=<modelo>` para trocar em runtime. `OLLAMA_MODEL` continua
-aceito por compatibilidade. `APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT`
-controlam aquecimento e tamanho das respostas de Perguntas e Respostas.
+O modelo padrão da v1 é `gemma4:e4b`, definido em
+`app/data/app_config.example.json`. Para ajustes locais, copie esse arquivo para
+`app/data/app_config.json`; o arquivo local é ignorado pelo Git. Use
+`APP_QA_MODEL=<modelo>` para trocar em runtime. `OLLAMA_MODEL` continua aceito
+por compatibilidade. `APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT` controlam
+aquecimento e tamanho das respostas de Perguntas e Respostas.
 
 ## Estrutura
 
@@ -41,7 +43,7 @@ app/
 ├── README.md
 ├── server.py
 ├── data/
-│   ├── app_config.json
+│   ├── app_config.example.json
 │   └── rules.json
 └── static/
     ├── app.js
@@ -52,8 +54,8 @@ app/
 ## Contratos de segurança
 
 - Regras críticas são determinísticas e ficam em `app/data/rules.json`.
-- Perguntas e Respostas só aparece e responde quando `qa.enabled` está ativo em
-  `app/data/app_config.json`.
+- Perguntas e Respostas só aparece e responde quando `qa.enabled` está ativo na
+  configuração carregada pelo app.
 - Perguntas e Respostas recupera trechos apenas de `docs/meios_de_contraste`.
 - A Biblioteca renderiza Markdown local em HTML legível, incluindo tabelas com
   rolagem horizontal dentro do painel.
@@ -119,8 +121,10 @@ Os kits completos vivem em `docs/identidade_visual/<slug>/` e podem ser
 conectados depois por build/theme loader sem mexer no motor de regras.
 
 O adaptador padrão e a visibilidade do seletor no canto superior direito são
-definidos em `app/data/app_config.json`, junto com o módulo de Perguntas e
-Respostas:
+definidos na configuração do app, junto com o módulo de Perguntas e Respostas.
+O template versionado é `app/data/app_config.example.json`; quando existir,
+`app/data/app_config.json` sobrescreve localmente esse template e não entra no
+Git:
 
 ```json
 {
@@ -150,10 +154,10 @@ ou `mark_text` para uma sigla temporária centralizada. Em runtime,
 `APP_BRAND_TITLE`, `APP_BRAND_SUBTITLE`, `APP_BRAND_SHOW_MARK`,
 `APP_BRAND_MARK_TEXT` e `APP_BRAND_LOGO_SRC` podem sobrescrever esses valores.
 
-Use `show_theme_picker: false` para ocultar o seletor na interface e
+Use `show_theme_picker: false` no arquivo local para ocultar o seletor na interface e
 `default_theme` para fixar manualmente `whitelabel`, `noturno`, `botanico`,
 `cobalto` ou `lilas`. Em execução local, `APP_THEME` e `APP_SHOW_THEME_PICKER` podem
-sobrescrever esses valores sem editar o arquivo versionado.
+sobrescrever esses valores sem editar o template versionado.
 
 Use `qa.enabled: false` para remover Perguntas e Respostas da navegação e
 bloquear `/api/qa`. Use `qa.connector` para escolher o conector; a v1 suporta

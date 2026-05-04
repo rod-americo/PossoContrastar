@@ -46,6 +46,10 @@ OLLAMA_MODEL=gemma4:e4b python3 app/server.py
 ## 4. Configuração operacional
 
 - arquivo local: `config/doctor.json`
+- template versionado do app: `app/data/app_config.example.json`
+- configuração local do app: `app/data/app_config.json`, ignorada pelo Git.
+  Copie o template para esse caminho quando precisar fixar tema, branding,
+  conector ou modelo em um ambiente específico.
 - variáveis de ambiente críticas: nenhuma obrigatória
 - variáveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
   `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`, `APP_THEME`,

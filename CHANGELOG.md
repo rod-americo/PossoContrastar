@@ -23,4 +23,6 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
   virgula na UI.
 - Migra o projeto para `PossoContrastar`, remove PDF versionado, anonimiza kits
   cromaticos e adiciona cache em memoria para chunks de RAG.
-- Estrutura metadados da obra-fonte e exibe a referencia bibliografica no app.
+- Estrutura metadados da obra-fonte para app, API e rascunhos de guidelines.
+- Remove paineis laterais de status, guardrail e corpus para reduzir ruido na
+  tela principal.

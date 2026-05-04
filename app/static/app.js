@@ -1,6 +1,5 @@
 const state = {
   rules: null,
-  source: null,
   templates: [],
   chapters: [],
 };
@@ -134,18 +133,6 @@ function setDecisionEgfr(renal) {
   field.value = value !== null && value !== undefined ? `${formatDecimal(value)} mL/min/1,73 m²` : "";
 }
 
-function renderSource(source) {
-  if (!source) return;
-  $("#source-work").textContent = source.work_title || "Meios de contraste";
-  $("#source-subtitle").textContent = source.subtitle || "Conceitos e diretrizes";
-  $("#source-version").textContent = source.version || "Versão pocket";
-  const editors = Array.isArray(source.editors) ? source.editors.join("; ") : source.editors;
-  $("#source-editors").textContent = `Editores: ${editors || "não informados"}`;
-  const publication = [source.publisher, source.publication_date].filter(Boolean).join(", ");
-  $("#source-publication").textContent = publication;
-  $("#source-corpus").textContent = source.corpus_path || "docs/meios_de_contraste";
-}
-
 function canEstimateRenal(form) {
   return Boolean(form.creatinine_mg_dl.value && form.age_years.value && form.sex.value);
 }
@@ -182,10 +169,6 @@ async function init() {
     document.documentElement.dataset.theme = event.target.value;
   });
 
-  const health = await api("/api/health");
-  $("#health").textContent = `OK · Ollama: ${health.ollama_model}`;
-  state.source = await api("/api/source");
-  renderSource(state.source);
   state.rules = await api("/api/rules");
   state.templates = (await api("/api/guideline-templates")).templates;
   state.chapters = (await api("/api/chapters")).chapters;
@@ -342,6 +325,13 @@ function bindGuidelines() {
 }
 
 init().catch((error) => {
-  $("#health").textContent = `Erro: ${error.message}`;
   console.error(error);
+  const activeView = $(".view.active");
+  if (activeView) {
+    activeView.insertAdjacentHTML("afterbegin", card({
+      level: "high",
+      title: "Erro ao carregar",
+      message: error.message,
+    }));
+  }
 });

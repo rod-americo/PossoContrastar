@@ -35,3 +35,4 @@ Todas as mudancas relevantes deste repositorio devem ser registradas aqui.
 - Renderiza Markdown na Biblioteca, nos resultados de busca e nas fontes de
   Perguntas e Respostas.
 - Exclui o README do corpus da lista de capitulos e da recuperacao clinica.
+- Remove o botao de preenchimento de exemplo do fluxo de decisão.

@@ -315,18 +315,7 @@ async function init() {
 
 function bindDecision() {
   const form = $("#decision-form");
-  const refreshEgfr = bindDecisionEgfrPreview(form);
-  $("#sample-decision").addEventListener("click", () => {
-    form.contrast_class.value = "iodinated";
-    form.route.value = "iv";
-    form.setting.value = "elective";
-    form.creatinine_mg_dl.value = "2.4";
-    form.age_years.value = "76";
-    form.sex.value = "male";
-    form.weight_kg.value = "70";
-    form.metformin.checked = true;
-    refreshEgfr();
-  });
+  bindDecisionEgfrPreview(form);
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();

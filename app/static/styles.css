@@ -257,6 +257,40 @@ label span {
   line-height: 1.45;
 }
 
+.panel code {
+  color: var(--title);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 5px;
+  font-size: 12px;
+}
+
+.source-card p {
+  display: grid;
+  gap: 3px;
+}
+
+.source-card strong {
+  color: var(--title);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.source-card span {
+  color: var(--muted);
+}
+
+.source-card .source-editors,
+.source-card .source-publication {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.source-card .source-publication {
+  margin-top: 4px;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(180px, 1fr));

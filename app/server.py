@@ -23,6 +23,7 @@ DATA_DIR = APP_DIR / "data"
 DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
 GUIDELINE_TEMPLATES_PATH = DATA_DIR / "guideline_templates.json"
+SOURCE_PATH = DOCS_DIR / "source.json"
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
 OLLAMA_KEEP_ALIVE = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
@@ -33,6 +34,10 @@ CHUNKS_CACHE: list[dict[str, Any]] | None = None
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def source_metadata() -> dict[str, Any]:
+    return read_json(SOURCE_PATH)
 
 
 def markdown_files() -> list[Path]:
@@ -528,22 +533,28 @@ def extravasation_support(payload: dict[str, Any]) -> dict[str, Any]:
 
 def guideline_generate(payload: dict[str, Any]) -> dict[str, Any]:
     config = read_json(GUIDELINE_TEMPLATES_PATH)
+    source = source_metadata()
     selected = set(payload.get("template_ids") or [])
     posture = payload.get("posture", "balanceada")
     institution = payload.get("institution", "Instituição")
     templates = [item for item in config["templates"] if not selected or item["id"] in selected]
+    editors = "; ".join(source["editors"])
+    source_label = f"{source['work_title']}: {source['subtitle']} ({source['version']})"
+    publication = f"{source['publisher']}, {source['publication_date']}"
     lines = [
         f"# Guidelines institucionais: meios de contraste",
         "",
         f"**Instituição:** {institution}",
         f"**Postura operacional:** {posture}",
         "**Status:** rascunho de apoio à decisão; requer revisão e aprovação institucional.",
+        f"**Fonte bibliográfica:** {source_label}; editores: {editors}; {publication}.",
         "",
         "## Governança",
         "",
         "- Responsável técnico: a definir.",
         "- Revisores: Radiologia, Enfermagem, Qualidade, Farmácia e áreas clínicas envolvidas.",
-        "- Fonte: corpus local em `docs/meios_de_contraste/`.",
+        f"- Corpus operacional: `{source['corpus_path']}/`.",
+        f"- Nota de fonte: {source['repository_note']}",
         "- Uso: apoio à decisão, não substitui julgamento clínico.",
         "",
     ]
@@ -639,6 +650,8 @@ class Handler(BaseHTTPRequestHandler):
             )
         elif path == "/api/chapters":
             self.send_json({"chapters": load_chapters()})
+        elif path == "/api/source":
+            self.send_json(source_metadata())
         elif path == "/api/rules":
             self.send_json(read_json(RULES_PATH))
         elif path == "/api/guideline-templates":

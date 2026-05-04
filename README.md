@@ -6,14 +6,18 @@ clinicas operacionais locais de apoio à decisão.
 
 ## O que este repositorio e
 
-- Acervo documental em Markdown derivado da publicacao `Meios de contraste:
-  conceitos e diretrizes (versao pocket)`.
+- Acervo documental em Markdown derivado da publicacao **Meios de contraste:
+  conceitos e diretrizes**, versao pocket, editada por Bruna Garbugio Dutra e
+  Tufik Bauab Jr.
 - Base de consulta para radiologia, enfermagem, operacao assistencial e
   governanca institucional sobre uso seguro de meios de contraste.
 - Espaco para kits de identidade visual que apoiam paginas, documentos e
   prototipos relacionados ao material.
 - Aplicacao local whitelabel de apoio à decisão, com regras deterministicas,
   RAG restrita ao corpus local e adaptadores visuais.
+- Metadado estruturado da obra-fonte em
+  `docs/meios_de_contraste/source.json`, consumido pelo app e por rascunhos de
+  guidelines.
 
 ## O que este repositorio NAO e
 

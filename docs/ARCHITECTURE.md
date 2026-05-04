@@ -8,7 +8,8 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 ## 2. Escopo
 
 - Acervo Markdown sobre meios de contraste, importado de publicacao tecnica
-  externa nao versionada neste repo.
+  externa nao versionada neste repo, com metadado bibliografico estruturado em
+  `docs/meios_de_contraste/source.json`.
 - Governanca documental para fronteira, validacao e revisao por diff.
 - Kits de identidade visual usados como referencia para materiais e prototipos.
 - Scripts locais de gate e doctor para consistencia estrutural.
@@ -72,7 +73,7 @@ aplicacao local whitelabel de apoio à decisão sobre meios de contraste.
 | Area | Responsabilidade | Observacao |
 | --- | --- | --- |
 | raiz | Identidade, governanca e validacao | Nao deve receber runtime mutavel |
-| `docs/meios_de_contraste/` | Capitulos Markdown e proposta de produto | Fonte canonica editavel do guia convertido |
+| `docs/meios_de_contraste/` | Capitulos Markdown, indice e metadado da obra-fonte | Fonte canonica editavel do guia convertido |
 | `docs/identidade_visual/` | Kits cromaticos neutros e previews | Apoio, nao design system oficial |
 | `app/` | Backend local, UI whitelabel, regras e Q&A | Apoio à decisão, nao producao |
 | `scripts/` | Validacao estrutural | Biblioteca padrao do Python |

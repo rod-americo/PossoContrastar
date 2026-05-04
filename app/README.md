@@ -53,6 +53,8 @@ app/
 - Regras críticas são determinísticas e ficam em `app/data/rules.json`.
 - O Q&A recupera trechos apenas de `docs/meios_de_contraste`.
 - Capítulos e chunks de RAG ficam em cache de memória até reiniciar o servidor.
+- A referência bibliográfica da obra-fonte vem de
+  `docs/meios_de_contraste/source.json`.
 - Se o Ollama estiver indisponível, o Q&A retorna trechos recuperados sem
   inventar resposta.
 - Não inserir dados reais de pacientes em ambiente não governado.

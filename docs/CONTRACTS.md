@@ -12,6 +12,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | --- | --- | --- | --- | --- |
 | Capitulos Markdown | `docs/meios_de_contraste/` | `.md` | sim | Fonte editavel e revisavel por diff |
 | Indice dos capitulos | `docs/meios_de_contraste/README.md` | Markdown | sim | Mapa de leitura do material principal |
+| Metadado da obra-fonte | `docs/meios_de_contraste/source.json` | JSON | sim | Titulo, subtitulo, versao, editores e nota de corpus |
 | Kits cromaticos | `docs/identidade_visual/` | Markdown, CSS, HTML, JSON | nao | Apoio visual neutro, sem marcas ou logos |
 | Proposta dinamica | `docs/meios_de_contraste/proposta_apresentacao_dinamica.md` | Markdown | nao | Planejamento, nao implementacao |
 | Configuracao do doctor | `config/doctor.json` | JSON | sim | Politica versionada de warnings e aliases |

@@ -35,7 +35,6 @@ function card(item) {
     <article class="result-card ${item.level || "ok"}">
       <h3>${escapeHtml(item.title || item.file || "Resultado")}</h3>
       ${body}
-      ${item.source ? `<span class="source">${escapeHtml(item.source)}</span>` : ""}
     </article>
   `;
 }
@@ -233,7 +232,6 @@ function renalCard(renal) {
         ${crcl}
       </div>
       ${notes}
-      <span class="source">NIDDK/NKF + corpus local</span>
     </article>
   `;
 }
@@ -254,13 +252,11 @@ function intervalCards(result) {
       level: result.egfr_bucket === "severe" ? "caution" : "ok",
       title: "Intervalo entre injeções",
       message: `Mínimo: ${result.between_injections.minimum}. Ótimo: ${result.between_injections.optimal || result.between_injections.minimum}.`,
-      source: result.source,
     }),
     card({
       level: "attention",
       title: "Coleta laboratorial",
       message: `Mínimo: ${result.lab_collection.minimum}. ${result.lab_collection.optimal ? `Ótimo: ${result.lab_collection.optimal}. ` : ""}${result.note}`,
-      source: result.source,
     }),
   ].join("");
 }
@@ -399,7 +395,6 @@ function bindEmergency() {
         <article class="result-card high">
           <h3>Passo ${index + 1}</h3>
           <p>${escapeHtml(action)}</p>
-          <span class="source">${escapeHtml(state.rules.adverse_reactions.source)}</span>
         </article>
       `)
       .join("");
@@ -433,7 +428,7 @@ function bindCalculators() {
       ${renalCard(result.renal_function)}
       ${card({title: "Dose iodado", message: `${formatRange(result.iodinated_volume_ml.min, result.iodinated_volume_ml.max)} mL`})}
       ${card({title: "Dose gadolínio (MCBG)", message: `${formatDecimal(result.gbca_dose_mmol, 3)} mmol`})}
-      ${card({title: "Taxa máxima", message: result.max_injection_rate, source: result.source})}
+      ${card({title: "Taxa máxima", message: result.max_injection_rate})}
     `;
   });
   $("#extravasation-form").addEventListener("submit", async (event) => {
@@ -465,7 +460,6 @@ function bindLibrary() {
       if (!chapter) return;
       $$(".chapter-card").forEach((item) => item.classList.toggle("active", item === button));
       $("#chapter-reader").innerHTML = `
-        <div class="reader-source">${escapeHtml(chapter.file)}</div>
         <div class="markdown-body">${markdownToHtml(chapter.content)}</div>
       `;
       $("#chapter-reader").scrollIntoView({behavior: "smooth", block: "start"});
@@ -482,7 +476,7 @@ async function search() {
   const query = encodeURIComponent($("#search-input").value);
   const data = await api(`/api/search?q=${query}`);
   $("#search-results").innerHTML = data.results
-    .map((item) => card({title: item.title, message: item.text || item.snippet, source: item.file, markdown: true}))
+    .map((item) => card({title: item.title, message: item.text || item.snippet, markdown: true}))
     .join("") || "<p>Nenhum resultado.</p>";
 }
 
@@ -501,7 +495,7 @@ function bindQa() {
           <h3>Resposta ${data.available ? `(${escapeHtml(data.model)})` : "(fallback local)"}</h3>
           <div class="markdown-body">${markdownToHtml(data.answer || "O modelo local não retornou texto para esta pergunta.")}</div>
         </article>
-        ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.text || item.snippet, source: item.file, markdown: true})).join("")}
+        ${data.citations.map((item, index) => card({title: `Trecho [${index + 1}] · ${item.title}`, message: item.text || item.snippet, markdown: true})).join("")}
       `;
     } catch (error) {
       $("#qa-result").innerHTML = card({

@@ -534,23 +534,8 @@ textarea {
   font-weight: 800;
 }
 
-.reader-source {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
 .empty-state p {
   color: var(--muted);
-}
-
-.source {
-  display: inline-block;
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  overflow-wrap: anywhere;
 }
 
 .calc-grid {

@@ -492,7 +492,7 @@ function bindQa() {
     $("#qa-result").innerHTML = `
       <article class="result-card ${data.available ? "ok" : "attention"}">
         <h3>Resposta ${data.available ? `(${escapeHtml(data.model)})` : "(fallback local)"}</h3>
-        <p>${escapeHtml(data.answer)}</p>
+        <div class="markdown-body">${markdownToHtml(data.answer)}</div>
       </article>
       ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.text || item.snippet, source: item.file, markdown: true})).join("")}
     `;

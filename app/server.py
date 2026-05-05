@@ -669,16 +669,27 @@ def extravasation_support(payload: dict[str, Any]) -> dict[str, Any]:
     return {"level": level, "actions": actions, "follow_up": rules["follow_up"], "source": rules["source"]}
 
 
-def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
+def build_qa_prompt(question: str, chunks: list[dict[str, Any]]) -> str:
     context = "\n\n".join(
         f"[{index + 1}] {chunk['title']} ({chunk['file']})\n{chunk['text']}"
         for index, chunk in enumerate(chunks)
     )
-    prompt = f"""Você responde somente com base no CONTEXTO local abaixo.
-Se a resposta não estiver no CONTEXTO, diga: "Não encontrei isso na documentação local."
-Se faltarem dados do paciente/exame para uma conduta, pergunte objetivamente quais dados faltam.
-Não invente doses, limiares, classes ou recomendações.
-Cite as fontes no formato [1], [2].
+    return f"""Você é um assistente clínico local para equipe de sala, residentes de radiologia e radiologista responsável.
+Responda em pt-BR, de forma natural, direta e acolhedora, como em uma conversa profissional curta.
+
+Regras obrigatórias:
+- Use somente o CONTEXTO local abaixo.
+- Não invente doses, limiares, classes, contraindicações ou recomendações.
+- Não transforme a resposta em protocolo institucional nem prescrição.
+- Se a resposta não estiver no CONTEXTO, diga: "Não encontrei isso na documentação local."
+- Se faltarem dados do paciente ou do exame para orientar a conduta, diga quais dados faltam em uma frase objetiva.
+- Cite as fontes no formato [1], [2] no próprio texto.
+
+Formato preferido:
+1. Comece com uma resposta curta em linguagem natural.
+2. Depois, se ajudar, use até 3 bullets com pontos práticos.
+3. Termine com uma frase de cautela quando houver incerteza, exceção ou necessidade de validação pelo radiologista responsável.
+4. Evite jargão desnecessário e listas longas.
 
 CONTEXTO:
 {context}
@@ -687,6 +698,17 @@ PERGUNTA:
 {question}
 
 RESPOSTA:"""
+
+
+def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
+    if not chunks:
+        return {
+            "answer": "Não encontrei isso na documentação local.",
+            "model": qa["model"],
+            "connector": qa["connector"],
+            "available": False,
+        }
+    prompt = build_qa_prompt(question, chunks)
     body = json.dumps(
         {
             "model": qa["model"],
@@ -707,8 +729,8 @@ RESPOSTA:"""
             raw = json.loads(response.read().decode("utf-8"))
             return {"answer": raw.get("response", "").strip(), "model": qa["model"], "connector": qa["connector"], "available": True}
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
-        fallback = "Ollama indisponível ou sem modelo configurado. Trechos locais mais relevantes:\n\n"
-        fallback += "\n\n".join(f"- {chunk['title']} ({chunk['file']}): {chunk['snippet']}" for chunk in chunks[:3])
+        fallback = "Não consegui chamar o Ollama agora. Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
+        fallback += "\n".join(f"- [{index + 1}] {chunk['title']}: {chunk['snippet']}" for index, chunk in enumerate(chunks[:3]))
         return {"answer": fallback, "model": qa["model"], "connector": qa["connector"], "available": False, "error": str(exc)}
 
 

@@ -80,6 +80,17 @@ Regras práticas:
 - checagem sintática do app: `python3 -m py_compile app/server.py`
 - policy do doctor: `config/doctor.json`
 
+## Fluxo Git
+
+- Quando uma tarefa gerar mudanças versionáveis, revisar o diff, executar a
+  validação mínima aplicável, criar commit e fazer push para o remoto.
+- Mensagens de commit devem seguir a política de idioma deste arquivo:
+  `en-US`, preferencialmente `type(scope): summary`.
+- Não incluir arquivos temporários, caches, dumps, dados sensíveis ou runtime
+  mutável no commit.
+- Se houver mudanças não relacionadas feitas por outra pessoa, preservá-las e
+  commitar apenas o escopo da tarefa.
+
 ## Hotspots conhecidos
 
 - Conteúdo clínico convertido para Markdown pode perder semântica de tabelas,

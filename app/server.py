@@ -669,35 +669,29 @@ def extravasation_support(payload: dict[str, Any]) -> dict[str, Any]:
     return {"level": level, "actions": actions, "follow_up": rules["follow_up"], "source": rules["source"]}
 
 
-def build_qa_prompt(question: str, chunks: list[dict[str, Any]]) -> str:
+def build_qa_messages(question: str, chunks: list[dict[str, Any]]) -> list[dict[str, str]]:
     context = "\n\n".join(
         f"[{index + 1}] {chunk['title']} ({chunk['file']})\n{chunk['text']}"
         for index, chunk in enumerate(chunks)
     )
-    return f"""Você é um assistente clínico local para equipe de sala, residentes de radiologia e radiologista responsável.
-Responda em pt-BR, de forma natural, direta e acolhedora, como em uma conversa profissional curta.
-
-Regras obrigatórias:
-- Use somente o CONTEXTO local abaixo.
-- Não invente doses, limiares, classes, contraindicações ou recomendações.
-- Não transforme a resposta em protocolo institucional nem prescrição.
-- Se a resposta não estiver no CONTEXTO, diga: "Não encontrei isso na documentação local."
-- Se faltarem dados do paciente ou do exame para orientar a conduta, diga quais dados faltam em uma frase objetiva.
-- Cite as fontes no formato [1], [2] no próprio texto.
-
-Formato preferido:
-1. Comece com uma resposta curta em linguagem natural.
-2. Depois, se ajudar, use até 3 bullets com pontos práticos.
-3. Termine com uma frase de cautela quando houver incerteza, exceção ou necessidade de validação pelo radiologista responsável.
-4. Evite jargão desnecessário e listas longas.
-
-CONTEXTO:
-{context}
-
-PERGUNTA:
-{question}
-
-RESPOSTA:"""
+    return [
+        {
+            "role": "system",
+            "content": (
+                "Você é um assistente clínico local para equipe de sala, residentes de radiologia "
+                "e radiologista responsável. Responda em pt-BR, de forma natural, direta e curta. "
+                "Use somente o contexto local. Não invente doses, limiares, classes, "
+                "contraindicações ou recomendações. Não transforme a resposta em protocolo "
+                "institucional nem prescrição. Se a resposta não estiver no contexto, diga: "
+                "\"Não encontrei isso na documentação local.\" Se faltarem dados do paciente ou "
+                "do exame, diga quais dados faltam. Cite as fontes no formato [1], [2]."
+            ),
+        },
+        {
+            "role": "user",
+            "content": f"CONTEXTO:\n{context}\n\nPERGUNTA:\n{question}",
+        },
+    ]
 
 
 def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
@@ -708,18 +702,17 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
             "connector": qa["connector"],
             "available": False,
         }
-    prompt = build_qa_prompt(question, chunks)
     body = json.dumps(
         {
             "model": qa["model"],
-            "prompt": prompt,
+            "messages": build_qa_messages(question, chunks),
             "stream": False,
             "keep_alive": qa["keep_alive"],
             "options": {"temperature": 0.1, "num_predict": qa["num_predict"]},
         }
     ).encode("utf-8")
     request = urllib.request.Request(
-        f"{qa['ollama_url'].rstrip('/')}/api/generate",
+        f"{qa['ollama_url'].rstrip('/')}/api/chat",
         data=body,
         headers={"Content-Type": "application/json"},
         method="POST",
@@ -727,7 +720,8 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
     try:
         with urllib.request.urlopen(request, timeout=45) as response:
             raw = json.loads(response.read().decode("utf-8"))
-            return {"answer": raw.get("response", "").strip(), "model": qa["model"], "connector": qa["connector"], "available": True}
+            message = raw.get("message") or {}
+            return {"answer": str(message.get("content") or "").strip(), "model": qa["model"], "connector": qa["connector"], "available": True}
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         fallback = "Não consegui chamar o Ollama agora. Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
         fallback += "\n".join(f"- [{index + 1}] {chunk['title']}: {chunk['snippet']}" for index, chunk in enumerate(chunks[:3]))

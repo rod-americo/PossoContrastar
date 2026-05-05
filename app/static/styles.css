@@ -651,3 +651,81 @@ output .result-card + .result-card {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 720px) {
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) minmax(118px, 38vw);
+    position: static;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .brand {
+    min-height: 34px;
+  }
+
+  .brand-copy strong {
+    font-size: 15px;
+  }
+
+  .brand-copy span {
+    display: none;
+  }
+
+  .nav-tabs {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-wrap: nowrap;
+    margin: 0 -12px;
+    overflow-x: auto;
+    padding: 0 12px 2px;
+    scrollbar-width: none;
+  }
+
+  .nav-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-tab {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  .theme-picker {
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+
+  .theme-picker span {
+    display: none;
+  }
+
+  .theme-picker select {
+    min-height: 34px;
+    padding: 6px 8px;
+  }
+
+  .workspace {
+    padding: 12px;
+  }
+
+  .view.active {
+    gap: 12px;
+  }
+
+  .page-head h1 {
+    font-size: 24px;
+  }
+
+  .page-head p {
+    display: none;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+}

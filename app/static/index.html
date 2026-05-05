@@ -106,84 +106,15 @@
                 <option value="group_ii">Grupo II - preferido / baixo risco FSN</option>
               </select>
             </label>
-            <fieldset class="decision-checks">
-              <legend>Risco renal</legend>
-              <div class="check-grid">
-                <label class="check-item">
-                  <input name="aki" type="checkbox">
-                  <span>
-                    <strong>IRA conhecida/suspeita</strong>
-                    <small>Eleva risco em iodado e MCBG.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="dialysis" type="checkbox">
-                  <span>
-                    <strong>Diálise</strong>
-                    <small>Muda conduta conforme contraste e diurese.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="residual_diuresis" type="checkbox">
-                  <span>
-                    <strong>Diurese residual</strong>
-                    <small>Conta quando diálise também está marcada.</small>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-            <fieldset class="decision-checks">
-              <legend>Condições e medicações</legend>
-              <div class="check-grid">
-                <label class="check-item">
-                  <input name="pregnant" type="checkbox">
-                  <span>
-                    <strong>Gestante</strong>
-                    <small>Altera alerta em iodado e MCBG.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="lactating" type="checkbox">
-                  <span>
-                    <strong>Lactante</strong>
-                    <small>Adiciona orientação, sem bloquear por si só.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="metformin" type="checkbox">
-                  <span>
-                    <strong>Metformina</strong>
-                    <small>Usada no fluxo de contraste iodado.</small>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-            <fieldset class="decision-checks">
-              <legend>Risco de reação</legend>
-              <div class="check-grid">
-                <label class="check-item">
-                  <input name="unstable_asthma" type="checkbox">
-                  <span>
-                    <strong>Asma instável</strong>
-                    <small>Adiciona alerta de broncoespasmo.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="beta_blocker" type="checkbox">
-                  <span>
-                    <strong>Betabloqueador</strong>
-                    <small>Alerta para resposta à adrenalina.</small>
-                  </span>
-                </label>
-                <label class="check-item">
-                  <input name="prior_reaction" type="checkbox">
-                  <span>
-                    <strong>Reação prévia</strong>
-                    <small>Depende da severidade selecionada abaixo.</small>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
+            <label class="check"><input name="aki" type="checkbox"> IRA conhecida/suspeita</label>
+            <label class="check"><input name="dialysis" type="checkbox"> Diálise</label>
+            <label class="check"><input name="residual_diuresis" type="checkbox"> Diurese residual</label>
+            <label class="check"><input name="pregnant" type="checkbox"> Gestante</label>
+            <label class="check"><input name="lactating" type="checkbox"> Lactante</label>
+            <label class="check"><input name="metformin" type="checkbox"> Metformina</label>
+            <label class="check"><input name="unstable_asthma" type="checkbox"> Asma instável</label>
+            <label class="check"><input name="beta_blocker" type="checkbox"> Betabloqueador</label>
+            <label class="check"><input name="prior_reaction" type="checkbox"> Reação prévia</label>
             <label>
               <span>Severidade da reação prévia</span>
               <select name="reaction_severity">

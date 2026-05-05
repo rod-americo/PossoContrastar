@@ -982,7 +982,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json({"error": str(exc)}, status=500)
 
     def serve_static(self, request_path: str) -> None:
-        rel = request_path.lstrip("/") or "index.html"
+        clean_path = urllib.parse.urlparse(request_path).path
+        rel = clean_path.lstrip("/") or "index.html"
         if rel.startswith("static/"):
             rel = rel[len("static/") :]
         target = (STATIC_DIR / rel).resolve()
@@ -997,6 +998,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store, max-age=0")
         self.end_headers()
         self.wfile.write(data)
 

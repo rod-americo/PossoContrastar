@@ -98,8 +98,6 @@ textarea {
 }
 
 .topbar {
-  position: sticky;
-  top: 0;
   z-index: 10;
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto auto;
@@ -639,10 +637,6 @@ output .result-card + .result-card {
 }
 
 @media (max-width: 1120px) {
-  .topbar {
-    position: static;
-  }
-
   .topbar,
   .workspace,
   .form-grid,

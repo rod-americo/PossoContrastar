@@ -639,6 +639,10 @@ output .result-card + .result-card {
 }
 
 @media (max-width: 1120px) {
+  .topbar {
+    position: static;
+  }
+
   .topbar,
   .workspace,
   .form-grid,
@@ -655,7 +659,6 @@ output .result-card + .result-card {
 @media (max-width: 720px) {
   .topbar {
     grid-template-columns: minmax(0, 1fr) minmax(118px, 38vw);
-    position: static;
     gap: 10px;
     padding: 10px 12px;
   }

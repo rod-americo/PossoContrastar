@@ -487,15 +487,27 @@ function bindQa() {
   $("#qa-button").addEventListener("click", async () => {
     const question = $("#qa-question").value.trim();
     if (!question) return;
+    const button = $("#qa-button");
+    button.disabled = true;
     $("#qa-result").innerHTML = '<article class="result-card"><h3>Consultando...</h3><p>Recuperando trechos locais e chamando Ollama se disponível.</p></article>';
-    const data = await api("/api/qa", {method: "POST", body: JSON.stringify({question})});
-    $("#qa-result").innerHTML = `
-      <article class="result-card ${data.available ? "ok" : "attention"}">
-        <h3>Resposta ${data.available ? `(${escapeHtml(data.model)})` : "(fallback local)"}</h3>
-        <div class="markdown-body">${markdownToHtml(data.answer)}</div>
-      </article>
-      ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.text || item.snippet, source: item.file, markdown: true})).join("")}
-    `;
+    try {
+      const data = await api("/api/qa", {method: "POST", body: JSON.stringify({question})});
+      $("#qa-result").innerHTML = `
+        <article class="result-card ${data.available ? "ok" : "attention"}">
+          <h3>Resposta ${data.available ? `(${escapeHtml(data.model)})` : "(fallback local)"}</h3>
+          <div class="markdown-body">${markdownToHtml(data.answer || "O modelo local não retornou texto para esta pergunta.")}</div>
+        </article>
+        ${data.citations.map((item, index) => card({title: `Fonte [${index + 1}] · ${item.title}`, message: item.text || item.snippet, source: item.file, markdown: true})).join("")}
+      `;
+    } catch (error) {
+      $("#qa-result").innerHTML = card({
+        level: "attention",
+        title: "Não foi possível responder",
+        message: error.message,
+      });
+    } finally {
+      button.disabled = false;
+    }
   });
 }
 

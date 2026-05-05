@@ -684,7 +684,8 @@ def build_qa_messages(question: str, chunks: list[dict[str, Any]]) -> list[dict[
                 "contraindicações ou recomendações. Não transforme a resposta em protocolo "
                 "institucional nem prescrição. Se a resposta não estiver no contexto, diga: "
                 "\"Não encontrei isso na documentação local.\" Se faltarem dados do paciente ou "
-                "do exame, diga quais dados faltam. Cite as fontes no formato [1], [2]."
+                "do exame, diga quais dados faltam. Cite as fontes no formato [1], [2]. "
+                "A resposta deve ser texto visível no campo content; nunca deixe a resposta vazia."
             ),
         },
         {
@@ -721,7 +722,44 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
         with urllib.request.urlopen(request, timeout=45) as response:
             raw = json.loads(response.read().decode("utf-8"))
             message = raw.get("message") or {}
-            return {"answer": str(message.get("content") or "").strip(), "model": qa["model"], "connector": qa["connector"], "available": True}
+            answer = str(message.get("content") or "").strip()
+            if answer:
+                return {"answer": answer, "model": qa["model"], "connector": qa["connector"], "available": True}
+            retry_messages = build_qa_messages(question, chunks)
+            retry_messages.append(
+                {
+                    "role": "user",
+                    "content": "A resposta anterior veio vazia. Responda agora em texto visível, curto e citado.",
+                }
+            )
+            retry_body = json.dumps(
+                {
+                    "model": qa["model"],
+                    "messages": retry_messages,
+                    "stream": False,
+                    "keep_alive": qa["keep_alive"],
+                    "options": {"temperature": 0.1, "num_predict": qa["num_predict"]},
+                }
+            ).encode("utf-8")
+            retry_request = urllib.request.Request(
+                f"{qa['ollama_url'].rstrip('/')}/api/chat",
+                data=retry_body,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(retry_request, timeout=45) as retry_response:
+                retry_raw = json.loads(retry_response.read().decode("utf-8"))
+                retry_message = retry_raw.get("message") or {}
+                retry_answer = str(retry_message.get("content") or "").strip()
+            if retry_answer:
+                return {"answer": retry_answer, "model": qa["model"], "connector": qa["connector"], "available": True}
+            return {
+                "answer": "O modelo local retornou uma resposta vazia. Tente reformular a pergunta ou tente novamente.",
+                "model": qa["model"],
+                "connector": qa["connector"],
+                "available": False,
+                "error": "empty ollama response",
+            }
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         fallback = "Não consegui chamar o Ollama agora. Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
         fallback += "\n".join(f"- [{index + 1}] {chunk['title']}: {chunk['snippet']}" for index, chunk in enumerate(chunks[:3]))

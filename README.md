@@ -80,6 +80,10 @@ radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
 - Não deve promover regras clínicas a protocolo final sem contrato, citação,
   revisão por responsável técnico e aprovação institucional.
 
+Perguntas feitas ao módulo Perguntas e Respostas são gravadas localmente em
+`app/data/qa_questions.jsonl` para melhoria posterior do RAG. Esse arquivo não
+deve ser versionado e pode exigir revisão antes de qualquer compartilhamento.
+
 ## Estado atual
 
 - fase: `app local de apoio à decisão`

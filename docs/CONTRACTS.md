@@ -31,6 +31,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Propostas futuras | Markdown | Texto estruturado | Planejamento rastreável | Não é runtime assistencial |
 | App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Não é protocolo aprovado |
 | Perguntas e Respostas | Navegador local | Resposta textual citada | Restrito ao corpus local | Usa Ollama opcional; fallback com trechos |
+| Log local de perguntas | `app/data/qa_questions.jsonl` | JSONL | Perguntas feitas ao Q&A | Não versionar; pode conter texto sensível informado pelo usuário |
 
 ## 4. Invariantes
 
@@ -76,9 +77,15 @@ e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 - `app/data/rules.json` é fonte de regras determinísticas da v1.
 - `app/data/app_config.example.json` fornece defaults versionados de branding
   whitelabel, tema manual, visibilidade do seletor de adaptador, ativação de
-  Perguntas e Respostas, conector, modelo e URL base do Ollama.
+  Perguntas e Respostas, conector, modelo, URL base do Ollama e log local de
+  perguntas.
 - `app/data/app_config.json`, quando existir, controla os mesmos campos no
   ambiente local e não deve ser versionado.
 - O endpoint `/api/qa` deve recuperar trechos locais antes de chamar Ollama.
-- O app não deve persistir perguntas, payloads ou respostas.
+- O endpoint `/api/qa` deve registrar cada pergunta em
+  `app/data/qa_questions.jsonl` quando `qa.log_questions` estiver ativo.
+- O app não deve persistir respostas, payloads completos, cabeçalhos, IP ou
+  identificadores do usuário.
+- Perguntas podem conter dados sensíveis digitados pelo usuário; o log local não
+  deve ser versionado nem compartilhado sem revisão.
 - Qualquer integração com dados reais exige novo contrato.

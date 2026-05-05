@@ -24,7 +24,9 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 - Decisão clínica automatizada ou recomendação personalizada para pacientes.
 - Deploy web, autenticação corporativa, prontuário, PACS, RIS ou auditoria
   clínica formal.
-- Persistência operacional de dados, logs clínicos ou dados de pacientes.
+- Persistência operacional de dados, logs clínicos ou dados de pacientes. A
+  exceção local da v1 é o log de perguntas do Q&A em JSONL, usado para melhorar
+  RAG e mantido fora do Git.
 - Sistema oficial de design de marcas externas.
 
 ## 4. Layout atual
@@ -88,6 +90,8 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 - `app/data/rules.json` precisa permanecer alinhado aos capítulos citados.
 - Perguntas e Respostas via Ollama pode falhar por modelo ausente; fallback deve
   ser conservador.
+- `app/data/qa_questions.jsonl` pode conter texto sensível digitado pelo
+  usuário; não versionar nem compartilhar sem revisão.
 - Fontes de identidade visual podem mudar fora deste repositório.
 
 ## 8. Direção de evolução

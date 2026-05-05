@@ -10,6 +10,7 @@ Icon?
 # Local runtime and temporary files
 runtime/
 app/data/app_config.json
+app/data/qa_questions.jsonl
 *.tmp
 *.temp
 *.log

@@ -9,7 +9,9 @@ contraste.
 - Backend: Python com biblioteca padrão.
 - Frontend: HTML/CSS/JS sem build step.
 - LLM: endpoint RAG restrito ao corpus local, usando Ollama quando disponível.
-- Persistência: nenhuma. A aplicação não grava perguntas, respostas ou dados.
+- Persistência: perguntas do módulo Perguntas e Respostas são gravadas em
+  JSONL local para análise posterior. Respostas e payloads completos não são
+  persistidos.
 
 ## Como rodar
 
@@ -68,6 +70,9 @@ app/
 - Perguntas e Respostas só aparece e responde quando `qa.enabled` está ativo na
   configuração carregada pelo app.
 - Perguntas e Respostas recupera trechos apenas de `docs/meios_de_contraste`.
+- Perguntas feitas ao módulo são registradas em `app/data/qa_questions.jsonl`
+  quando `qa.log_questions` está ativo. Esse arquivo é local, ignorado pelo Git
+  e pode conter dados sensíveis digitados pelo usuário.
 - A Biblioteca renderiza Markdown local em HTML legível, incluindo tabelas com
   rolagem horizontal dentro do painel.
 - Capítulos e chunks de RAG ficam em cache de memória até reiniciar o servidor.
@@ -154,7 +159,8 @@ Git:
     "enabled": true,
     "connector": "ollama",
     "model": "gemma4:e4b",
-    "ollama_url": "http://localhost:11434"
+    "ollama_url": "http://localhost:11434",
+    "log_questions": true
   }
 }
 ```
@@ -176,4 +182,5 @@ bloquear `/api/qa`. Use `qa.connector` para escolher o conector; a v1 suporta
 `ollama`. Use `qa.model` para fixar o modelo e `qa.ollama_url` para apontar
 para Ollama local ou remoto. Em runtime, `APP_QA_ENABLED`, `APP_QA_CONNECTOR`,
 `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`,
-`APP_QA_KEEP_ALIVE` e `APP_QA_NUM_PREDICT` podem sobrescrever a config.
+`APP_QA_KEEP_ALIVE`, `APP_QA_NUM_PREDICT` e `APP_QA_LOG_QUESTIONS` podem
+sobrescrever a config.

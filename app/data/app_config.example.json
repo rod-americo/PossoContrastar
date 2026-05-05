@@ -23,6 +23,7 @@
     "model": "gemma4:e4b",
     "ollama_url": "http://localhost:11434",
     "keep_alive": "10m",
-    "num_predict": 384
+    "num_predict": 384,
+    "log_questions": true
   }
 }

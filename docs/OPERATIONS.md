@@ -63,15 +63,20 @@ OLLAMA_HOST=0.0.0.0:11434 ollama serve
 - configuração local do app: `app/data/app_config.json`, ignorada pelo Git.
   Copie o template para esse caminho quando precisar fixar tema, branding,
   conector ou modelo em um ambiente específico.
+- log local de perguntas do Q&A: `app/data/qa_questions.jsonl`, ignorado pelo
+  Git. Use apenas para análise local, pois perguntas podem conter dados
+  sensíveis digitados pelo usuário.
 - variáveis de ambiente críticas: nenhuma obrigatória
 - variáveis opcionais do app: `APP_HOST`, `APP_PORT`, `OLLAMA_URL`,
   `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PREDICT`, `APP_THEME`,
   `APP_SHOW_THEME_PICKER`, `APP_QA_ENABLED`, `APP_QA_CONNECTOR`,
   `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`, `APP_QA_KEEP_ALIVE`,
-  `APP_QA_NUM_PREDICT`, `APP_BRAND_TITLE`, `APP_BRAND_SUBTITLE`,
+  `APP_QA_NUM_PREDICT`, `APP_QA_LOG_QUESTIONS`, `APP_BRAND_TITLE`, `APP_BRAND_SUBTITLE`,
   `APP_BRAND_SHOW_MARK`, `APP_BRAND_MARK_TEXT`, `APP_BRAND_LOGO_SRC`
-- path de runtime state: nenhum
-- path de logs: nenhum
+- path de runtime state: `app/data/qa_questions.jsonl` quando log de perguntas
+  estiver habilitado
+- path de logs: `app/data/qa_questions.jsonl` para perguntas do Q&A; não há
+  log persistente geral de aplicação
 
 O repositório não deve depender de caminhos locais implícitos. Kits cromáticos
 não devem carregar nomes institucionais, logos, URLs de origem ou assets
@@ -106,10 +111,13 @@ Conferir:
 
 ## 6. Logs e diagnóstico
 
-- logger principal: não há logger persistente de aplicação
+- logger principal: não há logger persistente geral de aplicação; o módulo de
+  Perguntas e Respostas grava perguntas em JSONL local quando habilitado.
 - formato dos logs: saída textual dos scripts e requisições locais do servidor
+  e eventos JSONL de perguntas do Q&A.
 - onde ler logs:
   - terminal local
+  - `app/data/qa_questions.jsonl` para perguntas feitas ao Q&A
 - sinais de falha comuns:
   - `PROJECT_GATE.md` com resposta curta, vaga ou pendente
   - divergência entre README, AGENTS e OPERATIONS
@@ -135,11 +143,13 @@ Ao mudar:
 ## 8. Persistência, backup e limpeza
 
 - armazenamento principal: Git.
+- armazenamento local não versionado: `app/data/qa_questions.jsonl` para massa
+  de perguntas do Q&A.
 - backup: remoto Git e cópia local independente da publicação original externa,
   quando necessária para auditoria clínica.
 - retenção: histórico Git conforme política do repositório.
-- limpeza segura: `.DS_Store`, caches, arquivos temporários e exports locais
-  não versionados.
+- limpeza segura: `.DS_Store`, caches, arquivos temporários, exports locais e
+  logs de perguntas quando não forem mais necessários.
 
 Nunca remova sem decisão explícita:
 

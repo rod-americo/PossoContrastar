@@ -59,3 +59,15 @@
   como geradora de protocolo aprovado.
 - tradeoff: Rascunhos institucionais ficam fora do runtime; quando necessários,
   devem nascer em fluxo próprio de governança e aprovação.
+
+## 6. Persistir perguntas do Q&A para melhoria do RAG
+
+- contexto: Perguntas reais revelaram falhas de recuperação e linguagem natural
+  no módulo de Perguntas e Respostas.
+- decisão: Gravar cada pergunta em `app/data/qa_questions.jsonl`, arquivo local
+  ignorado pelo Git, sem persistir respostas, payloads completos, headers, IP ou
+  identificadores do usuário.
+- impacto: O projeto passa a ter massa local de perguntas para análise,
+  avaliação sintética e melhoria de aliases/recuperação.
+- tradeoff: Perguntas podem conter dados sensíveis digitados pelo usuário; o log
+  deve permanecer local e passar por revisão antes de compartilhamento.

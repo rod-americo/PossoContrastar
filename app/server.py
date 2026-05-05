@@ -11,6 +11,7 @@ import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -25,6 +26,7 @@ DOCS_DIR = ROOT / "docs" / "meios_de_contraste"
 RULES_PATH = DATA_DIR / "rules.json"
 APP_CONFIG_PATH = DATA_DIR / "app_config.json"
 APP_CONFIG_EXAMPLE_PATH = DATA_DIR / "app_config.example.json"
+QA_QUESTIONS_LOG_PATH = DATA_DIR / "qa_questions.jsonl"
 SOURCE_PATH = DOCS_DIR / "source.json"
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
@@ -148,6 +150,15 @@ def app_config() -> dict[str, Any]:
         or qa.get("num_predict"),
         384,
     )
+    qa_log_questions = parse_bool_env(os.environ.get("APP_QA_LOG_QUESTIONS"))
+    if qa_log_questions is None:
+        configured_log_questions = qa.get("log_questions", True)
+        if isinstance(configured_log_questions, bool):
+            qa_log_questions = configured_log_questions
+        else:
+            qa_log_questions = parse_bool_env(str(configured_log_questions))
+        if qa_log_questions is None:
+            qa_log_questions = True
 
     return {
         "branding": {
@@ -169,6 +180,7 @@ def app_config() -> dict[str, Any]:
             "ollama_url": ollama_url,
             "keep_alive": keep_alive,
             "num_predict": num_predict,
+            "log_questions": qa_log_questions,
         },
     }
 
@@ -780,6 +792,26 @@ def pediatric_dose_answer(question: str) -> dict[str, Any] | None:
     }
 
 
+def log_qa_question(question: str, chunks: list[dict[str, Any]], result: dict[str, Any], qa: dict[str, Any]) -> None:
+    if not qa.get("log_questions"):
+        return
+    event = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "question": question,
+        "connector": result.get("connector"),
+        "model": result.get("model"),
+        "available": result.get("available"),
+        "citation_ids": [chunk.get("id") for chunk in chunks],
+        "top_citation": chunks[0].get("id") if chunks else None,
+        "error": result.get("error"),
+    }
+    try:
+        with QA_QUESTIONS_LOG_PATH.open("a", encoding="utf-8") as log_file:
+            log_file.write(json.dumps(event, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError as exc:
+        sys.stderr.write(f"Falha ao gravar pergunta do Q&A: {exc}\n")
+
+
 def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
     if not chunks:
         return {
@@ -885,6 +917,7 @@ class Handler(BaseHTTPRequestHandler):
                     "qa_ollama_url": qa["ollama_url"],
                     "qa_keep_alive": qa["keep_alive"],
                     "qa_num_predict": qa["num_predict"],
+                    "qa_log_questions": qa["log_questions"],
                     "corpus": str(DOCS_DIR.relative_to(ROOT)),
                 }
             )
@@ -935,9 +968,12 @@ class Handler(BaseHTTPRequestHandler):
                 chunks = focus_retrieved_chunks(retrieve(question, limit=6))
                 local_answer = pediatric_dose_answer(question)
                 if local_answer:
+                    log_qa_question(question, chunks, local_answer, qa)
                     self.send_json({"question": question, "citations": chunks, **local_answer})
                     return
-                self.send_json({"question": question, "citations": chunks, **ask_ollama(question, chunks, qa)})
+                answer = ask_ollama(question, chunks, qa)
+                log_qa_question(question, chunks, answer, qa)
+                self.send_json({"question": question, "citations": chunks, **answer})
             else:
                 self.send_json({"error": "endpoint not found"}, status=404)
         except json.JSONDecodeError:

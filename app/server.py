@@ -226,7 +226,10 @@ TOKEN_ALIASES = {
     "iodado": {"iodado", "iodados", "iodinated"},
     "rim": {"rim", "renal", "tfge", "creatinina", "ckd", "drc"},
     "metformina": {"metformina", "metformin"},
+    "dose": {"administrar", "dose", "dosagem", "injetar", "injetavel", "quanto", "volume"},
     "extravasamento": {"extravasamento", "extravasou", "extravasado", "extravasation"},
+    "pediatria": {"crianca", "criancas", "infantil", "lactente", "lactentes", "pediatria", "pediatrica", "pediatrico", "recem-nascido"},
+    "peso": {"kg", "quilo", "quilos", "peso"},
     "reacao": {"reacao", "reacoes", "alergia", "anafilaxia", "hipersensibilidade"},
 }
 
@@ -253,12 +256,16 @@ def tokens(value: str) -> set[str]:
         "de",
         "da",
         "do",
+        "dois",
+        "duas",
         "em",
         "ao",
         "ou",
         "e",
         "a",
         "o",
+        "tres",
+        "um",
     }
     found = set()
     for token in re.findall(r"[A-Za-z0-9_-]{3,}", normalize(value)):
@@ -695,6 +702,84 @@ def build_qa_messages(question: str, chunks: list[dict[str, Any]]) -> list[dict[
     ]
 
 
+NUMBER_WORDS = {
+    "um": 1,
+    "uma": 1,
+    "dois": 2,
+    "duas": 2,
+    "tres": 3,
+    "quatro": 4,
+    "cinco": 5,
+    "seis": 6,
+    "sete": 7,
+    "oito": 8,
+    "nove": 9,
+    "dez": 10,
+}
+
+
+def parse_weight_kg_from_text(value: str) -> float | None:
+    normalized = normalize(value)
+    match = re.search(r"\b(\d+(?:[,.]\d+)?)\s*(?:kg|quilo|quilos)\b", normalized)
+    if match:
+        return parse_float(match.group(1))
+    for word, number in NUMBER_WORDS.items():
+        if re.search(rf"\b{word}\s+(?:kg|quilo|quilos)\b", normalized):
+            return float(number)
+    return None
+
+
+def format_pt_number(value: float, digits: int = 1) -> str:
+    rounded = round(value, digits)
+    if rounded == int(rounded):
+        return str(int(rounded))
+    return f"{rounded:.{digits}f}".replace(".", ",")
+
+
+def pediatric_dose_answer(question: str) -> dict[str, Any] | None:
+    query_tokens = tokens(question)
+    asks_dose = bool(query_tokens & TOKEN_TO_GROUP["dose"])
+    asks_child = bool(query_tokens & TOKEN_TO_GROUP["pediatria"])
+    weight = parse_weight_kg_from_text(question)
+    if not asks_dose or not asks_child or weight is None:
+        return None
+
+    rules = read_json(RULES_PATH)["pediatrics"]
+    iodinated = rules["iodinated_dose_ml_kg"]
+    iodinated_min = round(weight * iodinated["min"], 1)
+    iodinated_max = round(weight * iodinated["max"], 1)
+    gbca = round(weight * rules["gbca_dose_mmol_kg"], 3)
+    wants_gbca = bool({"gadolínio", "gadolinio", "gbca", "mcbg"} & query_tokens)
+    wants_iodinated = bool({"iodado", "iodados", "iodinated"} & query_tokens)
+
+    if wants_gbca and not wants_iodinated:
+        answer = (
+            f"Para uma criança de {format_pt_number(weight)} kg, a dose habitual de MCBG no corpus local é "
+            f"0,01 mmol/kg, ou seja, {format_pt_number(gbca, 3)} mmol [1]. Confirmar o agente, a bula e o "
+            "protocolo local antes da administração."
+        )
+    elif wants_iodinated and not wants_gbca:
+        answer = (
+            f"Para uma criança de {format_pt_number(weight)} kg, a dose habitual de contraste iodado é "
+            f"1,0 a 2,0 mL/kg, ou seja, {format_pt_number(iodinated_min)} a {format_pt_number(iodinated_max)} mL [1]. "
+            "A região estudada e o protocolo do exame definem o valor dentro dessa faixa."
+        )
+    else:
+        answer = (
+            f"Se for contraste iodado, para {format_pt_number(weight)} kg a dose habitual é "
+            f"{format_pt_number(iodinated_min)} a {format_pt_number(iodinated_max)} mL, usando 1,0 a 2,0 mL/kg [1]. "
+            f"Se for MCBG, a dose habitual é {format_pt_number(gbca, 3)} mmol, usando 0,01 mmol/kg [1]. "
+            "Como a pergunta não especifica o contraste nem o exame, confirme a indicação, "
+            "a região estudada, a bula e o protocolo local."
+        )
+    return {
+        "answer": answer,
+        "model": "regras locais",
+        "connector": "local_rules",
+        "available": True,
+    }
+
+
 def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
     if not chunks:
         return {
@@ -848,6 +933,10 @@ class Handler(BaseHTTPRequestHandler):
                     return
                 question = str(payload.get("question", "")).strip()
                 chunks = focus_retrieved_chunks(retrieve(question, limit=6))
+                local_answer = pediatric_dose_answer(question)
+                if local_answer:
+                    self.send_json({"question": question, "citations": chunks, **local_answer})
+                    return
                 self.send_json({"question": question, "citations": chunks, **ask_ollama(question, chunks, qa)})
             else:
                 self.send_json({"error": "endpoint not found"}, status=404)

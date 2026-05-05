@@ -195,6 +195,10 @@ function formatDecimal(value, digits = 1) {
   });
 }
 
+function formatRange(min, max, digits = 1) {
+  return `${formatDecimal(min, digits)}-${formatDecimal(max, digits)}`;
+}
+
 function bucketLabel(bucket) {
   return {
     normal: "TFGe > 60",
@@ -239,7 +243,7 @@ function hydrationCard(hydration) {
   return card({
     level: "attention",
     title: "Hidratação",
-    message: `${hydration.fluid}: ${hydration.rate_min_ml_h}-${hydration.rate_max_ml_h} mL/h; iniciar ${hydration.start_before_h}h antes e manter ${hydration.continue_after_h}h após. ${hydration.note}`,
+    message: `${hydration.fluid}: ${formatRange(hydration.rate_min_ml_h, hydration.rate_max_ml_h, 0)} mL/h; iniciar ${hydration.start_before_h}h antes e manter ${hydration.continue_after_h}h após. ${hydration.note}`,
   });
 }
 
@@ -427,8 +431,8 @@ function bindCalculators() {
     const result = await api("/api/calculators/pediatric", {method: "POST", body: JSON.stringify(formPayload(form))});
     form.querySelector("output").innerHTML = `
       ${renalCard(result.renal_function)}
-      ${card({title: "Dose iodado", message: `${result.iodinated_volume_ml.min}-${result.iodinated_volume_ml.max} mL`})}
-      ${card({title: "Dose gadolínio (MCBG)", message: `${result.gbca_dose_mmol} mmol`})}
+      ${card({title: "Dose iodado", message: `${formatRange(result.iodinated_volume_ml.min, result.iodinated_volume_ml.max)} mL`})}
+      ${card({title: "Dose gadolínio (MCBG)", message: `${formatDecimal(result.gbca_dose_mmol, 3)} mmol`})}
       ${card({title: "Taxa máxima", message: result.max_injection_rate, source: result.source})}
     `;
   });

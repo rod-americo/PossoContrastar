@@ -59,6 +59,7 @@ function inlineMarkdown(value) {
     .replace(/\\\*/g, escapedAsterisk)
     .replace(/\\([`_])/g, "$1");
   return escapeHtml(normalized)
+    .replace(/&lt;br\s*\/?&gt;/gi, "<br>")
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replaceAll(escapedAsterisk, "*");

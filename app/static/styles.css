@@ -562,13 +562,16 @@ textarea {
   min-width: 100%;
   max-width: none;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.38;
 }
 
 .markdown-body th,
 .markdown-body td {
   border: 1px solid var(--line);
   padding: 8px 10px;
+  font-size: inherit;
+  line-height: inherit;
   text-align: left;
   vertical-align: top;
 }

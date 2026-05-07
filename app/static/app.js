@@ -120,9 +120,9 @@ function markdownToHtml(markdown) {
       continue;
     }
 
-    const heading = /^(#{1,4})\s+(.+)$/.exec(trimmed);
+    const heading = /^(#{1,6})\s+(.+)$/.exec(trimmed);
     if (heading) {
-      const level = Math.min(heading[1].length + 1, 5);
+      const level = Math.min(heading[1].length + 1, 6);
       html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
       index += 1;
       continue;
@@ -170,7 +170,7 @@ function markdownToHtml(markdown) {
     while (
       index < lines.length &&
       lines[index].trim() &&
-      !/^(#{1,4})\s+/.test(lines[index].trim()) &&
+      !/^(#{1,6})\s+/.test(lines[index].trim()) &&
       !/^[-*]\s+/.test(lines[index].trim()) &&
       !/^\d+\.\s+/.test(lines[index].trim()) &&
       !(index + 1 < lines.length && lines[index].includes("|") && isTableSeparator(lines[index + 1]))

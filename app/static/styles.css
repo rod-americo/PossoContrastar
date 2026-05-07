@@ -483,7 +483,8 @@ textarea {
 .markdown-body h2,
 .markdown-body h3,
 .markdown-body h4,
-.markdown-body h5 {
+.markdown-body h5,
+.markdown-body h6 {
   color: var(--title);
   line-height: 1.25;
   margin: 18px 0 8px;
@@ -491,7 +492,9 @@ textarea {
 
 .markdown-body h2:first-child,
 .markdown-body h3:first-child,
-.markdown-body h4:first-child {
+.markdown-body h4:first-child,
+.markdown-body h5:first-child,
+.markdown-body h6:first-child {
   margin-top: 0;
 }
 

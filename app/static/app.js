@@ -386,10 +386,6 @@ function bindDecision() {
     const result = await api("/api/decision", {method: "POST", body: JSON.stringify(formPayload(form))});
     setDecisionEgfr(result.renal_function);
     $("#decision-result").innerHTML = `
-      <article class="result-card ${result.level}">
-        <h3>Nível: ${escapeHtml(result.level)}</h3>
-        <p>${escapeHtml(result.summary)}</p>
-      </article>
       ${renalCard(result.renal_function)}
       ${result.cards.map(card).join("")}
     `;

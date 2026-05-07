@@ -156,7 +156,7 @@ Git:
     "show_theme_picker": true
   },
   "qa": {
-    "enabled": true,
+    "enabled": false,
     "connector": "ollama",
     "model": "gemma4:e4b",
     "ollama_url": "http://localhost:11434",

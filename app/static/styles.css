@@ -110,9 +110,9 @@ textarea {
   gap: 18px;
   align-items: center;
   padding: 14px 20px;
-  background: var(--surface);
-  border-top: 4px solid var(--primary);
-  border-bottom: 1px solid var(--line);
+  background: var(--primary);
+  border-top: 4px solid color-mix(in srgb, var(--primary-dark) 78%, #000);
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-dark) 68%, #000);
   box-shadow: var(--shadow);
 }
 
@@ -155,12 +155,12 @@ textarea {
 }
 
 .brand-copy strong {
-  color: var(--title);
+  color: #fff;
   font-size: 16px;
 }
 
 .brand-copy span {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 12px;
 }
 
@@ -187,16 +187,16 @@ textarea {
 }
 
 .nav-tab {
-  color: var(--muted);
-  background: transparent;
-  border-color: var(--line);
+  color: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, #fff 7%, transparent);
+  border-color: rgba(255, 255, 255, 0.34);
 }
 
 .nav-tab:hover,
 .nav-tab.active {
-  color: #fff;
-  background: var(--primary);
-  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--surface);
+  border-color: var(--surface);
 }
 
 .button:hover {
@@ -233,6 +233,16 @@ label span {
   color: var(--muted);
   font-size: 12px;
   font-weight: 700;
+}
+
+.topbar .theme-picker span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.topbar .theme-picker select {
+  color: var(--text);
+  background: var(--surface);
+  border-color: transparent;
 }
 
 .workspace {

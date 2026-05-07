@@ -162,12 +162,22 @@
             </div>
           </div>
           <div class="calc-grid">
+            <form id="pediatric-form" class="panel mini-form">
+              <h2>Pediatria</h2>
+              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL opcional">
+              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos opcional">
+              <input name="height_cm" type="text" inputmode="decimal" placeholder="Altura cm opcional">
+              <select name="catheter"><option>24G</option><option selected>22G</option><option>20G</option><option>16-18G</option></select>
+              <button class="button" type="submit">Calcular</button>
+              <output></output>
+            </form>
             <form id="renal-form" class="panel mini-form">
               <h2>Renal / hidratação</h2>
-              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL">
-              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos">
               <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
-              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
+              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
               <label class="check"><input name="metformin" type="checkbox"> Metformina</label>
               <label class="check"><input name="aki" type="checkbox"> IRA</label>
               <button class="button" type="submit">Calcular</button>
@@ -177,27 +187,17 @@
               <h2>Intervalômetro</h2>
               <select name="previous_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
               <select name="next_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
-              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL">
-              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos">
               <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
-              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
+              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
               <select name="sample_type"><option value="blood">Sangue</option><option value="urine">Urina</option></select>
-              <button class="button" type="submit">Calcular</button>
-              <output></output>
-            </form>
-            <form id="pediatric-form" class="panel mini-form">
-              <h2>Pediatria</h2>
-              <input name="weight_kg" type="number" min="0" step="0.1" placeholder="Peso kg">
-              <input name="creatinine_mg_dl" type="number" min="0" step="0.01" placeholder="Creatinina mg/dL opcional">
-              <input name="age_years" type="number" min="0" step="1" placeholder="Idade anos opcional">
-              <input name="height_cm" type="number" min="0" step="0.1" placeholder="Altura cm opcional">
-              <select name="catheter"><option>24G</option><option selected>22G</option><option>20G</option><option>16-18G</option></select>
               <button class="button" type="submit">Calcular</button>
               <output></output>
             </form>
             <form id="extravasation-form" class="panel mini-form">
               <h2>Extravasamento</h2>
-              <input name="volume_ml" type="number" placeholder="Volume mL">
+              <input name="volume_ml" type="text" inputmode="decimal" placeholder="Volume mL">
               <label class="check"><input name="severe_signs" type="checkbox"> Sinais neurovasculares/motores ou síndrome compartimental</label>
               <button class="button" type="submit">Gerar conduta</button>
               <output></output>

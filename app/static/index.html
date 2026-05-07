@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#2563eb">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="/static/styles.css?v=20260507-table-render">
+    <link rel="stylesheet" href="/static/styles.css?v=20260507-keypad-hints">
     <title>Posso Contrastar?</title>
   </head>
   <body>
@@ -78,11 +78,11 @@
             </label>
             <label>
               <span>Idade</span>
-              <input name="age_years" type="text" inputmode="numeric" placeholder="anos">
+              <input name="age_years" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="anos">
             </label>
             <label>
               <span>Peso</span>
-              <input name="weight_kg" type="text" inputmode="decimal" placeholder="kg">
+              <input name="weight_kg" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="kg">
             </label>
             <label>
               <span>Sexo</span>
@@ -94,7 +94,7 @@
             </label>
             <label>
               <span>Creatinina</span>
-              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="mg/dL">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="mg/dL">
             </label>
             <label>
               <span>TFGe</span>
@@ -163,20 +163,20 @@
           <div class="calc-grid">
             <form id="pediatric-form" class="panel mini-form">
               <h2>Pediatria</h2>
-              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
-              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL opcional">
-              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos opcional">
-              <input name="height_cm" type="text" inputmode="decimal" placeholder="Altura cm opcional">
+              <input name="weight_kg" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Peso kg">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Creatinina mg/dL opcional">
+              <input name="age_years" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Idade anos opcional">
+              <input name="height_cm" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Altura cm opcional">
               <select name="catheter"><option>24G</option><option selected>22G</option><option>20G</option><option>16-18G</option></select>
               <button class="button" type="submit">Calcular</button>
               <output></output>
             </form>
             <form id="renal-form" class="panel mini-form">
               <h2>Renal / hidratação</h2>
-              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL">
-              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Idade anos">
               <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
-              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
+              <input name="weight_kg" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Peso kg">
               <label class="check"><input name="metformin" type="checkbox"> Metformina</label>
               <label class="check"><input name="aki" type="checkbox"> IRA</label>
               <button class="button" type="submit">Calcular</button>
@@ -186,17 +186,17 @@
               <h2>Intervalômetro</h2>
               <select name="previous_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
               <select name="next_class"><option value="iodinated">Iodado</option><option value="gbca">Gadolínio (MCBG)</option></select>
-              <input name="creatinine_mg_dl" type="text" inputmode="decimal" placeholder="Creatinina mg/dL">
-              <input name="age_years" type="text" inputmode="numeric" placeholder="Idade anos">
+              <input name="creatinine_mg_dl" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Creatinina mg/dL">
+              <input name="age_years" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Idade anos">
               <select name="sex"><option value="">Sexo</option><option value="female">Feminino</option><option value="male">Masculino</option></select>
-              <input name="weight_kg" type="text" inputmode="decimal" placeholder="Peso kg">
+              <input name="weight_kg" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Peso kg">
               <select name="sample_type"><option value="blood">Sangue</option><option value="urine">Urina</option></select>
               <button class="button" type="submit">Calcular</button>
               <output></output>
             </form>
             <form id="extravasation-form" class="panel mini-form">
               <h2>Extravasamento</h2>
-              <input name="volume_ml" type="text" inputmode="decimal" placeholder="Volume mL">
+              <input name="volume_ml" type="text" inputmode="decimal" pattern="[0-9]*[,.]?[0-9]*" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Volume mL">
               <label class="check"><input name="severe_signs" type="checkbox"> Sinais neurovasculares/motores ou síndrome compartimental</label>
               <button class="button" type="submit">Gerar conduta</button>
               <output></output>
@@ -237,6 +237,6 @@
       </main>
     </div>
 
-    <script src="/static/app.js?v=20260507-table-render"></script>
+    <script src="/static/app.js?v=20260507-keypad-hints"></script>
   </body>
 </html>

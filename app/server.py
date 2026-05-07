@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import re
@@ -31,6 +32,13 @@ SOURCE_PATH = DOCS_DIR / "source.json"
 CHAPTERS_CACHE: list[dict[str, Any]] | None = None
 CHUNKS_CACHE: list[dict[str, Any]] | None = None
 SUPPORTED_THEMES = {"whitelabel", "noturno", "botanico", "cobalto", "lilas"}
+THEME_COLORS = {
+    "whitelabel": "#2563eb",
+    "noturno": "#5ab9ff",
+    "botanico": "#146941",
+    "cobalto": "#003da5",
+    "lilas": "#6d2077",
+}
 SUPPORTED_QA_CONNECTORS = {"ollama"}
 
 
@@ -187,6 +195,21 @@ def app_config() -> dict[str, Any]:
 
 def source_metadata() -> dict[str, Any]:
     return read_json(SOURCE_PATH)
+
+
+def render_index_html() -> bytes:
+    config = app_config()
+    theme = config["theme"]["default_theme"]
+    theme_color = THEME_COLORS.get(theme, THEME_COLORS["whitelabel"])
+    html_text = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    html_text = re.sub(r'data-theme="[^"]+"', f'data-theme="{html.escape(theme, quote=True)}"', html_text, count=1)
+    html_text = re.sub(
+        r'(<meta name="theme-color" content=")[^"]+(">)',
+        rf"\1{html.escape(theme_color, quote=True)}\2",
+        html_text,
+        count=1,
+    )
+    return html_text.encode("utf-8")
 
 
 def markdown_files() -> list[Path]:
@@ -994,7 +1017,10 @@ class Handler(BaseHTTPRequestHandler):
             content_type = "text/css; charset=utf-8"
         elif target.suffix == ".js":
             content_type = "application/javascript; charset=utf-8"
-        data = target.read_bytes()
+        if target.name == "index.html":
+            data = render_index_html()
+        else:
+            data = target.read_bytes()
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(data)))

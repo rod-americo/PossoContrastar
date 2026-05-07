@@ -111,7 +111,7 @@ textarea {
   align-items: center;
   padding: 14px 20px;
   background: var(--primary);
-  border-top: 4px solid color-mix(in srgb, var(--primary-dark) 78%, #000);
+  border-top: 0;
   border-bottom: 1px solid color-mix(in srgb, var(--primary-dark) 68%, #000);
   box-shadow: var(--shadow);
 }

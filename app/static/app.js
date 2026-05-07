@@ -298,6 +298,13 @@ function setView(viewId) {
   $$(".view").forEach((view) => view.classList.toggle("active", view.id === viewId));
 }
 
+function syncBrowserChromeColor() {
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (!themeColor) return;
+  const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+  if (primary) themeColor.setAttribute("content", primary);
+}
+
 function applyAppConfig(config) {
   const branding = config?.branding || {};
   const theme = config?.theme || {};
@@ -330,6 +337,7 @@ function applyAppConfig(config) {
   const picker = $("#theme-picker");
   const select = $("#theme-select");
   document.documentElement.dataset.theme = defaultTheme;
+  syncBrowserChromeColor();
   if (select) {
     [...select.options].forEach((option) => {
       option.hidden = !available.has(option.value);
@@ -337,6 +345,7 @@ function applyAppConfig(config) {
     select.value = defaultTheme;
     select.addEventListener("change", (event) => {
       document.documentElement.dataset.theme = event.target.value;
+      syncBrowserChromeColor();
     });
   }
   if (picker) {

@@ -3,11 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f9fc">
-    <style>
-      .topbar { position: static !important; top: auto !important; }
-    </style>
-    <link rel="stylesheet" href="/static/styles.css?v=20260505-topbar-static">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/static/styles.css?v=20260507-fixed-topbar">
     <title>Posso Contrastar?</title>
   </head>
   <body>
@@ -21,11 +20,11 @@
           </div>
         </div>
         <nav class="nav-tabs" aria-label="Módulos">
-          <button class="nav-tab active" data-view="decision" type="button">Decidir</button>
-          <button class="nav-tab" data-view="emergency" type="button">Emergência</button>
-          <button class="nav-tab" data-view="calculators" type="button">Calculadoras</button>
-          <button class="nav-tab" data-view="library" type="button">Biblioteca</button>
-          <button class="nav-tab" data-view="qa" type="button">Perguntas e Respostas</button>
+          <button class="nav-tab active" data-view="decision" type="button" aria-label="Decidir"><span class="nav-full">Decidir</span><span class="nav-short">Decidir</span></button>
+          <button class="nav-tab" data-view="emergency" type="button" aria-label="Emergência"><span class="nav-full">Emergência</span><span class="nav-short">Emerg.</span></button>
+          <button class="nav-tab" data-view="calculators" type="button" aria-label="Calculadoras"><span class="nav-full">Calculadoras</span><span class="nav-short">Calc.</span></button>
+          <button class="nav-tab" data-view="library" type="button" aria-label="Biblioteca"><span class="nav-full">Biblioteca</span><span class="nav-short">Biblio.</span></button>
+          <button class="nav-tab" data-view="qa" type="button" aria-label="Perguntas e Respostas"><span class="nav-full">Perguntas e Respostas</span><span class="nav-short">Q&amp;A</span></button>
         </nav>
         <label id="theme-picker" class="theme-picker">
           <span>Adaptador</span>
@@ -238,6 +237,6 @@
       </main>
     </div>
 
-    <script src="/static/app.js?v=20260505-topbar-static"></script>
+    <script src="/static/app.js?v=20260507-fixed-topbar"></script>
   </body>
 </html>

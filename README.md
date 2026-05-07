@@ -6,9 +6,9 @@ clínicas operacionais locais de apoio à decisão.
 
 Este trabalho é baseado no livro **Meios de contraste: conceitos e diretrizes
 (versão pocket)**. O repositório transforma o conteúdo em corpus Markdown,
-contratos, regras explicáveis e uma aplicação local de apoio à decisão; ele não
-substitui o livro, não versiona o PDF original e não representa protocolo
-institucional aprovado.
+contratos, regras explicáveis e uma aplicação local whitelabel de apoio à
+decisão; ele não substitui o livro, não versiona o PDF original e não representa
+protocolo institucional aprovado.
 
 ## Base bibliográfica
 
@@ -25,8 +25,8 @@ Obra-fonte:
 
 Os direitos autorais da publicação original pertencem à Sociedade Paulista de
 Radiologia e Diagnóstico por Imagem (SPR). Este repositório guarda apenas uma
-conversão Markdown local para leitura, busca, RAG restrito e prototipagem de
-apoio à decisão.
+conversão Markdown local para leitura, busca, Perguntas e Respostas restrito ao
+corpus quando habilitado e prototipagem de apoio à decisão.
 
 ## Licença
 
@@ -62,7 +62,10 @@ radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
 - Espaço para kits de identidade visual que apoiam páginas, documentos e
   protótipos relacionados ao material.
 - Aplicação local whitelabel de apoio à decisão, com regras determinísticas,
-  RAG restrita ao corpus local e adaptadores visuais.
+  calculadoras, biblioteca, busca, renderização de Markdown e adaptadores
+  visuais.
+- Módulo de Perguntas e Respostas restrito ao corpus local, com Ollama opcional,
+  atualmente desabilitado no template versionado e ativável por configuração.
 - Metadado estruturado da obra-fonte em
   `docs/meios_de_contraste/source.json`, consumido pelo app e pela API local.
 - Avaliação e backlog do app em `docs/APP_REVIEW.md`, orientados para rodadas
@@ -80,22 +83,28 @@ radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
 - Não deve promover regras clínicas a protocolo final sem contrato, citação,
   revisão por responsável técnico e aprovação institucional.
 
-Perguntas feitas ao módulo Perguntas e Respostas são gravadas localmente em
-`app/data/qa_questions.jsonl` para melhoria posterior do RAG. Esse arquivo não
-deve ser versionado e pode exigir revisão antes de qualquer compartilhamento.
+Quando o módulo Perguntas e Respostas estiver habilitado, perguntas feitas ao
+módulo são gravadas localmente em `app/data/qa_questions.jsonl` para melhoria
+posterior do RAG. Esse arquivo não deve ser versionado e pode exigir revisão
+antes de qualquer compartilhamento.
 
 ## Estado atual
 
 - fase: `app local de apoio à decisão`
 - runtime principal: `python3 app/server.py`
+- frontend: HTML/CSS/JS estático, sem build step
+- backend: Python com biblioteca padrão
+- Q&A: disponível por configuração, mas desabilitado por padrão em
+  `app/data/app_config.example.json`
 - entrypoints principais:
   - `python3 scripts/check_project_gate.py`
   - `python3 scripts/project_doctor.py`
   - `python3 scripts/project_doctor.py --audit-config`
   - `python3 app/server.py`
 - dependência externa crítica:
-  - Ollama opcional para Perguntas e Respostas e validação humana especializada
-    para uso clínico. O PDF de origem não é versionado neste repositório.
+  - Ollama opcional quando Perguntas e Respostas estiver habilitado.
+  - Validação humana especializada para qualquer uso clínico. O PDF de origem
+    não é versionado neste repositório.
 
 ## Conteúdo principal
 
@@ -112,12 +121,15 @@ PossoContrastar/
 │   ├── CONTRACTS.md
 │   ├── OPERATIONS.md
 │   ├── DECISIONS.md
+│   ├── APP_REVIEW.md
 │   ├── identidade_visual/
 │   └── meios_de_contraste/
 ├── scripts/
 │   ├── check_project_gate.py
+│   ├── install_git_hooks.sh
 │   └── project_doctor.py
 ├── app/
+│   ├── README.md
 │   ├── server.py
 │   ├── data/
 │   └── static/
@@ -139,8 +151,8 @@ python3 --version
 ```
 
 Não há instalação obrigatória de dependências de aplicação. O backend local usa
-apenas biblioteca padrão do Python. Ollama é opcional para Perguntas e
-Respostas.
+apenas biblioteca padrão do Python. Ollama é opcional e só é usado quando
+Perguntas e Respostas estiver habilitado.
 
 ### 3. Configurar
 
@@ -148,10 +160,24 @@ Respostas.
 test -f config/doctor.json
 ```
 
+O template versionado do app fica em `app/data/app_config.example.json`.
+Configuração local pode ser feita em `app/data/app_config.json`, que é ignorado
+pelo Git, ou por variáveis de ambiente. O Q&A vem desabilitado por padrão; para
+ativá-lo localmente use `APP_QA_ENABLED=true` e configure `APP_QA_OLLAMA_URL`
+quando o Ollama estiver em outra máquina.
+
 ### 4. Rodar
 
 ```bash
 python3 app/server.py
+```
+
+Abrir em `http://127.0.0.1:8765`.
+
+Exemplo com Perguntas e Respostas habilitado:
+
+```bash
+APP_QA_ENABLED=true APP_QA_OLLAMA_URL=http://127.0.0.1:11434 python3 app/server.py
 ```
 
 ## Validação
@@ -164,6 +190,10 @@ Checklist mínimo antes de commitar:
 - `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
 - `python3 -m py_compile app/server.py`
 - revisão de `git diff`
+
+O fluxo de colaboração do repositório espera commit e push quando uma tarefa
+gerar mudança versionável, preservando alterações não relacionadas feitas por
+outra pessoa.
 
 ## Fonte e segurança clínica
 

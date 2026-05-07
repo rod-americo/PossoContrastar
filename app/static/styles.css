@@ -683,13 +683,13 @@ output .result-card + .result-card {
 
 @media (max-width: 720px) {
   :root {
-    --topbar-fixed-height: 92px;
+    --topbar-fixed-height: 96px;
   }
 
   .topbar {
     grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
-    padding: 8px 8px 10px;
+    gap: 10px;
+    padding: 10px 18px 12px;
   }
 
   .brand {
@@ -709,8 +709,8 @@ output .result-card + .result-card {
     display: grid;
     grid-column: 1 / -1;
     grid-row: 2;
-    grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
-    gap: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    gap: 8px;
     min-width: 0;
     margin: 0;
     overflow: visible;
@@ -720,7 +720,7 @@ output .result-card + .result-card {
   .nav-tab {
     min-width: 0;
     min-height: 30px;
-    padding: 0 3px;
+    padding: 0 2px;
     font-size: 11px;
     white-space: nowrap;
   }
@@ -747,7 +747,7 @@ output .result-card + .result-card {
   }
 
   .workspace {
-    padding: 12px;
+    padding: 18px;
   }
 
   .view.active {

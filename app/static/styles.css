@@ -79,8 +79,20 @@ html[data-theme="lilas"] {
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
 body {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
@@ -95,7 +107,10 @@ textarea {
 }
 
 .app-shell {
+  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
+  overflow-x: clip;
   padding-top: var(--topbar-fixed-height);
 }
 
@@ -104,6 +119,8 @@ textarea {
   top: 0;
   right: 0;
   left: 0;
+  width: 100%;
+  max-width: 100%;
   z-index: 1000;
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto auto;

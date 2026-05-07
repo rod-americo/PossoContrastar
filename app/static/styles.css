@@ -84,6 +84,8 @@ html {
   max-width: 100%;
   overflow-x: hidden;
   overscroll-behavior-x: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -555,6 +557,8 @@ textarea {
   max-width: 100%;
   overflow-x: auto;
   margin: 10px 0 14px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 .markdown-body table {
@@ -562,16 +566,16 @@ textarea {
   min-width: 100%;
   max-width: none;
   border-collapse: collapse;
-  font-size: 13px;
-  line-height: 1.38;
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .markdown-body th,
 .markdown-body td {
   border: 1px solid var(--line);
   padding: 8px 10px;
-  font-size: inherit;
-  line-height: inherit;
+  font-size: 12px;
+  line-height: 1.35;
   text-align: left;
   vertical-align: top;
 }

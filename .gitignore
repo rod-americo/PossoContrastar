@@ -9,8 +9,10 @@ Icon?
 
 # Local runtime and temporary files
 runtime/
+.playwright-mcp/
 app/data/app_config.json
 app/data/qa_questions.jsonl
+*.jsonl
 *.tmp
 *.temp
 *.log

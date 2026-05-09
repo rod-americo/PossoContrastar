@@ -56,6 +56,28 @@ No host remoto, o Ollama precisa escutar na rede, por exemplo:
 OLLAMA_HOST=0.0.0.0:11434 ollama serve
 ```
 
+### Smoke HTTP local
+
+Em uma janela, subir o app:
+
+```bash
+python3 app/server.py --port 8765
+```
+
+Em outra janela:
+
+```bash
+curl -fsS http://127.0.0.1:8765/api/health
+curl -fsS http://127.0.0.1:8765/api/source
+curl -fsS http://127.0.0.1:8765/api/rules
+curl -fsS -X POST http://127.0.0.1:8765/api/renal-function \
+  -H 'Content-Type: application/json' \
+  -d '{"creatinine_mg_dl":1.0,"age_years":45,"sex":"female","weight_kg":70}'
+```
+
+O smoke não valida segurança clínica; ele confirma bootstrap, JSON válido e
+contratos HTTP básicos.
+
 ## 4. Configuração operacional
 
 - arquivo local: `config/doctor.json`
@@ -77,6 +99,9 @@ OLLAMA_HOST=0.0.0.0:11434 ollama serve
   estiver habilitado
 - path de logs: `app/data/qa_questions.jsonl` para perguntas do Q&A; não há
   log persistente geral de aplicação
+- paths mutáveis ignorados: `runtime/`, `.playwright-mcp/`, `__pycache__/`,
+  `app/data/app_config.json`, `app/data/qa_questions.jsonl`, caches de testes e
+  arquivos temporários
 
 O repositório não deve depender de caminhos locais implícitos. Kits cromáticos
 não devem carregar nomes institucionais, logos, URLs de origem ou assets
@@ -100,6 +125,10 @@ python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py
 python3 -m py_compile app/server.py
 ```
 
+Quando `app/` for alterado, executar também o smoke HTTP local descrito acima.
+Não há suíte de testes automatizados versionada nesta fase; isso deve ser
+tratado como lacuna real, não como cobertura implícita.
+
 Conferir:
 
 - gate preenchido e defensável
@@ -108,6 +137,8 @@ Conferir:
 - diff sem `.DS_Store`, cache ou export temporário
 - ausência de dados de pacientes ou segredos
 - app sobe localmente e endpoints principais respondem
+- `START_CHECKLIST.md` continua refletindo o que está completo, parcial e fora
+  de escopo
 
 ## 6. Logs e diagnóstico
 
@@ -123,6 +154,7 @@ Conferir:
   - divergência entre README, AGENTS e OPERATIONS
   - placeholders de scaffolding em documentos principais
   - arquivo obrigatório ausente
+  - `START_CHECKLIST.md` otimista demais ou desatualizado
   - Ollama indisponível ou modelo local ausente no endpoint `/api/qa`
   - `APP_QA_OLLAMA_URL` apontando para host/porta sem acesso de rede
   - JSON inválido em `app/data/`
@@ -149,7 +181,8 @@ Ao mudar:
   quando necessária para auditoria clínica.
 - retenção: histórico Git conforme política do repositório.
 - limpeza segura: `.DS_Store`, caches, arquivos temporários, exports locais e
-  logs de perguntas quando não forem mais necessários.
+  logs de perguntas quando não forem mais necessários. Não limpar arquivos
+  locais de outra pessoa sem confirmação.
 
 Nunca remova sem decisão explícita:
 

@@ -16,12 +16,21 @@ REQUIRED_FILES = [
     ROOT / "README.md",
     ROOT / "AGENTS.md",
     ROOT / "PROJECT_GATE.md",
+    ROOT / "CHANGELOG.md",
+    ROOT / "START_CHECKLIST.md",
+    ROOT / ".gitignore",
     DOCTOR_CONFIG_PATH,
     ROOT / "docs" / "ARCHITECTURE.md",
     ROOT / "docs" / "CONTRACTS.md",
     ROOT / "docs" / "OPERATIONS.md",
     ROOT / "docs" / "DECISIONS.md",
+    ROOT / "app" / "README.md",
+    ROOT / "app" / "server.py",
+    ROOT / "app" / "data" / "app_config.example.json",
+    ROOT / "app" / "data" / "rules.json",
     ROOT / "scripts" / "check_project_gate.py",
+    ROOT / "scripts" / "install_git_hooks.sh",
+    ROOT / ".githooks" / "pre-commit",
 ]
 KEY_DOCS = [
     ROOT / "README.md",
@@ -63,6 +72,7 @@ KNOWN_WARNING_CODES = {
     "scope_negative_mismatch",
     "objective_mismatch",
     "scope_architecture_mismatch",
+    "test_gap_not_documented",
 }
 
 
@@ -398,6 +408,7 @@ def main() -> int:
     architecture_text = read_text(ROOT / "docs" / "ARCHITECTURE.md")
     contracts_text = read_text(ROOT / "docs" / "CONTRACTS.md")
     operations_text = read_text(ROOT / "docs" / "OPERATIONS.md")
+    checklist_text = read_text(ROOT / "START_CHECKLIST.md")
 
     gate_check = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "check_project_gate.py")],
@@ -433,6 +444,11 @@ def main() -> int:
         ROOT / "docs" / "OPERATIONS.md": [
             "### Boot principal",
             "## 5. Validação mínima",
+        ],
+        ROOT / "START_CHECKLIST.md": [
+            "## 0. Identidade e fronteira",
+            "## 4. Hotspots que permanecem",
+            "## 6. O que não fazer",
         ],
     }
     for path, headings in required_sections.items():
@@ -543,6 +559,31 @@ def main() -> int:
         add_error(errors, "docs/CONTRACTS.md parece não ter entradas canônicas suficientes")
     if contracts_outputs.count("|") < 8:
         add_error(errors, "docs/CONTRACTS.md parece não ter saídas canônicas suficientes")
+
+    required_runtime_ignores = [
+        "runtime/",
+        ".playwright-mcp/",
+        "app/data/app_config.json",
+        "app/data/qa_questions.jsonl",
+        "__pycache__/",
+    ]
+    gitignore_text = read_text(ROOT / ".gitignore")
+    for pattern in required_runtime_ignores:
+        if pattern not in gitignore_text:
+            add_error(errors, f".gitignore não cobre runtime mutável esperado: {pattern}")
+
+    checklist_lower = checklist_text.lower()
+    if (
+        "não há suíte automatizada" not in checklist_lower
+        and "sem suíte" not in checklist_lower
+        and "não há testes automatizados" not in checklist_lower
+        and "existe suíte automatizada" not in checklist_lower
+    ):
+        add_warning(
+            warnings,
+            "test_gap_not_documented",
+            "START_CHECKLIST.md não explicita a ausência atual de testes automatizados",
+        )
 
     active_warnings = [
         item for item in warnings if item.get("code") not in ignored_warning_codes

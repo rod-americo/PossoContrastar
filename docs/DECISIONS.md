@@ -3,16 +3,18 @@
 ## 1. Bootstrap estrutural como acervo documental
 
 - contexto: O repositório de origem continha capítulos Markdown convertidos,
-  kits visuais e histórico de governança, mas o novo repositório precisava de
-  baseline própria.
+  kits visuais, histórico de governança e depois incorporou um app local de
+  apoio à decisão, mas precisava de baseline própria e coerente com a realidade
+  atual.
 - decisão: Aplicar Skidbladnir como recuperação estrutural de repositório
-  existente, sem criar runtime de aplicação.
+  existente, preservando o corpus em `docs/` e o runtime real em `app/`.
 - impacto: O repo passa a ter gate, doctor, contratos, operação e guardrails
-  para evolução documental.
+  para evolução documental e do app local.
 - tradeoff: A validação automática cobre coerência estrutural, mas não valida
   equivalência clínica entre publicação externa e Markdown.
-- alternativas rejeitadas: Gerar projeto greenfield, criar app de consulta
-  nesta rodada ou mover todo conteúdo para um módulo de outro sistema.
+- alternativas rejeitadas: Gerar projeto greenfield, mover o app para `src/`,
+  criar camadas artificiais ou deslocar todo conteúdo para um módulo de outro
+  sistema.
 
 ## 2. Não versionar PDF no novo repositório
 
@@ -71,3 +73,32 @@
   avaliação sintética e melhoria de aliases/recuperação.
 - tradeoff: Perguntas podem conter dados sensíveis digitados pelo usuário; o log
   deve permanecer local e passar por revisão antes de compartilhamento.
+
+## 7. Manter `app/` como módulo principal em vez de reorganizar para `src/`
+
+- contexto: A aplicação real é pequena, local, sem packaging Python e com
+  composition root claro em `app/server.py`.
+- decisão: Preservar `app/` como runtime principal, com backend, contratos JSON
+  e frontend estático no mesmo módulo, sem refatoração massiva de diretórios.
+- impacto: A raiz continua enxuta, a operação documentada segue verdadeira e a
+  recuperação estrutural não cria maturidade aparente que o código ainda não
+  sustenta.
+- tradeoff: `app/server.py` concentra responsabilidades e deve ganhar testes
+  antes de ser separado; a separação futura precisa ser motivada por casos de
+  uso reais.
+- alternativas rejeitadas: Migrar para `src/`, criar pacotes
+  `domain/application/infrastructure/interfaces` sem necessidade atual ou
+  introduzir framework web apenas por padrão arquitetural.
+
+## 8. Checklist de continuidade para repositório existente
+
+- contexto: O template Skidbladnir traz checklist de projeto novo, mas este
+  repositório já tem código, corpus, runtime e histórico.
+- decisão: Adaptar `START_CHECKLIST.md` para continuidade, registrando itens
+  concluídos, parciais, ausentes e proibidos na próxima rodada.
+- impacto: A próxima manutenção consegue distinguir baseline pronta de lacunas
+  reais, como falta de testes automatizados e validação clínica formal.
+- tradeoff: O checklist fica menos genérico que o starter e mais preso à
+  realidade deste repositório.
+- alternativas rejeitadas: Copiar o checklist greenfield sem adaptação ou
+  declarar como concluídos itens ainda não implementados, como CI e testes.

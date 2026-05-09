@@ -4,6 +4,10 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 
 ## Unreleased
 
+- Adapta a baseline Skidbladnir ao repositório existente, adiciona
+  `START_CHECKLIST.md`, explicita `app/server.py` como composition root real e
+  documenta lacunas de teste, smoke e validação clínica sem declarar prontidão
+  assistencial.
 - Normaliza acentuação, cedilha e nomenclatura operacional para técnicos de
   radiologia, técnicos de enfermagem, tecnólogos, enfermeiros, biomédicos,
   residentes de radiologia e radiologistas.

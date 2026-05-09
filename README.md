@@ -76,8 +76,7 @@ radiologista que valida exceções, risco-benefício e condutas fora do fluxo.
 - Não é protocolo institucional final, prescrição médica, dispositivo médico ou
   substituto da publicação original, de bulas oficiais e de validação clínica
   local.
-- Não é aplicação em produção, protocolo institucional aprovado, prescrição,
-  dispositivo médico ou substituto de revisão clínica.
+- Não é aplicação assistencial em produção nem serviço web público.
 - Não deve carregar dados de pacientes, credenciais, sessões, logs clínicos ou
   artefatos derivados sem governança explícita.
 - Não deve promover regras clínicas a protocolo final sem contrato, citação,
@@ -91,9 +90,12 @@ antes de qualquer compartilhamento.
 ## Estado atual
 
 - fase: `app local de apoio à decisão`
-- runtime principal: `python3 app/server.py`
+- runtime principal: `python3 app/server.py`, com `app/server.py` como
+  composition root, API HTTP local e servidor de arquivos estáticos
 - frontend: HTML/CSS/JS estático, sem build step
 - backend: Python com biblioteca padrão
+- contratos determinísticos: `app/data/rules.json`
+- corpus canônico: `docs/meios_de_contraste/`
 - Q&A: disponível por configuração, mas desabilitado por padrão em
   `app/data/app_config.example.json`
 - entrypoints principais:
@@ -113,7 +115,10 @@ PossoContrastar/
 ├── README.md
 ├── AGENTS.md
 ├── PROJECT_GATE.md
+├── START_CHECKLIST.md
 ├── CHANGELOG.md
+├── .githooks/
+│   └── pre-commit
 ├── config/
 │   └── doctor.json
 ├── docs/
@@ -134,6 +139,10 @@ PossoContrastar/
 │   ├── data/
 │   └── static/
 ```
+
+O layout atual deve ser preservado enquanto ele refletir o sistema real. A
+aplicação principal já vive em `app/`; não há ganho em mover para `src/` ou
+criar camadas `domain/application/infrastructure` artificiais nesta fase.
 
 ## Quick start
 
@@ -189,11 +198,17 @@ Checklist mínimo antes de commitar:
 - `python3 scripts/project_doctor.py --audit-config`
 - `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
 - `python3 -m py_compile app/server.py`
+- smoke local quando o app for afetado: subir `python3 app/server.py --port
+  8765` e consultar `curl -fsS http://127.0.0.1:8765/api/health`
 - revisão de `git diff`
 
 O fluxo de colaboração do repositório espera commit e push quando uma tarefa
 gerar mudança versionável, preservando alterações não relacionadas feitas por
 outra pessoa.
+
+Não há suíte automatizada de testes versionada nesta fase. Mudanças em regras,
+calculadoras ou endpoints devem ser acompanhadas por smoke HTTP e, quando
+clínicas, revisão especializada contra a fonte citada.
 
 ## Fonte e segurança clínica
 

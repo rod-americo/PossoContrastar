@@ -13,8 +13,10 @@ Antes de fazer mudanças significativas, leia nesta ordem:
 4. `docs/CONTRACTS.md`
 5. `docs/OPERATIONS.md`
 6. `docs/DECISIONS.md`
-7. `docs/meios_de_contraste/README.md`
-8. `docs/identidade_visual/README.md`
+7. `START_CHECKLIST.md`
+8. `docs/meios_de_contraste/README.md`
+9. `docs/identidade_visual/README.md`
+10. `app/README.md` quando a mudança tocar o app local
 
 ## Política de idioma
 
@@ -54,6 +56,10 @@ Regras práticas:
 - `app/` contém uma aplicação local whitelabel de apoio à decisão, com backend
   Python, regras determinísticas e módulo de Perguntas e Respostas restrito ao
   corpus local via Ollama.
+- `app/server.py` é o composition root real da v1: carrega configuração,
+  corpus, regras, calculadoras, endpoints HTTP e arquivos estáticos.
+- `app/data/rules.json` é contrato determinístico versionado; não transforme
+  regra clínica em inferência livre de LLM.
 - Mudanças clínicas devem citar fonte, capítulo e motivo.
 - Não inserir dados de pacientes, credenciais, logs assistenciais ou payloads
   sensíveis.
@@ -65,6 +71,8 @@ Regras práticas:
 - `docs/CONTRACTS.md`: entradas, saídas, invariantes e limites clínicos.
 - `docs/OPERATIONS.md`: validação, revisão, backup e troubleshooting.
 - `docs/DECISIONS.md`: decisões estruturais que condicionam evolução.
+- `START_CHECKLIST.md`: estado honesto da baseline, pendências e próximas
+  rodadas seguras.
 - `docs/meios_de_contraste/`: capítulos canonicamente editáveis em Markdown.
 - `docs/identidade_visual/`: kits de identidade visual e previews.
 - `app/`: runtime local, API, UI whitelabel e contratos estruturados de regras.
@@ -107,10 +115,15 @@ Regras práticas:
 
 - Não declarar prontidão assistencial sem revisão clínica formal.
 - Não substituir texto fonte por resumo gerado sem manter rastreabilidade.
+- Não mover o app para `src/` nem criar camadas artificiais só para aparentar
+  maturidade arquitetural.
+- Não habilitar Perguntas e Respostas por padrão sem decisão operacional
+  explícita e atualização de contratos.
 - Calculadoras, doses e fluxos de conduta devem permanecer em contrato
   determinístico, citados por fonte e tratados como apoio à decisão até revisão
   especializada.
-- Não versionar `.DS_Store`, caches, dumps, exports temporários ou runtime
-  mutável.
+- Não versionar `.DS_Store`, caches, dumps, exports temporários, logs
+  `.playwright-mcp`, `app/data/app_config.json`, `app/data/qa_questions.jsonl`
+  ou runtime mutável.
 - Atualize `README.md`, `docs/ARCHITECTURE.md`, `docs/CONTRACTS.md` e
   `docs/OPERATIONS.md` quando a fronteira ou a rotina de manutenção mudar.

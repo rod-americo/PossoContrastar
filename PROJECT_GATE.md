@@ -29,14 +29,21 @@ fronteiras impedem crescimento indefinido.
 
 ## 3. O que este projeto compartilha com o ecossistema?
 
-- configuração: `config/doctor.json` para doctor e variáveis opcionais
-  `OLLAMA_URL`, `OLLAMA_MODEL`, `APP_HOST` e `APP_PORT` para o app local.
+- configuração: `config/doctor.json` para doctor,
+  `app/data/app_config.example.json` como template versionado do app,
+  `app/data/app_config.json` como override local ignorado pelo Git e variáveis
+  opcionais `APP_HOST`, `APP_PORT`, `APP_QA_ENABLED`,
+  `APP_QA_OLLAMA_URL`, `APP_QA_MODEL`, `OLLAMA_URL` e `OLLAMA_MODEL`.
 - logging: O app não persiste logs; validações imprimem diagnóstico no terminal
-  e o servidor local registra apenas requisições no stderr.
-- runtime: Python padrão para scripts de governança e `app/server.py`, com
-  Ollama opcional para módulo de Perguntas e Respostas restrito ao corpus local.
+  e o servidor local registra requisições no stderr. Quando Q&A estiver
+  habilitado e `qa.log_questions` estiver ativo, perguntas são gravadas em
+  `app/data/qa_questions.jsonl`.
+- runtime: Python padrão para scripts de governança e `app/server.py`; o mesmo
+  processo expõe API HTTP local, arquivos estáticos, calculadoras, busca e Q&A
+  opcional via Ollama restrito ao corpus local.
 - contratos: Contratos documentais sobre corpus Markdown, kits cromáticos,
-  regras determinísticas, limites clínicos e Perguntas e Respostas.
+  `app/data/rules.json`, endpoints `/api/...`, limites clínicos e Perguntas e
+  Respostas.
 - autenticação ou transporte: O app v1 não implementa autenticação; roda local
   via HTTP em `127.0.0.1` por padrão.
 

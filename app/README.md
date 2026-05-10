@@ -8,7 +8,7 @@ contraste.
 - `v1`: apoio à decisão, não protocolo institucional aprovado.
 - Backend: Python com biblioteca padrão.
 - Frontend: HTML/CSS/JS sem build step.
-- LLM: endpoint RAG restrito ao corpus local, usando Ollama quando disponível.
+- LLM: endpoint RAG restrito ao corpus local, usando Ollama ou vLLM quando disponível.
 - Persistência: perguntas do módulo Perguntas e Respostas são gravadas em
   JSONL local para análise posterior. Respostas e payloads completos não são
   persistidos.
@@ -48,6 +48,17 @@ Também é aceito informar apenas `192.168.1.50:11434`; o app assume `http://`.
 Na máquina que hospeda o Ollama, o serviço precisa escutar fora do loopback, por
 exemplo com `OLLAMA_HOST=0.0.0.0:11434 ollama serve`, e a rede/firewall deve
 permitir acesso à porta `11434`.
+
+Para usar vLLM (API OpenAI-compatible) em vez de Ollama:
+
+```bash
+APP_QA_CONNECTOR=vllm APP_QA_VLLM_URL=http://localhost:8000 APP_QA_VLLM_API_KEY=sua-chave APP_QA_MODEL=seu-modelo python3 app/server.py
+```
+
+O vLLM usa o endpoint `/v1/chat/completions` com formato OpenAI. Se o servidor
+exigir autenticação, use `APP_QA_VLLM_API_KEY` para informar a chave. O parâmetro
+`num_predict` é mapeado para `max_tokens` no vLLM; `keep_alive` não é usado.
+O timeout padrão é 600 segundos e pode ser ajustado com `APP_QA_TIMEOUT`.
 
 ## Validação técnica
 
@@ -89,7 +100,7 @@ app/
 - Capítulos e chunks de RAG ficam em cache de memória até reiniciar o servidor.
 - A referência bibliográfica da obra-fonte vem de
   `docs/meios_de_contraste/source.json`.
-- Se o Ollama estiver indisponível, Perguntas e Respostas retorna trechos recuperados sem
+- Se o Ollama ou vLLM estiver indisponível, Perguntas e Respostas retorna trechos recuperados sem
   inventar resposta.
 - Não inserir dados reais de pacientes em ambiente não governado.
 - Toda saída mantém fonte local quando possível.
@@ -171,6 +182,8 @@ Git:
     "connector": "ollama",
     "model": "gemma4:e4b",
     "ollama_url": "http://localhost:11434",
+    "vllm_url": "http://localhost:8000",
+    "vllm_api_key": "",
     "log_questions": true
   }
 }
@@ -190,8 +203,8 @@ sobrescrever esses valores sem editar o template versionado.
 
 Use `qa.enabled: false` para remover Perguntas e Respostas da navegação e
 bloquear `/api/qa`. Use `qa.connector` para escolher o conector; a v1 suporta
-`ollama`. Use `qa.model` para fixar o modelo e `qa.ollama_url` para apontar
-para Ollama local ou remoto. Em runtime, `APP_QA_ENABLED`, `APP_QA_CONNECTOR`,
-`APP_QA_MODEL`, `APP_QA_OLLAMA_URL`,
-`APP_QA_KEEP_ALIVE`, `APP_QA_NUM_PREDICT` e `APP_QA_LOG_QUESTIONS` podem
-sobrescrever a config.
+`ollama` e `vllm`. Use `qa.model` para fixar o modelo, `qa.ollama_url` para Ollama
+ou `qa.vllm_url` e `qa.vllm_api_key` para vLLM. Em runtime, `APP_QA_ENABLED`,
+`APP_QA_CONNECTOR`, `APP_QA_MODEL`, `APP_QA_OLLAMA_URL`, `APP_QA_VLLM_URL`,
+`APP_QA_VLLM_API_KEY`, `APP_QA_KEEP_ALIVE`, `APP_QA_NUM_PREDICT` e
+`APP_QA_LOG_QUESTIONS` podem sobrescrever a config.

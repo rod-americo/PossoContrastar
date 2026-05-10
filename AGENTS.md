@@ -84,8 +84,10 @@ Regras práticas:
 - doctor estrutural: `python3 scripts/project_doctor.py`
 - doctor estrito: `python3 scripts/project_doctor.py --strict`
 - doctor audit: `python3 scripts/project_doctor.py --audit-config`
-- checagem sintática: `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
+- checagem sintática: `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/smoke_app.py`
 - checagem sintática do app: `python3 -m py_compile app/server.py`
+- testes do app: `python3 -m unittest discover -s tests -p 'test_*.py'`
+- smoke HTTP do app: `python3 scripts/smoke_app.py`
 - policy do doctor: `config/doctor.json`
 
 ## Fluxo Git
@@ -110,6 +112,7 @@ Regras práticas:
   nomes institucionais, logos, URLs de origem ou assets proprietários.
 - O repositório ainda não tem teste de equivalência entre corpus Markdown e a
   publicação original externa.
+- Os testes versionados cobrem regressão técnica, não validação clínica.
 
 ## Guardrails
 

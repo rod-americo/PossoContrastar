@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Project gate
+        run: python3 scripts/check_project_gate.py
+
+      - name: Project doctor
+        run: python3 scripts/project_doctor.py
+
+      - name: Doctor audit
+        run: python3 scripts/project_doctor.py --audit-config
+
+      - name: Syntax check
+        run: python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/smoke_app.py app/server.py
+
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+
+      - name: App smoke
+        run: python3 scripts/smoke_app.py

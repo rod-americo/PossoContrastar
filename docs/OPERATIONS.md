@@ -58,15 +58,20 @@ OLLAMA_HOST=0.0.0.0:11434 ollama serve
 
 ### Smoke HTTP local
 
-Em uma janela, subir o app:
+Automatizado:
+
+```bash
+python3 scripts/smoke_app.py
+```
+
+O script escolhe uma porta livre, sobe `app/server.py` com Q&A desabilitado e
+valida `/api/health`, `/api/source`, `/api/rules`, `/api/renal-function` e
+`/api/decision`.
+
+Manual, quando for necessário inspecionar o servidor:
 
 ```bash
 python3 app/server.py --port 8765
-```
-
-Em outra janela:
-
-```bash
 curl -fsS http://127.0.0.1:8765/api/health
 curl -fsS http://127.0.0.1:8765/api/source
 curl -fsS http://127.0.0.1:8765/api/rules
@@ -121,13 +126,15 @@ Validação completa recomendada:
 python3 scripts/check_project_gate.py
 python3 scripts/project_doctor.py
 python3 scripts/project_doctor.py --audit-config
-python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py
+python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/smoke_app.py
 python3 -m py_compile app/server.py
+python3 -m unittest discover -s tests -p 'test_*.py'
+python3 scripts/smoke_app.py
 ```
 
-Quando `app/` for alterado, executar também o smoke HTTP local descrito acima.
-Não há suíte de testes automatizados versionada nesta fase; isso deve ser
-tratado como lacuna real, não como cobertura implícita.
+A suíte automatizada cobre regressões técnicas de regras, calculadoras,
+recuperação e contratos HTTP básicos. Ela não valida verdade clínica, equivalência
+com a publicação original nem prontidão assistencial.
 
 Conferir:
 
@@ -137,6 +144,8 @@ Conferir:
 - diff sem `.DS_Store`, cache ou export temporário
 - ausência de dados de pacientes ou segredos
 - app sobe localmente e endpoints principais respondem
+- testes unitários passam
+- smoke HTTP automatizado passa
 - `START_CHECKLIST.md` continua refletindo o que está completo, parcial e fora
   de escopo
 
@@ -180,6 +189,10 @@ Ao mudar:
 - backup: remoto Git e cópia local independente da publicação original externa,
   quando necessária para auditoria clínica.
 - retenção: histórico Git conforme política do repositório.
+- retenção de perguntas Q&A: manter `app/data/qa_questions.jsonl` apenas pelo
+  tempo necessário à análise local; revisar manualmente antes de qualquer
+  compartilhamento; remover o arquivo ao encerrar a rodada de análise ou em até
+  30 dias, o que ocorrer primeiro.
 - limpeza segura: `.DS_Store`, caches, arquivos temporários, exports locais e
   logs de perguntas quando não forem mais necessários. Não limpar arquivos
   locais de outra pessoa sem confirmação.

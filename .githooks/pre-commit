@@ -3,5 +3,7 @@ set -euo pipefail
 
 python3 scripts/check_project_gate.py
 python3 scripts/project_doctor.py
-python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py
+python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/smoke_app.py
 python3 -m py_compile app/server.py
+python3 -m unittest discover -s tests -p 'test_*.py'
+python3 scripts/smoke_app.py

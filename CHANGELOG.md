@@ -4,6 +4,8 @@ Todas as mudanças relevantes deste repositório devem ser registradas aqui.
 
 ## Unreleased
 
+- Adiciona suíte `unittest`, smoke HTTP automatizado e CI básico para gate,
+  doctor, sintaxe, regressão técnica e contratos locais do app.
 - Adapta a baseline Skidbladnir ao repositório existente, adiciona
   `START_CHECKLIST.md`, explicita `app/server.py` como composition root real e
   documenta lacunas de teste, smoke e validação clínica sem declarar prontidão

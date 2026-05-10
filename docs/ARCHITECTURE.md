@@ -40,6 +40,9 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 ├── CHANGELOG.md
 ├── .githooks/
 │   └── pre-commit
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── config/
 │   └── doctor.json
 ├── docs/
@@ -52,6 +55,7 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 │   └── identidade_visual/
 ├── scripts/
 │   ├── check_project_gate.py
+│   ├── smoke_app.py
 │   ├── install_git_hooks.sh
 │   └── project_doctor.py
 ├── app/
@@ -59,6 +63,8 @@ aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 │   ├── server.py
 │   ├── data/
 │   └── static/
+├── tests/
+│   └── test_app_rules.py
 ```
 
 ## 5. Fluxo principal
@@ -131,6 +137,8 @@ fonte de regra clínica; ela consome o backend local e `app/data/rules.json`.
 | `docs/identidade_visual/` | Kits cromáticos neutros e previews | Apoio, não design system oficial |
 | `app/` | Backend local, UI whitelabel, regras e Perguntas e Respostas | Apoio à decisão, não produção |
 | `scripts/` | Validação estrutural | Biblioteca padrão do Python |
+| `tests/` | Regressão técnica do app local | Não valida verdade clínica |
+| `.github/workflows/ci.yml` | Gate remoto de validação | Sem deploy |
 | `config/doctor.json` | Política local do doctor | Versionado e auditável |
 
 ## 9. Persistência e estado
@@ -150,8 +158,8 @@ fonte de regra clínica; ela consome o backend local e `app/data/rules.json`.
 - Doses, limiares e condutas exigem revisão especializada antes de reuso
   operacional.
 - `app/data/rules.json` precisa permanecer alinhado aos capítulos citados.
-- Fórmulas renais e limiares ficam em código Python e JSON; ainda não há testes
-  automatizados versionados cobrindo cenários de fronteira.
+- Fórmulas renais e limiares ficam em código Python e JSON; há regressão
+  técnica versionada, mas não validação clínica especializada.
 - Perguntas e Respostas via Ollama pode falhar por modelo ausente; fallback deve
   ser conservador.
 - `app/data/qa_questions.jsonl` pode conter texto sensível digitado pelo

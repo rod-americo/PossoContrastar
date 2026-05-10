@@ -27,6 +27,8 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 | Acervo revisável | Git e leitores Markdown | Markdown | Texto versionado e diffs legíveis | Não substitui publicação original externa |
 | Diagnóstico de gate | Terminal local | Texto | Falha quando gate está fraco | Usa regras semânticas simples |
 | Diagnóstico do doctor | Terminal local | Texto | Verifica arquivos e coerência mínima | Não valida conteúdo clínico |
+| Testes automatizados | Terminal local e CI | `unittest` | Regressão técnica de regras locais | Não valida verdade clínica |
+| Smoke HTTP | Terminal local e CI | Processo local + HTTP | Verifica bootstrap e contratos básicos | Q&A roda desabilitado no smoke |
 | Previews visuais | Navegador local | HTML/CSS | Referência visual manual | Não é deploy oficial |
 | Propostas futuras | Markdown | Texto estruturado | Planejamento rastreável | Não é runtime assistencial |
 | App local | Navegador local | HTML/CSS/JS + API Python | Apoio à decisão | Não é protocolo aprovado |
@@ -85,13 +87,15 @@ dependem deles.
 - O Q&A deve recuperar contexto local antes de chamar Ollama.
 - O Q&A não deve responder livremente quando não houver contexto recuperado.
 - `app/data/app_config.json` e `app/data/qa_questions.jsonl` não entram no Git.
+- `app/data/qa_questions.jsonl` deve ser retido apenas localmente, revisado
+  antes de compartilhamento e removido ao fim da análise ou em até 30 dias.
 
 ## 8. Assunções ainda não validadas
 
 - O corpus Markdown ainda não tem teste de equivalência com a publicação
   original externa.
-- As regras clínicas estruturadas ainda não têm suíte automatizada de cenários
-  de fronteira.
+- As regras clínicas estruturadas têm regressão técnica automatizada, mas ainda
+  não têm validação clínica especializada contra a obra-fonte.
 - O desempenho do RAG lexical é adequado apenas para uso local exploratório; não
   há avaliação formal de recall, precisão ou segurança clínica.
 - Não há contrato de autenticação, auditoria, multiusuário, deploy remoto ou

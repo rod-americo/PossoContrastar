@@ -102,3 +102,18 @@
   realidade deste repositório.
 - alternativas rejeitadas: Copiar o checklist greenfield sem adaptação ou
   declarar como concluídos itens ainda não implementados, como CI e testes.
+
+## 9. Regressão técnica com biblioteca padrão
+
+- contexto: O app local ainda não tinha suíte versionada nem CI, mas o backend
+  usa biblioteca padrão e expõe funções puras testáveis.
+- decisão: Criar testes `unittest`, smoke HTTP automatizado e workflow de CI sem
+  dependências externas obrigatórias.
+- impacto: Cálculo renal, regras determinísticas, recuperação local e contratos
+  HTTP básicos passam a ter proteção técnica local e remota.
+- tradeoff: A suíte evita regressões de comportamento implementado, mas não
+  valida verdade clínica, equivalência com a publicação original ou prontidão
+  assistencial.
+- alternativas rejeitadas: Introduzir pytest ou framework web só para testes,
+  deixar smoke manual como único controle ou declarar revisão clínica sem fonte
+  especializada.

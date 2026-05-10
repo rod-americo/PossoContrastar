@@ -49,6 +49,17 @@ Na máquina que hospeda o Ollama, o serviço precisa escutar fora do loopback, p
 exemplo com `OLLAMA_HOST=0.0.0.0:11434 ollama serve`, e a rede/firewall deve
 permitir acesso à porta `11434`.
 
+## Validação técnica
+
+```bash
+python3 -m unittest discover -s tests -p 'test_*.py'
+python3 scripts/smoke_app.py
+```
+
+Esses checks validam regressão técnica e contratos HTTP básicos. Eles não
+substituem revisão clínica especializada nem equivalência contra a publicação
+original.
+
 ## Estrutura
 
 ```text

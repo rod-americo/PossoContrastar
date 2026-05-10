@@ -102,6 +102,8 @@ antes de qualquer compartilhamento.
   - `python3 scripts/check_project_gate.py`
   - `python3 scripts/project_doctor.py`
   - `python3 scripts/project_doctor.py --audit-config`
+  - `python3 -m unittest discover -s tests -p 'test_*.py'`
+  - `python3 scripts/smoke_app.py`
   - `python3 app/server.py`
 - dependência externa crítica:
   - Ollama opcional quando Perguntas e Respostas estiver habilitado.
@@ -119,6 +121,9 @@ PossoContrastar/
 ├── CHANGELOG.md
 ├── .githooks/
 │   └── pre-commit
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── config/
 │   └── doctor.json
 ├── docs/
@@ -131,6 +136,7 @@ PossoContrastar/
 │   └── meios_de_contraste/
 ├── scripts/
 │   ├── check_project_gate.py
+│   ├── smoke_app.py
 │   ├── install_git_hooks.sh
 │   └── project_doctor.py
 ├── app/
@@ -138,6 +144,8 @@ PossoContrastar/
 │   ├── server.py
 │   ├── data/
 │   └── static/
+├── tests/
+│   └── test_app_rules.py
 ```
 
 O layout atual deve ser preservado enquanto ele refletir o sistema real. A
@@ -196,19 +204,19 @@ Checklist mínimo antes de commitar:
 - `python3 scripts/check_project_gate.py`
 - `python3 scripts/project_doctor.py`
 - `python3 scripts/project_doctor.py --audit-config`
-- `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
+- `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/smoke_app.py`
 - `python3 -m py_compile app/server.py`
-- smoke local quando o app for afetado: subir `python3 app/server.py --port
-  8765` e consultar `curl -fsS http://127.0.0.1:8765/api/health`
+- `python3 -m unittest discover -s tests -p 'test_*.py'`
+- `python3 scripts/smoke_app.py`
 - revisão de `git diff`
 
 O fluxo de colaboração do repositório espera commit e push quando uma tarefa
 gerar mudança versionável, preservando alterações não relacionadas feitas por
 outra pessoa.
 
-Não há suíte automatizada de testes versionada nesta fase. Mudanças em regras,
-calculadoras ou endpoints devem ser acompanhadas por smoke HTTP e, quando
-clínicas, revisão especializada contra a fonte citada.
+A suíte versionada cobre regressões técnicas de cálculo, regras locais,
+recuperação e contratos HTTP básicos. Ela não valida verdade clínica; mudanças
+clínicas continuam exigindo revisão especializada contra a fonte citada.
 
 ## Fonte e segurança clínica
 

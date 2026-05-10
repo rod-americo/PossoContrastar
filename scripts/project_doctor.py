@@ -18,6 +18,7 @@ REQUIRED_FILES = [
     ROOT / "PROJECT_GATE.md",
     ROOT / "CHANGELOG.md",
     ROOT / "START_CHECKLIST.md",
+    ROOT / ".github" / "workflows" / "ci.yml",
     ROOT / ".gitignore",
     DOCTOR_CONFIG_PATH,
     ROOT / "docs" / "ARCHITECTURE.md",
@@ -29,8 +30,10 @@ REQUIRED_FILES = [
     ROOT / "app" / "data" / "app_config.example.json",
     ROOT / "app" / "data" / "rules.json",
     ROOT / "scripts" / "check_project_gate.py",
+    ROOT / "scripts" / "smoke_app.py",
     ROOT / "scripts" / "install_git_hooks.sh",
     ROOT / ".githooks" / "pre-commit",
+    ROOT / "tests" / "test_app_rules.py",
 ]
 KEY_DOCS = [
     ROOT / "README.md",
@@ -450,6 +453,9 @@ def main() -> int:
             "## 4. Hotspots que permanecem",
             "## 6. O que não fazer",
         ],
+        ROOT / "README.md": [
+            "## Validação",
+        ],
     }
     for path, headings in required_sections.items():
         text = read_text(path)
@@ -559,6 +565,12 @@ def main() -> int:
         add_error(errors, "docs/CONTRACTS.md parece não ter entradas canônicas suficientes")
     if contracts_outputs.count("|") < 8:
         add_error(errors, "docs/CONTRACTS.md parece não ter saídas canônicas suficientes")
+
+    operations_lower = operations_text.lower()
+    if "python3 -m unittest discover" not in operations_lower:
+        add_error(errors, "docs/OPERATIONS.md não documenta execução da suíte unittest")
+    if "python3 scripts/smoke_app.py" not in operations_lower:
+        add_error(errors, "docs/OPERATIONS.md não documenta smoke HTTP automatizado")
 
     required_runtime_ignores = [
         "runtime/",

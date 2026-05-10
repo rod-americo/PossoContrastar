@@ -36,8 +36,9 @@ continua parcial e o que não deve ser feito na próxima rodada.
 - [x] Configuração local não versionada: `app/data/app_config.json`.
 - [x] Log local de perguntas do Q&A ignorado pelo Git:
   `app/data/qa_questions.jsonl`.
-- [ ] Existe suíte automatizada de testes de regras clínicas.
-- [ ] Existe CI remoto configurado neste repositório.
+- [x] Existe suíte automatizada de regressão técnica para regras e endpoints
+  locais.
+- [x] Existe CI remoto configurado neste repositório.
 - [ ] Existe autenticação, auditoria clínica formal ou deploy assistencial.
 
 ## 3. Operação mínima
@@ -61,19 +62,19 @@ continua parcial e o que não deve ser feito na próxima rodada.
 - [ ] Perguntas registradas em `app/data/qa_questions.jsonl` podem conter dados
   sensíveis digitados pelo usuário e não devem ser compartilhadas sem revisão.
 - [ ] O fallback do Q&A depende da qualidade de recuperação lexical do corpus.
-- [ ] Não há testes automatizados de regressão para endpoints HTTP e cenários de
-  fronteira das calculadoras.
+- [x] Há testes automatizados de regressão técnica para endpoints HTTP e
+  cenários de fronteira das calculadoras.
 
 ## 5. Próxima rodada segura
 
-- [ ] Criar testes pequenos para funções puras de `app/server.py`, começando
+- [x] Criar testes pequenos para funções puras de `app/server.py`, começando
   por cálculo renal, intervalômetro, pediatria e extravasamento.
-- [ ] Automatizar smoke HTTP que suba o servidor em porta temporária e cheque
+- [x] Automatizar smoke HTTP que suba o servidor em porta temporária e cheque
   `/api/health`, `/api/source`, `/api/rules` e uma chamada `/api/decision`.
 - [ ] Revisar `app/data/rules.json` contra a publicação original e registrar
   fonte, capítulo e motivo para qualquer ajuste clínico.
-- [ ] Decidir se haverá CI remoto antes de exigir checks de pull request.
-- [ ] Definir política de retenção local para `app/data/qa_questions.jsonl`.
+- [x] Decidir se haverá CI remoto antes de exigir checks de pull request.
+- [x] Definir política de retenção local para `app/data/qa_questions.jsonl`.
 
 ## 6. O que não fazer
 

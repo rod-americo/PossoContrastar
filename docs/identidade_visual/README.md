@@ -1,8 +1,6 @@
 # Kits cromáticos
 
-Kits neutros de cor para adaptar a interface whitelabel sem carregar nomes,
-logos, URLs ou assets de instituições. Eles preservam apenas direção cromática,
-tokens básicos e um preview simples.
+Kits neutros de cor para adaptar a interface whitelabel sem carregar nomes, logos, URLs ou assets de instituições. Eles preservam apenas direção cromática, tokens básicos e um preview simples.
 
 ## Kits disponíveis
 

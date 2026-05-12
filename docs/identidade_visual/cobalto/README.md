@@ -2,10 +2,7 @@
 
 **Slug:** `cobalto`
 
-Tema claro de alta confiança, com azul cobalto dominante, ciano claro para
-superfícies de apoio, neutros frios e acentos âmbar/rosa para chamadas e risco.
-Indicado para interfaces assistenciais institucionais, portais de serviço e
-dashboards operacionais.
+Tema claro de alta confiança, com azul cobalto dominante, ciano claro para superfícies de apoio, neutros frios e acentos âmbar/rosa para chamadas e risco. Indicado para interfaces assistenciais institucionais, portais de serviço e dashboards operacionais.
 
 ## Arquivos
 

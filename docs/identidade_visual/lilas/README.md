@@ -2,8 +2,7 @@
 
 **Slug:** `lilas`
 
-Tema claro com roxo, lilás e verde de apoio. Indicado para material educativo,
-perguntas e respostas e experiências de leitura mais abertas.
+Tema claro com roxo, lilás e verde de apoio. Indicado para material educativo, perguntas e respostas e experiências de leitura mais abertas.
 
 ## Arquivos
 

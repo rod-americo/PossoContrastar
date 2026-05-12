@@ -16,8 +16,7 @@ Conversão em Markdown da publicação usada como obra-fonte deste corpus.
 | DOI | 10.29327/5827214 |
 | Corpus local | `docs/meios_de_contraste/` |
 
-O PDF original é mantido fora deste repositório. O app, as buscas, as regras e
-Perguntas e Respostas usam apenas esta conversão Markdown versionada.
+O PDF original é mantido fora deste repositório. O app, as buscas, as regras e Perguntas e Respostas usam apenas esta conversão Markdown versionada.
 
 ## Capítulos
 
@@ -39,12 +38,10 @@ Perguntas e Respostas usam apenas esta conversão Markdown versionada.
 
 - Cada capítulo foi separado em um arquivo próprio.
 - Cabeçalhos, rodapés e numeração de página da publicação original foram
-  removidos durante a conversão.
+removidos durante a conversão.
 - Tabelas e quadros foram reestruturados em Markdown quando viável.
 - A redação técnica foi preservada, com ajustes apenas de formatação para leitura em texto.
 
 ## Observação
 
-Este material é uma conversão documental em Markdown. Para decisões clínicas,
-consulte sempre a publicação original, protocolos institucionais vigentes e as
-bulas oficiais dos meios de contraste.
+Este material é uma conversão documental em Markdown. Para decisões clínicas, consulte sempre a publicação original, protocolos institucionais vigentes e as bulas oficiais dos meios de contraste.

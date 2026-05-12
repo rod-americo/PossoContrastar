@@ -1,8 +1,6 @@
 # Start Checklist
 
-Checklist de continuidade para um repositório existente. Este arquivo não
-declara prontidão operacional; ele registra o que já está consolidado, o que
-continua parcial e o que não deve ser feito na próxima rodada.
+Checklist de continuidade para um repositório existente. Este arquivo não declara prontidão operacional; ele registra o que já está consolidado, o que continua parcial e o que não deve ser feito na próxima rodada.
 
 ## 0. Identidade e fronteira
 
@@ -10,9 +8,9 @@ continua parcial e o que não deve ser feito na próxima rodada.
 - [x] O corpus canônico vive em `docs/meios_de_contraste/`.
 - [x] O PDF de origem fica fora do Git.
 - [x] O app local está isolado em `app/`, sem espalhar runtime de produção na
-  raiz.
+raiz.
 - [ ] Existe validação formal de equivalência entre corpus Markdown e
-  publicação original externa.
+publicação original externa.
 - [ ] Existe protocolo institucional aprovado para uso assistencial.
 
 ## 1. Baseline documental
@@ -35,9 +33,9 @@ continua parcial e o que não deve ser feito na próxima rodada.
 - [x] Regras determinísticas ficam em `app/data/rules.json`.
 - [x] Configuração local não versionada: `app/data/app_config.json`.
 - [x] Log local de perguntas do Q&A ignorado pelo Git:
-  `app/data/qa_questions.jsonl`.
+`app/data/qa_questions.jsonl`.
 - [x] Existe suíte automatizada de regressão técnica para regras e endpoints
-  locais.
+locais.
 - [x] Existe CI remoto configurado neste repositório.
 - [ ] Existe autenticação, auditoria clínica formal ou deploy assistencial.
 
@@ -51,39 +49,39 @@ continua parcial e o que não deve ser feito na próxima rodada.
 - [x] Instalador de hooks local em `scripts/install_git_hooks.sh`.
 - [ ] Hook local instalado automaticamente em todos os clones.
 - [ ] Smoke de Q&A com Ollama é obrigatório; por enquanto é opcional porque o
-  Q&A vem desabilitado no template versionado.
+Q&A vem desabilitado no template versionado.
 
 ## 4. Hotspots que permanecem
 
 - [ ] Tabelas e hierarquia visual do corpus convertido ainda podem divergir da
-  publicação original.
+publicação original.
 - [ ] `app/data/rules.json` precisa de revisão clínica especializada contra os
-  capítulos citados.
+capítulos citados.
 - [ ] Perguntas registradas em `app/data/qa_questions.jsonl` podem conter dados
-  sensíveis digitados pelo usuário e não devem ser compartilhadas sem revisão.
+sensíveis digitados pelo usuário e não devem ser compartilhadas sem revisão.
 - [ ] O fallback do Q&A depende da qualidade de recuperação lexical do corpus.
 - [x] Há testes automatizados de regressão técnica para endpoints HTTP e
-  cenários de fronteira das calculadoras.
+cenários de fronteira das calculadoras.
 
 ## 5. Próxima rodada segura
 
 - [x] Criar testes pequenos para funções puras de `app/server.py`, começando
-  por cálculo renal, intervalômetro, pediatria e extravasamento.
+por cálculo renal, intervalômetro, pediatria e extravasamento.
 - [x] Automatizar smoke HTTP que suba o servidor em porta temporária e cheque
-  `/api/health`, `/api/source`, `/api/rules` e uma chamada `/api/decision`.
+`/api/health`, `/api/source`, `/api/rules` e uma chamada `/api/decision`.
 - [ ] Revisar `app/data/rules.json` contra a publicação original e registrar
-  fonte, capítulo e motivo para qualquer ajuste clínico.
+fonte, capítulo e motivo para qualquer ajuste clínico.
 - [x] Decidir se haverá CI remoto antes de exigir checks de pull request.
 - [x] Definir política de retenção local para `app/data/qa_questions.jsonl`.
 
 ## 6. O que não fazer
 
 - [ ] Não mover o app para `src/` nem criar camadas artificiais sem necessidade
-  demonstrada.
+demonstrada.
 - [ ] Não transformar `docs/meios_de_contraste/` em resumo gerado sem
-  rastreabilidade.
+rastreabilidade.
 - [ ] Não habilitar Q&A por padrão sem decisão operacional explícita.
 - [ ] Não declarar o app como produto assistencial, protocolo aprovado ou
-  dispositivo médico.
+dispositivo médico.
 - [ ] Não versionar PDF, dumps, logs, caches, perguntas reais ou configuração
-  local.
+local.

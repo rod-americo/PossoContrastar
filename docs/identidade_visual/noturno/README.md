@@ -2,9 +2,7 @@
 
 **Slug:** `noturno`
 
-Tema escuro de alta densidade, com base azul-petróleo, ciano e semântica de
-alerta bem visível. Indicado para painéis operacionais e ambientes de leitura
-prolongada.
+Tema escuro de alta densidade, com base azul-petróleo, ciano e semântica de alerta bem visível. Indicado para painéis operacionais e ambientes de leitura prolongada.
 
 ## Arquivos
 

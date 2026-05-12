@@ -2,9 +2,7 @@
 
 ## 1. Objetivo
 
-Registrar entradas, saídas, invariantes e limites do acervo documental e do app
-local de apoio à decisão. Estes contratos protegem a rastreabilidade do
-material e evitam que a v1 seja confundida com protocolo institucional aprovado.
+Registrar entradas, saídas, invariantes e limites do acervo documental e do app local de apoio à decisão. Estes contratos protegem a rastreabilidade do material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 
 ## 2. Entradas canônicas
 
@@ -39,12 +37,12 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 
 - Capítulos clínicos não devem receber alteração substantiva sem fonte e motivo.
 - Conteúdo clínico, identidade visual e produto futuro devem permanecer
-  distinguíveis.
+distinguíveis.
 - Scripts de governança não devem exigir dependência externa além do Python
-  padrão.
+padrão.
 - Dados de pacientes, credenciais e logs assistenciais não pertencem ao repo.
 - Regras determinísticas devem citar arquivo fonte local e ser testáveis por
-  cenários de fronteira.
+cenários de fronteira.
 - LLM não pode emitir resposta sem contexto recuperado do corpus local.
 
 ## 5. Identificadores
@@ -59,9 +57,7 @@ material e evitam que a v1 seja confundida com protocolo institucional aprovado.
 
 ## 6. Contratos HTTP locais
 
-O app é local, sem autenticação e sem promessa de compatibilidade externa. Os
-endpoints abaixo são contratos internos relevantes porque a UI e os smokes
-dependem deles.
+O app é local, sem autenticação e sem promessa de compatibilidade externa. Os endpoints abaixo são contratos internos relevantes porque a UI e os smokes dependem deles.
 
 | Endpoint | Método | Entrada | Saída | Observação |
 | --- | --- | --- | --- | --- |
@@ -83,23 +79,23 @@ dependem deles.
 - `app/server.py` deve continuar executável com biblioteca padrão do Python.
 - `app/static/` deve continuar sem build step.
 - `app/data/rules.json` deve conter `source` ou capítulo local para regras
-  clínicas usadas pela UI.
+clínicas usadas pela UI.
 - O Q&A deve recuperar contexto local antes de chamar Ollama.
 - O Q&A não deve responder livremente quando não houver contexto recuperado.
 - `app/data/app_config.json` e `app/data/qa_questions.jsonl` não entram no Git.
 - `app/data/qa_questions.jsonl` deve ser retido apenas localmente, revisado
-  antes de compartilhamento e removido ao fim da análise ou em até 30 dias.
+antes de compartilhamento e removido ao fim da análise ou em até 30 dias.
 
 ## 8. Assunções ainda não validadas
 
 - O corpus Markdown ainda não tem teste de equivalência com a publicação
-  original externa.
+original externa.
 - As regras clínicas estruturadas têm regressão técnica automatizada, mas ainda
-  não têm validação clínica especializada contra a obra-fonte.
+não têm validação clínica especializada contra a obra-fonte.
 - O desempenho do RAG lexical é adequado apenas para uso local exploratório; não
-  há avaliação formal de recall, precisão ou segurança clínica.
+há avaliação formal de recall, precisão ou segurança clínica.
 - Não há contrato de autenticação, auditoria, multiusuário, deploy remoto ou
-  retenção institucional de logs.
+retenção institucional de logs.
 
 ## 9. Quebras de contrato
 
@@ -112,9 +108,7 @@ Mudanças abaixo exigem atualização de README, arquitetura, contratos e opera�
 
 ## 10. Validação clínica
 
-O doctor valida estrutura documental, não verdade clínica. Qualquer uso em
-decisão assistencial exige revisão humana especializada, protocolo institucional
-e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
+O doctor valida estrutura documental, não verdade clínica. Qualquer uso em decisão assistencial exige revisão humana especializada, protocolo institucional e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 
 ## 11. Contrato do app local
 
@@ -122,16 +116,14 @@ e checagem contra publicação original, diretrizes vigentes e bulas oficiais.
 - `app/static/` não deve exigir build step.
 - `app/data/rules.json` é fonte de regras determinísticas da v1.
 - `app/data/app_config.example.json` fornece defaults versionados de branding
-  whitelabel, tema manual, visibilidade do seletor de adaptador, ativação de
-  Perguntas e Respostas, conector, modelo, URL base do Ollama e log local de
-  perguntas.
+whitelabel, tema manual, visibilidade do seletor de adaptador, ativação de Perguntas e Respostas, conector, modelo, URL base do Ollama e log local de perguntas.
 - `app/data/app_config.json`, quando existir, controla os mesmos campos no
-  ambiente local e não deve ser versionado.
+ambiente local e não deve ser versionado.
 - O endpoint `/api/qa` deve recuperar trechos locais antes de chamar Ollama.
 - O endpoint `/api/qa` deve registrar cada pergunta em
-  `app/data/qa_questions.jsonl` quando `qa.log_questions` estiver ativo.
+`app/data/qa_questions.jsonl` quando `qa.log_questions` estiver ativo.
 - O app não deve persistir respostas, payloads completos, cabeçalhos, IP ou
-  identificadores do usuário.
+identificadores do usuário.
 - Perguntas podem conter dados sensíveis digitados pelo usuário; o log local não
-  deve ser versionado nem compartilhado sem revisão.
+deve ser versionado nem compartilhado sem revisão.
 - Qualquer integração com dados reais exige novo contrato.

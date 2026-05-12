@@ -2,69 +2,32 @@
 
 ## 1. Objetivo
 
-Descrever a arquitetura real do repositório como acervo documental governado e
-aplicação local whitelabel de apoio à decisão sobre meios de contraste.
+Descrever a arquitetura real do repositório como acervo documental governado e aplicação local whitelabel de apoio à decisão sobre meios de contraste.
 
 ## 2. Escopo
 
 - Acervo Markdown sobre meios de contraste, importado de publicação técnica
-  externa não versionada neste repo, com metadado bibliográfico estruturado em
-  `docs/meios_de_contraste/source.json`.
+externa não versionada neste repo, com metadado bibliográfico estruturado em `docs/meios_de_contraste/source.json`.
 - Governança documental para fronteira, validação e revisão por diff.
 - Kits de identidade visual usados como referência para materiais e protótipos.
 - Scripts locais de gate e doctor para consistência estrutural.
 - Aplicação local em `app/`, com backend Python, frontend estático, regras
-  determinísticas, calculadoras e módulo de Perguntas e Respostas restrito ao
-  corpus local.
+determinísticas, calculadoras e módulo de Perguntas e Respostas restrito ao corpus local.
 - Exclusão explícita de aplicação assistencial em produção, dados de pacientes
-  e protocolos institucionais finais.
+e protocolos institucionais finais.
 
 ## 3. Não escopo
 
 - Decisão clínica automatizada ou recomendação personalizada para pacientes.
 - Deploy web, autenticação corporativa, prontuário, PACS, RIS ou auditoria
-  clínica formal.
+clínica formal.
 - Persistência operacional de dados, logs clínicos ou dados de pacientes. A
-  exceção local da v1 é o log de perguntas do Q&A em JSONL, usado para melhorar
-  RAG e mantido fora do Git.
+exceção local da v1 é o log de perguntas do Q&A em JSONL, usado para melhorar RAG e mantido fora do Git.
 - Sistema oficial de design de marcas externas.
 
 ## 4. Layout atual
 
-```text
-.
-├── README.md
-├── AGENTS.md
-├── PROJECT_GATE.md
-├── START_CHECKLIST.md
-├── CHANGELOG.md
-├── .githooks/
-│   └── pre-commit
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── config/
-│   └── doctor.json
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── CONTRACTS.md
-│   ├── OPERATIONS.md
-│   ├── DECISIONS.md
-│   ├── APP_REVIEW.md
-│   ├── meios_de_contraste/
-│   └── identidade_visual/
-├── scripts/
-│   ├── check_project_gate.py
-│   ├── smoke_app.py
-│   ├── install_git_hooks.sh
-│   └── project_doctor.py
-├── app/
-│   ├── README.md
-│   ├── server.py
-│   ├── data/
-│   └── static/
-├── tests/
-│   └── test_app_rules.py
+```text . ├── README.md ├── AGENTS.md ├── PROJECT_GATE.md ├── START_CHECKLIST.md ├── CHANGELOG.md ├── .githooks/ │   └── pre-commit ├── .github/ │   └── workflows/ │       └── ci.yml ├── config/ │   └── doctor.json ├── docs/ │   ├── ARCHITECTURE.md │   ├── CONTRACTS.md │   ├── OPERATIONS.md │   ├── DECISIONS.md │   ├── APP_REVIEW.md │   ├── meios_de_contraste/ │   └── identidade_visual/ ├── scripts/ │   ├── check_project_gate.py │   ├── smoke_app.py │   ├── install_git_hooks.sh │   └── project_doctor.py ├── app/ │   ├── README.md │   ├── server.py │   ├── data/ │   └── static/ ├── tests/ │   └── test_app_rules.py
 ```
 
 ## 5. Fluxo principal

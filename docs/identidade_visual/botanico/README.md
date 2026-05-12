@@ -2,8 +2,7 @@
 
 **Slug:** `botanico`
 
-Tema claro com verdes profundos, neutros quentes e semântica de risco discreta.
-Indicado para dashboards institucionais e rotinas de acompanhamento.
+Tema claro com verdes profundos, neutros quentes e semântica de risco discreta. Indicado para dashboards institucionais e rotinas de acompanhamento.
 
 ## Arquivos
 

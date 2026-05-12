@@ -20,8 +20,7 @@
 | Visipaque® (iodixanol) | GE HealthCare | Dímero | Não iônico | Isosmolar | 270 | 290 | 11,3 | 5,8 | IA; IT¥; IV |
 | Visipaque® (iodixanol) | GE HealthCare | Dímero | Não iônico | Isosmolar | 320 | 290 | 25,4 | 11,4 | IA; IT¥; IV |
 
-\* IA: intra-arterial; IC: intracavitária; IT: intratecal; IU: intrauterina; IV: intravenosa; VO: via oral; VR: via retal.  
-¥ Via aprovada somente em adultos. † Via aprovada somente em crianças.
+\* IA: intra-arterial; IC: intracavitária; IT: intratecal; IU: intrauterina; IV: intravenosa; VO: via oral; VR: via retal. ¥ Via aprovada somente em adultos. † Via aprovada somente em crianças.
 
 **Observação:** É recomendável consultar o bulário da ANVISA do meio de contraste específico para melhor esclarecimento e adequada especificação das informações (ANVISA. Bulário Eletrônico [Internet]. Acesso em: 8 abr. 2026. Disponível em: <https://consultas.anvisa.gov.br/#/bulario/>).
 
@@ -40,10 +39,7 @@
 | Gadoterato de meglumina / Gd-DOTA | Dotarem® (Guerbet) | Iônico | Macrocíclico | Grupo II | 3,6/4,3 | 3,5/4,9 | 0,1 | 0,2 | 0,5 | 1350 | renal |
 | Gadopiclenol / Gd-gadopiclenol | Elucirem®**** (Guerbet) | Não iônico | Macrocíclico | Grupo II | 12,8/15,1 | 11,6/14,7 | 0,05 | 0,1 | 0,5 | 850 | renal |
 
-\* Classificação de risco dos meios de contraste à base de gadolínio (MCBGs) para Fibrose Sistêmica Nefrogênica (FSN) de acordo com o American College of Radiology (ACR, versão 2025); Grupo I: associado ao maior número de casos de FSN e Grupo II: associado a poucos ou nenhum caso de FSN.  
-\** Valores em L mmol-1 s-1 no plasma a 37 °C.  
-\*** As doses podem variar de acordo com o estudo a ser realizado, sendo conveniente sempre consultar o bulário eletrônico da ANVISA; assim como para informações da idade aprovada para uso.  
-\**** Registros solicitados à Agência Nacional de Vigilância Sanitária (ANVISA) e, até a data de edição deste livro (8 de abril de 2026), os processos permanecem em análise pela ANVISA, não estando ainda comercializados.
+\* Classificação de risco dos meios de contraste à base de gadolínio (MCBGs) para Fibrose Sistêmica Nefrogênica (FSN) de acordo com o American College of Radiology (ACR, versão 2025); Grupo I: associado ao maior número de casos de FSN e Grupo II: associado a poucos ou nenhum caso de FSN. \** Valores em L mmol-1 s-1 no plasma a 37 °C. \*** As doses podem variar de acordo com o estudo a ser realizado, sendo conveniente sempre consultar o bulário eletrônico da ANVISA; assim como para informações da idade aprovada para uso. \**** Registros solicitados à Agência Nacional de Vigilância Sanitária (ANVISA) e, até a data de edição deste livro (8 de abril de 2026), os processos permanecem em análise pela ANVISA, não estando ainda comercializados.
 
 ## Outros meios de contraste
 

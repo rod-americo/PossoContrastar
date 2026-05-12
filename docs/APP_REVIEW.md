@@ -2,60 +2,51 @@
 
 ## Veredito
 
-O app está adequado para publicação como **MVP interno de apoio à decisão e
-coleta de opinião**, desde que a comunicação deixe claro que não é protocolo
-institucional aprovado, prescrição médica, dispositivo médico ou substituto de
-validação clínica.
+O app está adequado para publicação como **MVP interno de apoio à decisão e coleta de opinião**, desde que a comunicação deixe claro que não é protocolo institucional aprovado, prescrição médica, dispositivo médico ou substituto de validação clínica.
 
-Como protótipo operacional, a v1 está forte: organiza o corpus, calcula função
-renal, oferece regras determinísticas, renderiza a biblioteca, permite busca e
-restringe Perguntas e Respostas ao texto local. Como ferramenta institucional
-pronta, ainda depende de validação clínica formal, matriz de equivalência com a
-obra-fonte e testes por cenários.
+Como protótipo operacional, a v1 está forte: organiza o corpus, calcula função renal, oferece regras determinísticas, renderiza a biblioteca, permite busca e restringe Perguntas e Respostas ao texto local. Como ferramenta institucional pronta, ainda depende de validação clínica formal, matriz de equivalência com a obra-fonte e testes por cenários.
 
 ## Publicação agora
 
-Pode publicar para um grupo pequeno e identificado de usuários, com objetivo de
-colher feedback sobre clareza, utilidade, lacunas e fluxo de trabalho.
+Pode publicar para um grupo pequeno e identificado de usuários, com objetivo de colher feedback sobre clareza, utilidade, lacunas e fluxo de trabalho.
 
 Condições recomendadas para essa publicação:
 
 - Usar linguagem de **apoio à decisão** em todas as comunicações.
 - Informar que as saídas devem ser conferidas contra protocolos locais, bulas e
-  julgamento clínico.
+julgamento clínico.
 - Não coletar dados reais de pacientes.
 - Pedir que os usuários informem perfil profissional, cenário testado, dúvida,
-  resultado esperado e resultado observado.
+resultado esperado e resultado observado.
 - Separar feedback de usabilidade de feedback clínico.
 - Não incorporar sugestões clínicas diretamente sem revisão por radiologista
-  responsável e registro da fonte.
+responsável e registro da fonte.
 
 ## Principais forças
 
 - Fluxo “Posso Contrastar?” cobre os eixos operacionais certos: classe, via,
-  contexto, função renal, metformina, diálise, gestação, lactação e reação
-  prévia.
+contexto, função renal, metformina, diálise, gestação, lactação e reação prévia.
 - Cálculo renal está mais correto para a v1: TFGe é estimada por CKD-EPI 2021 e
-  Cockcroft-Gault aparece separado como clearance.
+Cockcroft-Gault aparece separado como clearance.
 - Biblioteca e busca tornam o corpus navegável sem depender do PDF original.
 - Perguntas e Respostas está restrita ao corpus local e pode ser desligada por
-  configuração.
+configuração.
 - Whitelabel, branding, tema e kits visuais estão desacoplados das regras
-  clínicas.
+clínicas.
 - O app não persiste perguntas, respostas ou payloads.
 
 ## Fragilidades atuais
 
 - O motor de regras ainda cobre uma fração do corpus; não deve ser interpretado
-  como completude clínica.
+como completude clínica.
 - Falta suíte automatizada de cenários clínicos esperados.
 - Falta matriz “regra estruturada -> trecho fonte -> revisão clínica”.
 - Busca/RAG ainda é lexical e pode trazer trechos longos ou ruído.
 - Modo emergência ainda parece lista de condutas; precisa virar fluxo de ação
-  com hierarquia, dose, passo atual e reavaliação.
+com hierarquia, dose, passo atual e reavaliação.
 - A UI ainda é única para todos os perfis; deve evoluir para modos de uso.
 - `app/server.py` concentra configuração, RAG, regras, calculadoras e HTTP; a
-  próxima fase deve modularizar.
+próxima fase deve modularizar.
 
 ## Backlog para rodadas de codificação
 
@@ -75,8 +66,7 @@ Criar `app/data/scenarios.json` ou estrutura equivalente com casos esperados:
 - asma instável e betabloqueador
 - pediatria com peso, idade, creatinina e altura
 
-Resultado esperado: testes automatizados contra `/api/decision`,
-`/api/renal-function` e calculadoras.
+Resultado esperado: testes automatizados contra `/api/decision`, `/api/renal-function` e calculadoras.
 
 ### 2. Matriz de rastreabilidade
 
@@ -152,7 +142,7 @@ Resultado esperado: manutenção mais segura antes de ampliar regras.
 6. Faltou alguma fonte, explicação ou citação?
 7. O que você esperava encontrar e não encontrou?
 8. Você confiaria neste fluxo apenas como apoio, sabendo que ainda exige
-   validação institucional?
+validação institucional?
 
 ## Critério para sair de MVP opinativo
 

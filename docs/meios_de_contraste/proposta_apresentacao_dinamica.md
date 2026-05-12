@@ -289,8 +289,7 @@ Regras de implementação:
 
 ### 13. Protocolização institucional futura
 
-Esta frente deve ficar fora da v1 do app. Transformar o guia em política local
-versionada exige governança própria, responsáveis técnicos e aprovação formal.
+Esta frente deve ficar fora da v1 do app. Transformar o guia em política local versionada exige governança própria, responsáveis técnicos e aprovação formal.
 
 Saídas possíveis:
 
@@ -316,18 +315,7 @@ Um fluxo futuro, separado do runtime de apoio à decisão, poderia permitir:
 
 Converter Markdown para objetos:
 
-```json
-{
-  "id": "renal.metformin.iodado.akiorgfrlt30",
-  "chapter": "03_injuria_renal_aguda_associada_ao_contraste.md",
-  "domain": "renal",
-  "inputs": ["contrast_class", "route", "egfr", "aki", "metformin"],
-  "condition": "contrast_class == 'iodado' && (aki || egfr < 30 || route == 'ia_primeira_passagem') && metformin",
-  "recommendation": "Suspender metformina a partir da injeção e retornar em até 48h pós-exame se função renal normal.",
-  "severity": "precaution",
-  "source_text": "Nesses casos, suspender a metformina...",
-  "version": "2026-05-04"
-}
+```json { "id": "renal.metformin.iodado.akiorgfrlt30", "chapter": "03_injuria_renal_aguda_associada_ao_contraste.md", "domain": "renal", "inputs": ["contrast_class", "route", "egfr", "aki", "metformin"], "condition": "contrast_class == 'iodado' && (aki || egfr < 30 || route == 'ia_primeira_passagem') && metformin", "recommendation": "Suspender metformina a partir da injeção e retornar em até 48h pós-exame se função renal normal.", "severity": "precaution", "source_text": "Nesses casos, suspender a metformina...", "version": "2026-05-04" }
 ```
 
 Princípios:

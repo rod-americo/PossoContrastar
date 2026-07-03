@@ -39,7 +39,7 @@ THEME_COLORS = {
     "cobalto": "#003da5",
     "lilas": "#6d2077",
 }
-SUPPORTED_QA_CONNECTORS = {"ollama"}
+SUPPORTED_QA_CONNECTORS = {"ollama", "vllm"}
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -146,6 +146,19 @@ def app_config() -> dict[str, Any]:
         ),
         "http://localhost:11434",
     )
+    vllm_url = normalize_base_url(
+        str(
+            os.environ.get("APP_QA_VLLM_URL")
+            or qa.get("vllm_url")
+            or "http://localhost:8000"
+        ),
+        "http://localhost:8000",
+    )
+    vllm_api_key = str(
+        os.environ.get("APP_QA_VLLM_API_KEY")
+        or qa.get("vllm_api_key")
+        or ""
+    ).strip()
     keep_alive = str(
         os.environ.get("APP_QA_KEEP_ALIVE")
         or os.environ.get("OLLAMA_KEEP_ALIVE")
@@ -157,6 +170,11 @@ def app_config() -> dict[str, Any]:
         or os.environ.get("OLLAMA_NUM_PREDICT")
         or qa.get("num_predict"),
         384,
+    )
+    qa_timeout = parse_int(
+        os.environ.get("APP_QA_TIMEOUT")
+        or qa.get("timeout"),
+        600,
     )
     qa_log_questions = parse_bool_env(os.environ.get("APP_QA_LOG_QUESTIONS"))
     if qa_log_questions is None:
@@ -186,8 +204,11 @@ def app_config() -> dict[str, Any]:
             "connector": qa_connector,
             "model": qa_model,
             "ollama_url": ollama_url,
+            "vllm_url": vllm_url,
+            "vllm_api_key": vllm_api_key,
             "keep_alive": keep_alive,
             "num_predict": num_predict,
+            "timeout": qa_timeout,
             "log_questions": qa_log_questions,
         },
     }
@@ -859,10 +880,12 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
         method="POST",
     )
     try:
-        with urllib.request.urlopen(request, timeout=45) as response:
+        with urllib.request.urlopen(request, timeout=qa["timeout"]) as response:
             raw = json.loads(response.read().decode("utf-8"))
             message = raw.get("message") or {}
             answer = str(message.get("content") or "").strip()
+            sys.stderr.write(f"[DEBUG ask_ollama] Raw response: {raw}\n")
+            sys.stderr.write(f"[DEBUG ask_ollama] Answer: '{answer}' (len={len(answer)})\n")
             if answer:
                 return {"answer": answer, "model": qa["model"], "connector": qa["connector"], "available": True}
             retry_messages = build_qa_messages(question, chunks)
@@ -887,10 +910,12 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
                 headers={"Content-Type": "application/json"},
                 method="POST",
             )
-            with urllib.request.urlopen(retry_request, timeout=45) as retry_response:
+            with urllib.request.urlopen(retry_request, timeout=qa["timeout"]) as retry_response:
                 retry_raw = json.loads(retry_response.read().decode("utf-8"))
                 retry_message = retry_raw.get("message") or {}
                 retry_answer = str(retry_message.get("content") or "").strip()
+                sys.stderr.write(f"[DEBUG ask_ollama retry] Raw response: {retry_raw}\n")
+                sys.stderr.write(f"[DEBUG ask_ollama retry] Answer: '{retry_answer}' (len={len(retry_answer)})\n")
             if retry_answer:
                 return {"answer": retry_answer, "model": qa["model"], "connector": qa["connector"], "available": True}
             return {
@@ -901,7 +926,97 @@ def ask_ollama(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) 
                 "error": "empty ollama response",
             }
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
-        fallback = "Não consegui chamar o Ollama agora. Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
+        connector_name = "vLLM" if qa["connector"] == "vllm" else "Ollama"
+        fallback = f"Não consegui chamar o {connector_name} agora ({str(exc)}). Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
+        fallback += "\n".join(f"- [{index + 1}] {chunk['title']}: {chunk['snippet']}" for index, chunk in enumerate(chunks[:3]))
+        return {"answer": fallback, "model": qa["model"], "connector": qa["connector"], "available": False, "error": str(exc)}
+
+
+def ask_vllm(question: str, chunks: list[dict[str, Any]], qa: dict[str, Any]) -> dict[str, Any]:
+    if not chunks:
+        return {
+            "answer": "Não encontrei isso na documentação local.",
+            "model": qa["model"],
+            "connector": qa["connector"],
+            "available": False,
+        }
+    headers = {"Content-Type": "application/json"}
+    if qa.get("vllm_api_key"):
+        headers["Authorization"] = f"Bearer {qa['vllm_api_key']}"
+    messages = build_qa_messages(question, chunks)
+    sys.stderr.write(f"[DEBUG ask_vllm] Question: {question}\n")
+    sys.stderr.write(f"[DEBUG ask_vllm] Chunks count: {len(chunks)}\n")
+    sys.stderr.write(f"[DEBUG ask_vllm] Messages: {messages}\n")
+    # Para vLLM com modelos de reasoning como Qwen, usar max_tokens moderado para evitar timeout
+    max_tokens = max(qa["num_predict"] * 5, 2048)
+    body = json.dumps(
+        {
+            "model": qa["model"],
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": 0.1,
+        }
+    ).encode("utf-8")
+    sys.stderr.write(f"[DEBUG ask_vllm] Request body length: {len(body)}, max_tokens: {max_tokens}\n")
+    request = urllib.request.Request(
+        f"{qa['vllm_url'].rstrip('/')}/v1/chat/completions",
+        data=body,
+        headers=headers,
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=qa["timeout"]) as response:
+            raw = json.loads(response.read().decode("utf-8"))
+            choices = raw.get("choices") or []
+            sys.stderr.write(f"[DEBUG ask_vllm] Raw response: {raw}\n")
+            sys.stderr.write(f"[DEBUG ask_vllm] Choices: {choices}\n")
+            if choices:
+                answer = str(choices[0].get("message", {}).get("content") or "").strip()
+                sys.stderr.write(f"[DEBUG ask_vllm] Answer: '{answer}' (len={len(answer)})\n")
+                if answer:
+                    return {"answer": answer, "model": qa["model"], "connector": qa["connector"], "available": True}
+            retry_messages = build_qa_messages(question, chunks)
+            retry_messages.append(
+                {
+                    "role": "user",
+                    "content": "A resposta anterior veio vazia. Responda agora em texto visível, curto e citado.",
+                }
+            )
+            max_tokens = max(qa["num_predict"] * 5, 2048)
+            retry_body = json.dumps(
+                {
+                    "model": qa["model"],
+                    "messages": retry_messages,
+                    "max_tokens": max_tokens,
+                    "temperature": 0.1,
+                }
+            ).encode("utf-8")
+            retry_request = urllib.request.Request(
+                f"{qa['vllm_url'].rstrip('/')}/v1/chat/completions",
+                data=retry_body,
+                headers=headers,
+                method="POST",
+            )
+            with urllib.request.urlopen(retry_request, timeout=qa["timeout"]) as retry_response:
+                retry_raw = json.loads(retry_response.read().decode("utf-8"))
+                retry_choices = retry_raw.get("choices") or []
+                sys.stderr.write(f"[DEBUG ask_vllm retry] Raw response: {retry_raw}\n")
+                sys.stderr.write(f"[DEBUG ask_vllm retry] Choices: {retry_choices}\n")
+                if retry_choices:
+                    retry_answer = str(retry_choices[0].get("message", {}).get("content") or "").strip()
+                    sys.stderr.write(f"[DEBUG ask_vllm retry] Answer: '{retry_answer}' (len={len(retry_answer)})\n")
+                    if retry_answer:
+                        return {"answer": retry_answer, "model": qa["model"], "connector": qa["connector"], "available": True}
+            return {
+                "answer": "O modelo local retornou uma resposta vazia. Tente reformular a pergunta ou tente novamente.",
+                "model": qa["model"],
+                "connector": qa["connector"],
+                "available": False,
+                "error": "empty vllm response",
+            }
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        connector_name = "vLLM" if qa["connector"] == "vllm" else "Ollama"
+        fallback = f"Não consegui chamar o {connector_name} agora ({str(exc)}). Enquanto isso, encontrei estes trechos locais que parecem mais relevantes:\n\n"
         fallback += "\n".join(f"- [{index + 1}] {chunk['title']}: {chunk['snippet']}" for index, chunk in enumerate(chunks[:3]))
         return {"answer": fallback, "model": qa["model"], "connector": qa["connector"], "available": False, "error": str(exc)}
 
@@ -984,7 +1099,7 @@ class Handler(BaseHTTPRequestHandler):
                 if not qa["enabled"]:
                     self.send_json({"error": "Perguntas e Respostas desativado em app_config.json."}, status=403)
                     return
-                if qa["connector"] != "ollama":
+                if qa["connector"] not in SUPPORTED_QA_CONNECTORS:
                     self.send_json({"error": f"Conector de Perguntas e Respostas não suportado: {qa['connector']}"}, status=400)
                     return
                 question = str(payload.get("question", "")).strip()
@@ -994,7 +1109,10 @@ class Handler(BaseHTTPRequestHandler):
                     log_qa_question(question, chunks, local_answer, qa)
                     self.send_json({"question": question, "citations": chunks, **local_answer})
                     return
-                answer = ask_ollama(question, chunks, qa)
+                if qa["connector"] == "vllm":
+                    answer = ask_vllm(question, chunks, qa)
+                else:
+                    answer = ask_ollama(question, chunks, qa)
                 log_qa_question(question, chunks, answer, qa)
                 self.send_json({"question": question, "citations": chunks, **answer})
             else:
